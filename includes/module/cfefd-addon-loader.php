@@ -74,9 +74,19 @@ if(!class_exists('CFEFD_Addons_Loader')) {
         }
 
         public function load_divi_4_addons() {
+            if ($this->is_field_enabled('range_slider')) {
+                require_once CFEFD_PLUGIN_DIR . 'includes/module/addons/divi-4/range-slider-field.php';
+                new CFEFD_Range_Slider();
+            }
+
             if ($this->is_field_enabled('file_upload')) {
                 require_once CFEFD_PLUGIN_DIR . 'includes/module/addons/divi-4/file-upload/class-cfefd-file-upload.php';
                 new CFEFD_File_Upload();
+            }
+
+            if ($this->is_field_enabled('country_code')) {
+                require_once CFEFD_PLUGIN_DIR . 'includes/module/addons/divi-4/country-code/class-cfefd-country-code-field.php';
+                new CFEFD_Country_Code_Field();
             }
         }
 
@@ -89,6 +99,11 @@ if(!class_exists('CFEFD_Addons_Loader')) {
             if ($this->is_field_enabled('file_upload')) {
                 require_once CFEFD_PLUGIN_DIR . 'includes/module/addons/divi-5/file-upload/class-cfefd-file-upload-field.php';
                 new CFEFD_File_Upload_D5();
+            }
+
+            if ($this->is_field_enabled('country_code')) {
+                require_once CFEFD_PLUGIN_DIR . 'includes/module/addons/divi-5/country-code/class-cfefd-country-code-field.php';
+                new CFEFD_Country_Code_D5();
             }
         }
     }

@@ -58,47 +58,31 @@ class CFEFD_File_Upload_Ajax {
         $allowd_mimes = isset($token['mimetypes']) ? explode(',', $token['mimetypes']) : [];
         $security_reason_text = __('File {filename} has failed to upload. Sorry, this file type is not permitted for security reasons.', 'contact-form-extender-for-divi-builder');
         $allow_filesize_text = __('File {filename} not uploaded. Maximum file size {allowed_filesize}.', 'contact-form-extender-for-divi-builder');
-        // Narrow to only the file entries this uploader creates (numeric keys 0..n),
-        // instead of iterating the entire $_FILES superglobal. Keys are numeric
-        // (int) because we append files with numeric indexes in JS.
-        $cfefd_files = array_filter(
-            $_FILES,
-            static function ( $key ) {
-                return is_int( $key ) || ( is_string( $key ) && ctype_digit( $key ) );
-            },
-            ARRAY_FILTER_USE_KEY
-        );
-
         // Check for errors in uploaded files
-        foreach ( $cfefd_files as $file ) {
-            $filename = isset( $file['name'] ) ? sanitize_file_name( $file['name'] ) : '';
-            if ( isset( $file['error'] ) && UPLOAD_ERR_OK !== $file['error'] ) {
-                $error_message = $file_error_types[ $file['error'] ] ?? __( 'Something went wrong.', 'contact-form-extender-for-divi-builder' );
+        foreach ($_FILES as $file) {
+            $filename = sanitize_file_name($file['name']);
+            if (isset($file['error']) && UPLOAD_ERR_OK !== $file['error']) {
+                $error_message = $file_error_types[$file['error']] ?? __('Something went wrong.', 'contact-form-extender-for-divi-builder');
             } else {
-                $file_tmpname = isset( $file['tmp_name'] ) && is_string( $file['tmp_name'] ) ? $file['tmp_name'] : '';
-                if ( '' === $file_tmpname || ! is_uploaded_file( $file_tmpname ) ) {
-                    $error_message = __( 'Invalid or missing upload. Please try again.', 'contact-form-extender-for-divi-builder' );
+                $file_tmpname = $file['tmp_name'];
+                $file_type = $file['type'];
+                $file_size = $file['size'];
+                // Ensure the correct MIME type is detected
+                if (extension_loaded('fileinfo')) {
+                    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                    $file_real_mime = finfo_file($finfo, $file_tmpname);
+                    finfo_close($finfo);
                 } else {
-                    $file_type = isset( $file['type'] ) ? sanitize_text_field( $file['type'] ) : '';
-                    $file_size = isset( $file['size'] ) ? absint( $file['size'] ) : 0;
-                    // Ensure the correct MIME type is detected
-                    if ( extension_loaded( 'fileinfo' ) ) {
-                        $finfo = finfo_open( FILEINFO_MIME_TYPE );
-                        $file_real_mime = finfo_file( $finfo, $file_tmpname );
-                        finfo_close( $finfo );
-                        $file_real_mime = is_string( $file_real_mime ) ? sanitize_text_field( $file_real_mime ) : '';
-                    } else {
-                        $file_real_mime = $file_type;
-                    }
-                    $wp_filetype = wp_check_filetype_and_ext( $file_tmpname, $filename, $wp_allowed_mime_types );
-                    // Validate file type and size
-                    if ( empty( $wp_filetype['type'] ) || empty( $wp_filetype['ext'] ) ) {
-                        $error_message = str_replace( '{filename}', $filename, $security_reason_text );
-                    } elseif ( ! in_array( $file_real_mime, $allowd_mimes, true ) || ! in_array( $file_real_mime, $wp_allowed_mime_types, true ) ) {
-                        $error_message = str_replace( '{filename}', $filename, $security_reason_text );
-                    } elseif ( ( $file_size > $allowd_filesize ) || ( $file_size > wp_max_upload_size() ) ) {
-                        $error_message = str_replace( '{filename}', $filename, $allow_filesize_text );
-                    }
+                    $file_real_mime = $file_type;
+                }
+                $wp_filetype = wp_check_filetype_and_ext($file_tmpname, $filename, $wp_allowed_mime_types);
+                // Validate file type and size
+                if (empty($wp_filetype['type']) || empty($wp_filetype['ext'])) {
+                    $error_message = str_replace('{filename}', $filename, $security_reason_text);
+                } elseif (!in_array($file_real_mime, $allowd_mimes, true) || !in_array($file_real_mime, $wp_allowed_mime_types, true)) {
+                    $error_message = str_replace('{filename}', $filename, $security_reason_text);
+                } elseif (($file_size > $allowd_filesize) || ($file_size > wp_max_upload_size())) {
+                    $error_message = str_replace('{filename}', $filename, $allow_filesize_text);
                 }
             }
             if (!empty($error_message)) {
@@ -112,29 +96,20 @@ class CFEFD_File_Upload_Ajax {
         if (!empty(array_filter($json_response['errors']))) {
             wp_send_json_success($json_response);
         }
-
-        // Upload valid files (validate tmp_name again before move),
-        // again limited to the numeric keys our JS uses.
-        foreach ( $cfefd_files as $file ) {
-            $filename = isset( $file['name'] ) ? sanitize_file_name( $file['name'] ) : '';
-            $file_tmpname = isset( $file['tmp_name'] ) && is_string( $file['tmp_name'] ) ? $file['tmp_name'] : '';
-            if ( '' === $file_tmpname || ! is_uploaded_file( $file_tmpname ) ) {
-                $json_response['errors'][] = [
-                    'name' => $filename,
-                    'message' => __( 'Invalid or missing upload. Please try again.', 'contact-form-extender-for-divi-builder' ),
-                ];
-                continue;
-            }
-            $wp_filetype = wp_check_filetype_and_ext( $file_tmpname, $filename, $wp_allowed_mime_types );
-            $filename_renamed = strtolower( pathinfo( $filename, PATHINFO_FILENAME ) );
-            $filename_renamed = preg_replace( '/[^A-Za-z\d\-]/', ' ', $filename_renamed );
-            $file_extension = pathinfo( $filename, PATHINFO_EXTENSION );
+        // Upload valid files
+        foreach ($_FILES as $file) {
+            $filename = sanitize_file_name($file['name']);
+            $file_tmpname = $file['tmp_name'];
+            $wp_filetype = wp_check_filetype_and_ext($file_tmpname, $filename, $wp_allowed_mime_types);
+            $filename_renamed = strtolower(pathinfo($filename, PATHINFO_FILENAME));
+            $filename_renamed = preg_replace('/[^A-Za-z\d\-]/', ' ', $filename_renamed);
+            $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
             $filename_unique = wp_unique_filename(
                 $upload_temp_dir,
-                sprintf( '%1$s-%2$s-%3$s.%4$s', mb_substr( $filename_renamed, 0, 30, 'utf-8' ), str_pad( wp_rand( 999, time() ), 5, 0, STR_PAD_BOTH ), time(), $file_extension )
+                sprintf('%1$s-%2$s-%3$s.%4$s', mb_substr($filename_renamed, 0, 30, 'utf-8'), str_pad(wp_rand(999, time()), 5, 0, STR_PAD_BOTH), time(), $file_extension)
             );
-            $file_dir = path_join( $upload_temp_dir, $filename_unique );
-            if ( et_()->WPFS()->move( $file_tmpname, $file_dir ) ) {
+            $file_dir = path_join($upload_temp_dir, $filename_unique);
+            if (et_()->WPFS()->move($file_tmpname, $file_dir)) {
                 $file_url = path_join($upload_temp_url, $filename_unique);
                 $json_response['success'][] = [
                     'tmp_name' => $filename,
