@@ -1,0 +1,841 @@
+/* Updated CSS for Toggle Switch */
+.cfefd-toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 2.5em;
+    height: 1.4em;
+    font-size: 16px;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+.cfefd-toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.cfefd-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: #ccc;
+    transition: background-color 0.3s;
+    border-radius: 999px;
+}
+
+.cfefd-slider::before {
+    content: "";
+    position: absolute;
+    height: 1em;
+    width: 1em;
+    left: 0.2em;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+input:checked+.cfefd-slider {
+    background-color: #326bff;
+}
+
+input:checked+.cfefd-slider::before {
+    transform: translate(1.1em, -50%);
+}
+
+/* nav tab css */
+.cfefd-wrapper h2.nav-tab-wrapper,
+.cfefd-wrapper .tab-content {
+    padding: 0 30px;
+}
+
+.cfefd-wrapper h2.nav-tab-wrapper .nav-tab {
+    padding: 10px 15px;
+    background-color: #f2f2f2;
+}
+
+.cfefd-wrapper .nav-tab-wrapper {
+    margin-bottom: 25px;
+}
+
+.cfefd-wrapper h2.nav-tab-wrapper .nav-tab-active {
+    background-color: #fff;
+    border-bottom-color: #fff;
+}
+
+
+/* For container wrapping label and optional text */
+.cfefd-toggle-all-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+}
+
+.cfefd-toggle-label {
+    margin: 0;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.cfefd-form-element-wrapper {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 2px 2px rgb(150 150 150 / 12%);
+    overflow: hidden;
+}
+
+.cfefd-settings-box .wrapper-body {
+    padding: 10px 20px;
+}
+
+.cfefd-form-element-wrapper .wrapper-body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.cfefd-form-element-wrapper .wrapper-body p {
+    margin: 0px;
+}
+
+.cfefd-form-element-wrapper .wrapper-body .cfefd-form-element-box {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.cfefd-settings-box .wrapper-header,
+.cfefd-form-element-wrapper .wrapper-header {
+    padding: 1px 20px;
+    background-color: #f2f2f2;
+    border-radius: 5px 5px 0px 0px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cfefd-settings-box .wrapper-header h2,
+.cfefd-form-element-wrapper .wrapper-header h2,
+.cfefd-form-element-wrapper .wrapper-header span {
+    color: black;
+}
+
+.cfefd-settings-box .wrapper-header .cfefd-save-all,
+.cfefd-form-element-wrapper .wrapper-header .cfefd-save-all {
+    margin-bottom: 0px;
+}
+
+
+/* Card Styles */
+.cfefd-form-elements-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 74%;
+    align-content: flex-start;
+}
+
+.cfefd-form-element-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.cfefd-form-element-info img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.cfefd-form-element-info h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cfefd-form-element-info>div {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.cfefd-form-element-info a:focus {
+    box-shadow: unset;
+}
+
+
+.cfefd-form-element-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    width: calc(50.300% - 15px);
+    box-shadow: 0px 2px 2px rgb(150 150 150 / 12%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    position: relative;
+    gap: 10px;
+}
+
+.cfefd-form-element-card h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    white-space: initial;
+}
+
+.cfefd-form-element-card h4 span {
+    font-size: 12px;
+    font-style: italic;
+    font-weight: lighter;
+}
+
+.cfefd-form-element-icons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.cfefd-form-element-icons a {
+    text-decoration: none;
+    color: #27C3F3;
+    border: 1px solid;
+    border-radius: 3px;
+    padding: 1px 3px;
+    font-size: 10px;
+    text-transform: uppercase;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: width 0.5s;
+    overflow: hidden;
+}
+
+.cfefd-form-element-icons a:hover {
+    color: #666;
+    width: 60px;
+}
+
+.cfefd-form-element-icons a span {
+    display: none;
+    margin-left: 2px;
+    white-space: nowrap;
+}
+
+.cfefd-form-element-icons a:hover span {
+    display: inline;
+}
+
+.cfefd-form-element-icons a i {
+    font-size: 12px;
+    vertical-align: middle;
+    width: 12px;
+    height: 12px;
+}
+
+/* Popular and Updated Labels */
+.cfefd-label-popular,
+.cfefd-label-updated {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: #326bff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+}
+
+.cfefd-label-updated {
+    background-color: #3f415e;
+}
+
+.cfefd-wrapper {
+    margin: 0 0 0 -20px;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.cfefd-wrapper * {
+    box-sizing: border-box;
+    font-family: Inter, Roboto, Helvetica, Arial, sans-serif;
+}
+
+body.divi_page_contact-form-extender-for-divi-builder,
+body.divi_page_cfefd-entries {
+    background-color: #fff;
+}
+
+.divi_page_contact-form-extender-for-divi-builder #wpbody #wpbody-content {
+    margin-top: 80px !important;
+    margin-block-start: 80px !important;
+}
+
+.divi_page_contact-form-extender-for-divi-builder .e-admin-top-bar--active,
+.divi_page_contact-form-extender-for-divi-builder #e-admin-top-bar-root,
+.divi_page_contact-form-extender-for-divi-builder #wpfooter {
+    display: none !important;
+}
+
+.divi_page_contact-form-extender-for-divi-builder .notice {
+    margin: 2px 20px 20px 0;
+}
+
+.cfefd-wrapper .button {
+    padding: 10px 14px;
+    background-color: #326bff;
+    border: 1px solid #326bff;
+    box-shadow: 1px 2px 6px -4px #326bff;
+    color: #ffffff;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 14px;
+    align-self: center;
+    text-shadow: 1px 1px 1px #326bff;
+}
+
+.cfefd-wrapper .button:focus {
+    box-shadow: 0 0 2px 2px #326bff;
+    outline: none;
+    border: 1px solid #326bff;
+    background: #326bff;
+    color: #fff;
+    text-shadow: none;
+}
+
+.cfefd-wrapper .button-secondary {
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    color: #595959;
+    box-shadow: 1px 3px 4px -5px rgb(55 55 55 / 42%);
+    text-shadow: 1px 1px 1px #ffffff;
+}
+
+.cfefd-wrapper .button:hover {
+    box-shadow: 1px 2px 6px -4px #074bf5;
+    border: 1px solid #326bff;
+    background: #074bf5;
+    color: #fff;
+    text-shadow: none;
+}
+
+.wrapper-header .cfefd-save-all .cfefd-save-controls .button {
+    background-color: #326bff;
+    border: 1px solid #326bff;
+    text-shadow: 1px 1px 1px #326bff;
+}
+
+.wrapper-header .cfefd-save-all .cfefd-save-controls .button:hover,
+.wrapper-header .cfefd-save-all .cfefd-save-controls .button:focus {
+    background-color: #074bf5;
+    border-color: #326bff;
+    text-shadow: 1px 1px 1px #326bff;
+}
+
+.wrapper-header .cfefd-save-all .cfefd-save-controls .button:focus {
+    box-shadow: 0 0 4px 2px #718ed8;
+    outline: none;
+}
+
+.cfefd-wrapper .button-secondary:hover {
+    box-shadow: 1px 2px 6px -4px rgb(51, 50, 73);
+    background: #f1f1f1;
+    border-color: #ccc;
+    color: #222;
+}
+
+/* Header Styles */
+.cfefd-header {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 10px 30px;
+    border-bottom: 1px solid #ddd;
+    height: 60px;
+    width: calc(100% + 20px);
+    margin: 0 0 0 -20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, .03);
+}
+
+.cfefd-header-logo {
+    display: flex;
+    align-items: center;
+}
+
+.cfefd-header-logo a[href="?page=contact-form-extender-for-divi-builder"]:focus {
+    box-shadow: unset;
+    outline: none;
+}
+
+.cfefd-header-logo img {
+    max-height: 32px;
+}
+
+.cfefd-header-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+/* Sidebar Styles */
+.cfefd-main-content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    gap: 25px;
+}
+
+.cfefd-sidebar {
+    width: 26%;
+}
+
+.cfefd-sidebar-block {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 2px 2px rgb(150 150 150 / 12%);
+    margin-bottom: 20px;
+}
+
+.cfefd-sidebar-block h3 {
+    margin-top: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.cfefd-sidebar-block p {
+    margin: 0 0 10px;
+}
+
+.cfefd-sidebar-block .cfefd-sidebar-link-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.cfefd-sidebar-block .cfefd-sidebar-link-group a {
+    white-space: normal;
+}
+
+.cfefd-sidebar-block .cfefd-sidebar-link-group a picture img {
+    height: 100%;
+    width: 100%;
+}
+
+.cfefd-sidebar-block .cfefd-sidebar-link-group img.youtube-logo {
+    width: 54px;
+    height: 54px;
+    position: absolute;
+    left: calc(50% - 27px);
+    top: calc(50% - 27px);
+    animation: play-icon 1s ease-in-out infinite;
+}
+
+@keyframes play-icon {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Save All Button Styles */
+.cfefd-save-all,
+.cfefd-save-bottom {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.cfefd-title-desc {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.cfefd-save-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Review Request Styles */
+.cfefd-review-request {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 2px 2px rgb(150 150 150 / 12%);
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cfefd-review-left {
+    flex: 1;
+}
+
+.cfefd-review-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cfefd-sidebar-link-group .cfefd-review-right {
+    flex-direction: row-reverse;
+}
+
+.cfefd-review-request h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.cfefd-review-request p {
+    margin: 0;
+}
+
+.cfefd-stars {
+    display: flex;
+    gap: 5px;
+    font-size: 24px;
+    color: #FFD700;
+}
+
+/* Settings Page */
+.cfefd-settings-box {
+    margin: 25px 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 2px 2px rgb(150 150 150 / 12%);
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    position: relative;
+    flex-direction: column;
+    font-family: Inter, Roboto, Helvetica, Arial, sans-serif;
+}
+
+.highlight-description {
+    font-size: 15px;
+    font-weight: bold;
+    color: black;
+}
+
+.form-table .cool-formkit-table-td #cfefp_cloudflare_site_key,
+.form-table .cool-formkit-table-td #cfefp_cloudflare_secret_key,
+.form-table .cool-formkit-table-td #cfefp_h_site_key,
+.form-table .cool-formkit-table-td #cfefp_h_secret_key,
+.form-table .cool-formkit-table-td #cfl_site_key_v2,
+.form-table .cool-formkit-table-td #cfl_secret_key_v2,
+.form-table .cool-formkit-table-td #cfl_site_key_v3,
+.form-table .cool-formkit-table-td #cfl_secret_key_v3,
+#cfl_mailchimp_api_key {
+    outline: none !important;
+    border: none !important;
+    margin: 0px 5px;
+    box-shadow: none;
+    padding: 0;
+}
+
+.form-table .cool-formkit-table-td #cfefp_cloudflare_site_key:focus,
+.form-table .cool-formkit-table-td #cfefp_cloudflare_secret_key:focus .form-table .cool-formkit-table-td #cfefp_h_site_key:focus,
+.form-table .cool-formkit-table-td #cfefp_h_secret_key:focus,
+.form-table .cool-formkit-table-td #cfl_site_key_v2:focus,
+.form-table .cool-formkit-table-td #cfl_secret_key_v2:focus,
+#cfl_mailchimp_api_key:focus {
+    outline: none !important;
+    border: none !important;
+    margin: 0px 5px;
+    box-shadow: none;
+    padding: 0;
+
+}
+
+
+.form-table .site-key-td,
+.form-table .secret-key-td {
+
+    display: inline-block;
+    padding: 0px 10px;
+    width: 25em;
+
+    box-shadow: 0 0 0 transparent;
+    border-radius: 4px;
+    border: 1px solid #8c8f94;
+    background-color: #fff;
+    color: #2c3338;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+
+}
+
+.site-key-show-hide-icon img,
+.secret-key-show-hide-icon img,
+.site-key-show-hide-icon-h-captcha img,
+.secret-key-show-hide-icon-h-captcha img,
+.site-key-show-hide-icon-recaptcha img,
+.secret-key-show-hide-icon-recaptcha img,
+.site-key-show-hide-icon-recaptcha_v3 img,
+.secret-key-show-hide-icon-recaptcha_v3 img,
+.mailchimp-show-hide-icon img {
+    width: 25px;
+}
+
+.cfefd-toggle-wrapper-div {
+    display: flex;
+    gap: 20px;
+}
+
+.cfefd-toggle-wrapper-div .cfefd-toggle-all-wrapper {
+    border: 3px solid #f1f1f1;
+    padding: 20px;
+    border-radius: 8px;
+    transition: border-color 0.6s linear;
+}
+
+.cfefd-toggle-wrapper-div .cfefd-toggle-all-wrapper .cfefd-toggle-switch {
+    margin-bottom: unset;
+    min-width: 60px;
+}
+
+.cfefd-toggle-wrapper-div .cfefd-toggle-all-wrapper .cfefd-toggle-label {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+td.cool-formkit-table-td.usage-share-data,
+td.cool-formkit-table-td.enable-spam-blocker {
+    display: flex;
+    align-items: start;
+    gap: 8px;
+}
+
+/* tooltip styles */
+.cfefd-tooltip {
+    position: absolute;
+    top: -10px;
+    right: 0px;
+    transform: translateY(-100%);
+    background: #3f415e;
+    color: #fff;
+    padding: 10px;
+    font-size: 12px;
+    border-radius: 4px;
+    white-space: nowrap;
+    display: none;
+    z-index: 99;
+    box-shadow: 0 2px 10px rgb(51, 47, 69);
+}
+
+.cfefd-form-element-card.cfefd-has-tooltip:hover {
+    cursor: pointer;
+}
+
+.cfefd-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: 15px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: #3f415e transparent transparent transparent;
+}
+
+/* Shake Effect On save buttons*/
+.shake-effect {
+    animation: shake 0.5s linear infinite;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-3px);
+    }
+
+    50% {
+        transform: translateX(3px);
+    }
+
+    75% {
+        transform: translateX(-3px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Dashboard tab styles For Entries Page*/
+.cfefd-dashboard-tabs {
+    margin-top: 80px;
+}
+
+.cfefd-activate-plugin-btn,
+.cfefd-install-plugin-btn,
+.cfefd-activate-check-theme {
+    cursor: pointer;
+    background-color: #fb5fab;
+    color: white;
+    border: none;
+    padding: 5px 3px;
+    border-radius: 3px;
+    margin-left: 10px;
+}
+
+/* dashboard loader effect css */
+#cfefd-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cfefd-loader-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.cfefd-loader-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ccc;
+    border-top: 4px solid #0073aa;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 10000;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.divi_page_contact-form-extender-for-divi-builder #screen-meta-links {
+    margin-top: -20px;
+}
+
+.divi_page_contact-form-extender-for-divi-builder #screen-meta[style="display: block;"]~#screen-meta-links {
+    margin-top: 0px;
+}
+
+.divi_page_contact-form-extender-for-divi-builder #screen-options-wrap {
+    margin-top: -20px;
+}
+
+.divi_page_contact-form-extender-for-divi-builder #footer-left,
+.divi_page_contact-form-extender-for-divi-builder #footer-upgrade {
+    display: none;
+}
+
+/* End Dashboard tab styles */
+
+@media screen and (max-width:782px) {
+
+    .form-table .site-key-td,
+    .form-table .secret-key-td {
+        width: 100% !important;
+        margin: 0px;
+    }
+
+    .cfefd-header {
+        flex-wrap: wrap;
+        height: auto;
+    }
+
+    .cfefd-header .cfefd-header-buttons {
+        display: block;
+    }
+
+    .cfefd-wrapper .nav-tab-wrapper {
+        margin-top: 35px;
+    }
+
+    .elementor_page_cfefd-entries .cfefd-wrapper .nav-tab-wrapper {
+        margin-top: 110px;
+    }
+
+    .cfefd-form-elements-container,
+    .cfefd-sidebar,
+    .cfefd-form-element-wrapper .wrapper-body .cfefd-form-element-card,
+    .cfefd-form-element-wrapper:nth-child(1) .wrapper-body .cfefd-form-element-card {
+        width: 100%;
+    }
+
+    .cfefd-main-content {
+        flex-direction: column;
+    }
+
+    .cfefd-form-element-wrapper .wrapper-header .cfefd-save-all {
+        flex-direction: column;
+        align-items: start;
+        padding-bottom: 10px;
+    }
+
+    .cfefd-form-element-wrapper .wrapper-header .cfefd-save-all .cfefd-save-controls {
+        flex-wrap: wrap;
+    }
+
+    .cfefd-review-request {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+}

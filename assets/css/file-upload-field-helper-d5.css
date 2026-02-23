@@ -1,0 +1,193 @@
+/* divi 5 specific css */
+.et_pb_contact_field.cfefd_files_container[data-type="file_upload"] {
+    gap: 0px;
+}
+
+/* divi 4 and divi 5 similar css  */
+/* Ensure hidden elements are actually hidden */
+.cfefd_files_container .cfefd_contact_hidden_files,
+.cfefd_files_container .cfefd_file_input,
+.et_pb_visually_hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap !important;
+}
+
+/* Upload Button Styling */
+.cfefd_file_upload_button {
+    width: 30%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    background-color: #eee;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cfefd_file_upload_button:hover {
+    background-color: #e0e0e0;
+    border-color: #ccc;
+}
+
+.cfefd_files_container .cfefd_file_upload_button:hover:after {
+    margin-left: 90%;
+}
+
+/* Upload Icon (Optional, if using font icons) */
+.cfefd_file_upload_button:before {
+    font-family: 'ETModules';
+    content: '\e090';
+    /* Upload icon */
+    margin-right: 8px;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+/* "No file chosen" Text */
+.cfefd_file_chosen_desc {
+    font-size: 13px;
+    color: #777;
+    margin-left: 5px;
+    font-style: italic;
+    display: block;
+}
+
+/* Accepted Files & Max Size Description */
+.cfefd_accepted_files_desc {
+    display: block;
+    word-break: break-sword;
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
+/* File List Container */
+.cfefd_files_list {
+    flex-basis: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+/* Individual File Item */
+.cfefd_files_list .cfefd_file {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    padding: 5px;
+    margin-bottom: 5px;
+    font-size: 13px;
+    transition: background-color 0.2s;
+}
+
+.cfefd_files_list .cfefd_file:hover {
+    background-color: #f2f2f2;
+}
+
+/* File Icon */
+.cfefd_files_list .cfefd_file:before {
+    font-family: 'ETModules';
+    content: '\4e';
+    /* Document icon */
+    margin-right: 10px;
+    color: #2ea3f2;
+    /* Divi Blue */
+    font-size: 16px;
+}
+
+/* File Name link */
+.cfefd_files_list .cfefd_file_name {
+    color: #333;
+    text-decoration: none;
+    font-weight: 600;
+    margin-right: auto;
+    /* Pushes delete button to the right */
+    word-break: break-all;
+}
+
+.cfefd_files_list .cfefd_file_name:hover {
+    text-decoration: underline;
+}
+
+/* File Size */
+.cfefd_files_list .cfefd_file_size {
+    color: #999;
+    margin: 0 10px;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+
+/* Delete Button */
+.cfefd_files_list .cfefd_delete_file {
+    font-family: 'ETModules';
+    cursor: pointer;
+    color: #ff5b5b;
+    font-size: 18px;
+    transition: color 0.2s, transform 0.2s;
+    padding: 0 5px;
+}
+
+.cfefd_files_list .cfefd_delete_file:hover {
+    color: #e02b2b;
+    transform: scale(1.1);
+}
+
+/* Error Messages List */
+.cool-file-errors {
+    list-style: none !important;
+    padding: 8px 12px !important;
+    margin: 10px 0 0 0 !important;
+    background-color: #ffe6e6;
+    border-left: 3px solid #ff5b5b;
+    border-radius: 2px;
+    flex-basis: 100%;
+}
+
+.cool-file-errors li {
+    color: #d8000c;
+    font-size: 13px;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cool-file-errors li:last-child {
+    margin-bottom: 0;
+}
+
+span.cfefd_dismiss_error {
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 10px;
+    opacity: 0.6;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+span.cfefd_dismiss_error:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Loading State */
+.cfefd_file_upload_button.is-uploading {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Progress Text */
+span[id^="cfefd_accepted_files_desc_"] {
+    transition: color 0.3s;
+}

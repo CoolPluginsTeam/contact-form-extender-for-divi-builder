@@ -1,0 +1,102 @@
+body.post-type-cfefd-submissions #post-body-content {
+  display: none;
+}
+
+.cfefd-content {
+  margin-top: 60px;
+}
+
+.cfefd-wrapper #cfefd-submissions-list-wrapper .button[value="Empty Trash"] {
+  margin-left: 10px;
+}
+
+@media screen and (min-width: 783px) {
+  .cfefd-wrapper #cfefd-submissions-list-wrapper .button {
+    padding: 0 10px;
+  }
+}
+
+@media screen and (max-width: 782px) {
+  .cfefd-wrapper #cfefd-submissions-list-wrapper input#cfefd-submissions-search {
+    float: none;
+    width: 100%;
+    margin-bottom: 10px;
+    vertical-align: middle;
+  }
+
+  .cfefd-wrapper #cfefd-submissions-list-wrapper select#filter-by-date,
+  .cfefd-wrapper #cfefd-submissions-list-wrapper input#cfefd-submissions-date-filter {
+    display: none;
+  }
+}
+
+.cfefd-submissions-field-wrapper {
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+
+.cfefd-submissions-field-wrapper .cfefd-submissions-data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cfefd-submissions-field-wrapper .cfefd-submissions-data-table thead {
+  background-color: #f1f1f1;
+}
+
+.cfefd-submissions-field-wrapper .cfefd-submissions-data-table thead th {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 2px solid #ccc;
+  font-weight: bold;
+}
+
+.cfefd-submissions-field-wrapper .cfefd-submissions-data-table tbody tr.cfefd-submissions-data-table-key {
+  background-color: #eaf2fa;
+}
+
+.cfefd-submissions-field-wrapper .cfefd-submissions-data-table tbody tr.cfefd-submissions-data-table-key td {
+  font-weight: 700;
+  padding: .5rem;
+}
+
+.cfefd-submissions-field-wrapper .cfefd-submissions-data-table tbody tr.cfefd-submissions-data-table-value {
+  background-color: #fff;
+}
+
+.cfefd-submissions-field-wrapper .cfefd-submissions-data-table tbody tr.cfefd-submissions-data-table-value td {
+  word-break: break-all;
+  padding: .5rem;
+}
+
+.cfefd-submissions-field-wrapper#cfefd-submissions-form-data tbody {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 2fr;
+  grid-template-columns: 1fr 2fr;
+}
+
+.cfefd-submissions-field-wrapper#cfefd-submissions-form-data tbody tr.cfefd-submissions-data-table-key {
+  border: 1px solid #cfe0f1;
+  margin-bottom: .7rem;
+}
+
+.cfefd-submissions-field-wrapper#cfefd-submissions-form-data tbody tr.cfefd-submissions-data-table-key:nth-last-child(2) {
+  margin-bottom: 0px;
+}
+
+.cfefd-submissions-field-wrapper#cfefd-submissions-form-data tbody tr.cfefd-submissions-data-table-value {
+  border: 1px solid #e9e9e9;
+  margin-bottom: .7rem;
+}
+
+.cfefd-submissions-field-wrapper#cfefd-submissions-form-data tbody tr.cfefd-submissions-data-table-value:last-child {
+  margin-bottom: 0px;
+}
+
+.cfefd-submissions-field-wrapper#cfefd-submissions-form-data tbody tr.cfefd-submissions-data-table-value td {
+  padding: .5rem .5rem .5rem 1rem;
+}
+
+/*# sourceMappingURL=cfefd-submissions-post.css.map */
