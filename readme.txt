@@ -51,7 +51,8 @@ Yes, you can add a file upload field to the Divi contact form.
 
 == Screenshots ==
 
-1. Divi contact form with file upload field
+1. Divi contact form with Country Code field
+2. Divi contact form with file upload field
 2. Saved form submissions in WordPress dashboard
 
 == Changelog ==
