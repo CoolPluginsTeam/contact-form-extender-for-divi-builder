@@ -4,10 +4,6 @@
     margin: 0 0 0 3%;
 }
 
-.et-fb-form__group:has(.et-fb-no-vb-support-warning)~.et-fb-form__group .et-fb-no-vb-support-warning {
-    display: none !important;
-}
-
 .et-fb-tabs__panel--advanced .et-fb-form__group .et-fb-no-vb-support-warning {
     display: none !important;
 }

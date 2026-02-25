@@ -75,6 +75,7 @@ class CFEFD_Loader {
         $this->admin_menu_dashboard();
 
         $this->load_dependencies();
+        add_action('wp_enqueue_scripts', [$this, 'cfefd_enqueue_global_helper_assets']);
     }
 
     /**
@@ -90,6 +91,14 @@ class CFEFD_Loader {
         return self::$instance;
     }
 
+
+    public function cfefd_enqueue_global_helper_assets() {
+        echo ' helo9o there ';
+        if(function_exists('et_core_is_fb_enabled') && et_core_is_fb_enabled()){
+            wp_enqueue_script('cfefd_global_helper_assets', CFEFD_PLUGIN_URL . 'assets/js/global-helper.js', array('jquery'), CFEFD_PLUGIN_VERSION, 'all');
+            wp_enqueue_style('cfefd_global_helper_assets', CFEFD_PLUGIN_URL . 'assets/css/global-helper.css', array(), CFEFD_PLUGIN_VERSION, 'all');
+        }
+    }
     /**
      * Load the required dependencies for this plugin.
      *
