@@ -127,7 +127,7 @@ if (!class_exists('cfefd_cronjob')) {
                   $post_data = array(
                       'site_id'           => sanitize_text_field(md5($site_id)),
                       'plugin_version'    => sanitize_text_field($plugin_version),
-                      'plugin_name'       => "Contact Form Extender For Divi Builder",
+                      'plugin_name'       => "Contact Form Extender For Divi",
                       'plugin_initial'    => sanitize_text_field($initial_version),
                       'email'             => sanitize_email($admin_email),
                       'site_url'          => esc_url_raw($site_url),

@@ -7,7 +7,7 @@ class cfefd_feedback {
 
 		private $plugin_url     = CFEFD_PLUGIN_URL;
 		private $plugin_version = CFEFD_PLUGIN_VERSION;
-		private $plugin_name    = 'Contact Form Extender For Divi Builder';
+		private $plugin_name    = 'Contact Form Extender For Divi';
 		private $plugin_slug    = 'cfefd';
 
 	/*
@@ -151,7 +151,7 @@ class cfefd_feedback {
 					<?php endforeach; ?>
 					
 					<div class="cp-feedback-terms">
-					<input class="cp-feedback-terms-input" id="cp-feedback-terms-input" type="checkbox"><label for="cp-feedback-terms-input"><?php echo esc_html__( 'I agree to share anonymous usage data and basic site details (such as server, PHP, and WordPress versions) to support Contact Form Extender for Divi Builder improvement efforts. Additionally, I allow Cool Plugins to store all information provided through this form and to respond to my inquiry', 'contact-form-extender-for-divi-builder' ); ?></label>
+					<input class="cp-feedback-terms-input" id="cp-feedback-terms-input" type="checkbox"><label for="cp-feedback-terms-input"><?php echo esc_html__( 'I agree to share anonymous usage data and basic site details (such as server, PHP, and WordPress versions) to support Contact Form Extender for Divi improvement efforts. Additionally, I allow Cool Plugins to store all information provided through this form and to respond to my inquiry', 'contact-form-extender-for-divi-builder' ); ?></label>
 					</div>
 
 					<div class="cp-feedback-button-wrapper">
