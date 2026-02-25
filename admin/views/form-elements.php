@@ -27,6 +27,12 @@ $form_elements = array(
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard/#country-code',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/file-upload.svg'
     ),
+    'country_code' => array(
+        'label' => __('Country Code', 'contact-form-extender-for-divi-builder'),
+        'how_to' => 'https://docs.coolplugins.net/doc/country-code-elementor-form/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard',
+        'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard/#country-code',
+        'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/country-code-min.svg'
+    ),
 );
 
 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
