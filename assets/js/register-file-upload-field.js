@@ -1573,11 +1573,11 @@ class CFEFD_FileUpload_JS {
      * Format file size in human-readable format
      */
     formatFileSize(bytes) {
-        if (bytes === 0) return '0 Bytes';
+        if (!bytes) return '0 Bytes';
         const k = 1024;
         const sizes = ['Bytes', 'KB', 'MB', 'GB'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        return Math.round(bytes / Math.pow(k, i)) + ' ' + sizes[i];
     }
 
     /**

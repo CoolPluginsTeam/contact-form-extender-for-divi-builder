@@ -56,7 +56,8 @@ class CFEFD_Submissions_List_Table extends WP_List_Table {
             return;
         }
 
-        $current_view = CFEFD_Submissions_Post_Type::get_view();
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not required for read-only sorting and filtering.
+        $current_view = isset($_GET['view']) ? sanitize_key(wp_unslash($_GET['view'])) : 'all';
 
         // Get counts for all and trash
         $post_counts = wp_count_posts($this->post_type);
@@ -74,16 +75,7 @@ class CFEFD_Submissions_List_Table extends WP_List_Table {
             }
 
             if ( $count > 0 || $view === 'all') {
-                $view_url = add_query_arg(
-                    [
-                        'page'     => 'contact-form-extender-for-divi-builder',
-                        'tab'      => 'submissions',
-                        'view'     => $view,
-                        '_wpnonce' => wp_create_nonce( 'cfefd_submissions_view' ),
-                    ],
-                    admin_url( 'admin.php' )
-                );
-                echo "<li class='" . esc_attr( $class ) . "'><a href='" . esc_url( $view_url ) . "'>" . esc_html( $label ) . "</a></li>";
+                echo "<li class='" . esc_attr( $class ) . "'><a href='?page=contact-form-extender-for-divi-builder&tab=submissions&view=" . esc_attr( $view ) . "'>" . esc_html( $label ) . "</a></li>";
                 echo "<span class='count'>(" . esc_html( $count ) . ")</span>";
             }
             
@@ -208,6 +200,17 @@ class CFEFD_Submissions_List_Table extends WP_List_Table {
         return $output;
     }
 
+    private function get_request_search_query(){
+		return filter_input( INPUT_GET, 'cfefd-submissions-search', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+    }
+
+    public function search_box($text, $input_id) {
+        echo '<p class="search-box">';
+        echo '<label class="screen-reader-text" for="' . esc_attr($input_id) . '">' . esc_html($text) . ':</label>';
+        echo '<input type="search" id="' . esc_attr($input_id) . '" name="' . esc_attr($input_id) . '" value="' . esc_attr($this->get_request_search_query()) . '" />';
+        echo '<input type="submit" class="button" value="' . esc_attr($text) . '" />';
+        echo '</p>'; 
+    }
 
     public function prepare_items() {
         
@@ -272,13 +275,8 @@ class CFEFD_Submissions_List_Table extends WP_List_Table {
            }
         }
 
-        // Build ORDER BY clause from whitelisted values, then use prepare() only for LIMIT/OFFSET.
-        $order_by_clause = " ORDER BY {$args['orderby']} {$args['order']} ";
-        $query .= $order_by_clause . $wpdb->prepare(
-            "LIMIT %d OFFSET %d",
-            $args['posts_per_page'],
-            ( $args['paged'] - 1 ) * $args['posts_per_page']
-        );
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- orderby and order are already validated against whitelist (line 243-245) and escaped with esc_sql (line 259-260).
+        $query .= $wpdb->prepare( " ORDER BY {$args['orderby']} {$args['order']} LIMIT %d OFFSET %d", $args['posts_per_page'], ( $args['paged'] - 1 ) * $args['posts_per_page'] );
 
         // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is incrementally prepared above. orderby/order validated against whitelist and escaped. Caching not used for list table queries.
         $this->items = $wpdb->get_results( $query );

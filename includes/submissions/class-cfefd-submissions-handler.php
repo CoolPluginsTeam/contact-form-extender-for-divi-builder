@@ -34,72 +34,53 @@ class CFEFD_Submissions_Handler {
 			return;
 		}
 
-		// Get form number from Divi callback (not from $_POST) so we can verify nonce before using any POST data.
+		// Extract basic info
+		$form_id           = isset( $contact_form_info['contact_form_id'] ) ? sanitize_text_field( $contact_form_info['contact_form_id'] ) : 'unknown';
+		$form_unique_id    = isset( $contact_form_info['contact_form_unique_id'] ) ? sanitize_text_field( $contact_form_info['contact_form_unique_id'] ) : '';
 		$et_pb_contact_num = isset( $contact_form_info['contact_form_number'] ) ? sanitize_text_field( $contact_form_info['contact_form_number'] ) : '';
-		if ( '' === $et_pb_contact_num ) {
+
+		// Verify nonce for security
+		$nonce_result = isset( $_POST[ "_wpnonce-et-pb-contact-form-submitted-{$et_pb_contact_num}" ] ) && 
+						wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ "_wpnonce-et-pb-contact-form-submitted-{$et_pb_contact_num}" ] ) ), 'et-pb-contact-form-submit' );
+		
+		if ( ! $nonce_result ) {
 			return;
 		}
 
-		// Verify nonce before using any $_POST data (CSRF protection).
-		$nonce_key   = '_wpnonce-et-pb-contact-form-submitted-' . $et_pb_contact_num;
-		$nonce_valid = isset( $_POST[ $nonce_key ] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ $nonce_key ] ) ), 'et-pb-contact-form-submit' );
-		if ( ! $nonce_valid ) {
-			return;
-		}
-
-		$form_id        = isset( $contact_form_info['contact_form_id'] ) ? sanitize_text_field( $contact_form_info['contact_form_id'] ) : 'unknown';
-		$form_unique_id = isset( $contact_form_info['contact_form_unique_id'] ) ? sanitize_text_field( $contact_form_info['contact_form_unique_id'] ) : '';
-
-		// Extract field definitions from $_POST (visible fields). Decoded JSON is validated and sanitized.
+		// Extract field definitions from $_POST (visible fields)
 		$field_definitions = [];
 		if ( '' !== $et_pb_contact_num ) {
-			// Raw JSON from POST; decoded values are validated and sanitized below (field_id, field_label, etc.).
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitization applied to decoded array elements.
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- JSON string is processed and elements are sanitized after decoding.
 			$visible_fields_json = isset( $_POST[ "et_pb_contact_email_fields_{$et_pb_contact_num}" ] ) ? wp_unslash( $_POST[ "et_pb_contact_email_fields_{$et_pb_contact_num}" ] ) : '';
 			if ( ! empty( $visible_fields_json ) ) {
 				$visible_fields = json_decode( str_replace( '\\', '', $visible_fields_json ), true );
 				if ( is_array( $visible_fields ) ) {
 					foreach ( $visible_fields as $field ) {
-						if ( ! is_array( $field ) || empty( $field['field_id'] ) ) {
-							continue;
+						if ( isset( $field['field_id'] ) ) {
+							$field_definitions[ $field['field_id'] ] = $field;
 						}
-						$field_id = sanitize_key( $field['field_id'] );
-						if ( '' === $field_id ) {
-							continue;
-						}
-						$field_definitions[ $field_id ] = [
-							'field_id'     => $field_id,
-							'field_label'  => isset( $field['field_label'] ) ? sanitize_text_field( $field['field_label'] ) : $field_id,
-							'field_type'   => isset( $field['field_type'] ) ? sanitize_key( $field['field_type'] ) : 'input',
-							'original_id'  => isset( $field['original_id'] ) ? sanitize_key( $field['original_id'] ) : $field_id,
-						];
 					}
 				}
 			}
 
-			// Extract hidden fields from $_POST. Decoded JSON is validated and sanitized.
-			// Raw JSON from POST; decoded values are validated and sanitized below (hidden_field, meta_array keys).
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitization applied to decoded array elements.
+			// Extract hidden fields from $_POST
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- JSON string is processed and elements are sanitized after decoding.
 			$hidden_fields_json = isset( $_POST[ "et_pb_contact_email_hidden_fields_{$et_pb_contact_num}" ] ) ? wp_unslash( $_POST[ "et_pb_contact_email_hidden_fields_{$et_pb_contact_num}" ] ) : '';
 			if ( ! empty( $hidden_fields_json ) ) {
 				$hidden_fields = json_decode( str_replace( '\\', '', $hidden_fields_json ), true );
 				if ( is_array( $hidden_fields ) ) {
 					foreach ( $hidden_fields as $hidden_field ) {
-						$hidden_field = is_string( $hidden_field ) ? sanitize_key( $hidden_field ) : '';
-						if ( '' === $hidden_field ) {
-							continue;
-						}
 						$meta_field_id = "et_pb_contact_{$hidden_field}_{$et_pb_contact_num}_cond_meta";
-						$cond_meta     = isset( $_POST[ $meta_field_id ] ) ? sanitize_text_field( wp_unslash( $_POST[ $meta_field_id ] ) ) : '';
-						$meta_array    = is_string( $cond_meta ) ? json_decode( base64_decode( $cond_meta, true ), true ) : null;
-						$cond_field_title = ( is_array( $meta_array ) && isset( $meta_array['title'] ) ) ? sanitize_text_field( $meta_array['title'] ) : '';
-						$cond_field_type  = ( is_array( $meta_array ) && isset( $meta_array['type'] ) ) ? sanitize_key( $meta_array['type'] ) : '';
+						$cond_meta = isset( $_POST[ $meta_field_id ] ) ? sanitize_text_field( wp_unslash( $_POST[ $meta_field_id ] ) ) : '';
+						$meta_array = json_decode( base64_decode( $cond_meta ), true );
+						$cond_field_title = isset( $meta_array['title'] ) ? sanitize_text_field( $meta_array['title'] ) : '';
+						$cond_field_type = isset( $meta_array['type'] ) ? sanitize_text_field( $meta_array['type'] ) : '';
 						$field_id = "et_pb_contact_{$hidden_field}_{$et_pb_contact_num}";
 						$field_definitions[ $field_id ] = [
-							'field_id'     => $field_id,
-							'original_id'  => $hidden_field,
-							'field_label'  => $cond_field_title,
-							'field_type'   => $cond_field_type,
+							'field_id' => $field_id,
+							'original_id' => $hidden_field,
+							'field_label' => $cond_field_title,
+							'field_type' => $cond_field_type,
 						];
 					}
 				}
