@@ -1,13 +1,13 @@
-=== Contact Form Extender for Divi Builder ===
-Contributors: satindersingh  
-Donate link: https://donate.stripe.com/5kQdR92iBevO75WbPm6c00i  
-Tags: divi, divi module, form submissions, contact form db, form entries  
-Requires at least: 5.0  
-Tested up to: 6.9  
-Requires PHP: 7.2  
-Stable tag: 1.0.2  
-License: GPLv2 or later  
-License URI: https://www.gnu.org/licenses/gpl-2.0.html  
+=== Contact Form Extender for Divi - Save Entries, File Upload & Country Code Field ===
+Contributors: satindersingh, narinder-singh, coolplugins
+Donate link: https://donate.stripe.com/5kQdR92iBevO75WbPm6c00i
+Tags: divi, form submissions, contact form db, file upload, country code
+Requires at least: 5.0
+Tested up to: 6.9
+Requires PHP: 7.2
+Stable tag: 1.0.3
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Extend Divi Contact Form module with file upload field, country code dropdown and save Divi form submissions in the database.
 
