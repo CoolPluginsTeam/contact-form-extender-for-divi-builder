@@ -1,6 +1,5 @@
 /* divi 5 specific css */
-.et_pb_contact_field.cfefd_files_container[data-type="file_upload"],
-.et_pb_contact_field[data-type="country_code"] {
+.et_pb_contact_field.cfefd_files_container[data-type="file_upload"] {
     gap: 0px;
 }
 
@@ -18,7 +17,7 @@
 }
 
 /* Upload Button Styling */
-.cfefd_file_upload_button.et_pb_button {
+.cfefd_file_upload_button {
     width: 30%;
     display: inline-flex;
     align-items: center;

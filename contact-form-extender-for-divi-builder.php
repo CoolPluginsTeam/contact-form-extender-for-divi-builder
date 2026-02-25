@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Contact Form Extender for Divi
+Plugin Name: Contact Form Extender for Divi Builder
 Plugin URI: https://coolplugins.net/product/contact-form-extender-for-divi-builder/
 Description: Extend Divi contact form module with file upload field, save form submissions in database, and many advanced form features.
 Version:     1.0.3

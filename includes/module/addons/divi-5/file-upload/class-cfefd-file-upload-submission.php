@@ -45,26 +45,36 @@ class CFEFD_File_Upload_Submission_D5 {
             'basedir'
         );
 
-        foreach ( $_POST as $key => $value ) {
+        // Only consider our own marker fields that end with '_is_file'
+        $marker_keys = array_filter(
+            array_keys( $_POST ),
+            static function ( $key ) {
+                return is_string( $key ) && substr( $key, -8 ) === '_is_file';
+            }
+        );
+
+        foreach ( $marker_keys as $key ) {
 
             // Your hidden marker field
-            if ( str_ends_with( $key, '_is_file' ) && $value === 'yes' ) {
+            $value = isset( $_POST[ $key ] ) ? sanitize_text_field(wp_unslash( $_POST[ $key ] )) : '';
+            if ( $value !== 'yes' ) {
+                continue;
+            }
 
-                $input_name = str_replace( '_is_file', '', $key );
+            $input_name = str_replace( '_is_file', '', $key );
 
-                if ( empty( $_POST[ $input_name ] ) ) {
-                    continue;
-                }
+            if ( empty( $_POST[ $input_name ] ) ) {
+                continue;
+            }
 
-                $files = explode( ',', sanitize_text_field( wp_unslash( $_POST[ $input_name ] ) ) );
+            $files = explode( ',', sanitize_text_field( wp_unslash( $_POST[ $input_name ] ) ) );
 
-                foreach ( $files as $file ) {
-                    $file = sanitize_file_name( $file );
-                    $path = path_join( $upload_tmp_dir, $file );
+            foreach ( $files as $file ) {
+                $file = sanitize_file_name( $file );
+                $path = path_join( $upload_tmp_dir, $file );
 
-                    if ( file_exists( $path ) ) {
-                        self::$attachments[] = $path;
-                    }
+                if ( file_exists( $path ) ) {
+                    self::$attachments[] = $path;
                 }
             }
         }

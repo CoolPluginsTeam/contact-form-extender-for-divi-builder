@@ -167,14 +167,14 @@
             }
 
             formData.append("action", "cfefd_upload_file");
-            formData.append("_wpnonce", DiviContactFormExtender.ajaxNonce);
+            formData.append("_wpnonce", CFEFD_DiviContactFormExtender.ajaxNonce);
             formData.append("token", fileToken);
 
             const fileList = fieldWrapper.find(".cfefd_files_list");
             const hiddenField = form.find(`input[name="${fieldName}"].cool_hidden_original`);
 
             $.ajax({
-                url: DiviContactFormExtender.ajaxURL,
+                url: CFEFD_DiviContactFormExtender.ajaxURL,
                 type: "POST",
                 data: formData,
                 dataType: "json",
@@ -280,12 +280,12 @@
             const tmpName = btn.data("file-tmp-name");
 
             $.ajax({
-                url: DiviContactFormExtender.ajaxURL,
+                url: CFEFD_DiviContactFormExtender.ajaxURL,
                 type: "POST",
                 dataType: "json",
                 data: {
                     action: "cfefd_remove_file",
-                    _wpnonce: DiviContactFormExtender.ajaxNonce,
+                    _wpnonce: CFEFD_DiviContactFormExtender.ajaxNonce,
                     file_name: fileName
                 },
 

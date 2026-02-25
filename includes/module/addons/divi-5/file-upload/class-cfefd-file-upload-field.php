@@ -491,7 +491,7 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
 
         public function enqueue_scripts() {
             // Enqueue frontend scripts and styles
-            wp_register_script('cfefd-file-upload-field-helper', CFEFD_PLUGIN_URL . 'assets/js/file-upload-field-helper.js', array('jquery'), CFEFD_PLUGIN_VERSION, true);
+            wp_enqueue_script('cfefd-file-upload-field-helper', CFEFD_PLUGIN_URL . 'assets/js/file-upload-field-helper.js', array('jquery'), CFEFD_PLUGIN_VERSION, true);
             
             $wp_max_upload_size = wp_max_upload_size();
             $localized_data = [
@@ -501,18 +501,13 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
                 'wpMaxUploadSize' => $wp_max_upload_size,
                 'wpMaxUploadSizeFormatted' => size_format($wp_max_upload_size),
             ];
-            wp_localize_script('cfefd-file-upload-field-helper', 'DiviContactFormExtender', $localized_data);
+            wp_localize_script('cfefd-file-upload-field-helper', 'CFEFD_DiviContactFormExtender', $localized_data);
 
-            wp_register_style('cfefd-file-upload-field-helper', CFEFD_PLUGIN_URL . 'assets/css/file-upload-field-helper-d5.css', array(), CFEFD_PLUGIN_VERSION, 'all');
-
-            if(function_exists('et_core_is_fb_enabled') && et_core_is_fb_enabled()){
-                wp_enqueue_script('cfefd-file-upload-field-helper');
-                wp_enqueue_style('cfefd-file-upload-field-helper');
-            }
+            wp_enqueue_style('cfefd-file-upload-field-helper', CFEFD_PLUGIN_URL . 'assets/css/file-upload-field-helper-d5.css', array(), CFEFD_PLUGIN_VERSION, 'all');
         }
 
         public function enqueue_file_upload_register() {    
-            if (!function_exists('et_builder_d5_enabled') || !et_builder_d5_enabled() || !function_exists('et_core_is_fb_enabled') || !et_core_is_fb_enabled()) {
+            if (!et_builder_d5_enabled() || !et_core_is_fb_enabled()) {
                 return;
             }
 
@@ -623,12 +618,9 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
             );
 
             // Load DOM
-            wp_enqueue_script('cfefd-file-upload-field-helper');
-            wp_enqueue_style('cfefd-file-upload-field-helper');
-
             $dom = new DOMDocument();
             libxml_use_internal_errors(true);
-            $dom->loadHTML($module_wrapper,LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $dom->loadHTML($module_wrapper);
             libxml_clear_errors();
 
             $xpath = new DOMXPath($dom);

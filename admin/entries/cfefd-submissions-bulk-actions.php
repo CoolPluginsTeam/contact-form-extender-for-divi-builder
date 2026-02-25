@@ -56,46 +56,48 @@ class CFEFD_Submissions_Bulk_Actions {
 
 	/**
 	 * Process the bulk actions.
+	 * Nonce and capability are verified before reading any request input.
 	 */
 	private function process() {
 
 		if ( ! current_user_can( 'manage_options' )) {
 			return;
 		}
-		
-		$this->ids    = isset( $_GET['entry_id'] ) ? array_map( 'absint', (array) $_GET['entry_id'] ) : [];
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce is verified later in line 88 before any processing occurs.
-		$action=isset($_REQUEST['action']) ? str_replace(' ', '_', strtolower(sanitize_text_field(wp_unslash($_REQUEST['action'])))) : false;
-		$this->action = $action ? sanitize_key( $action ) : false;
-
-		if ( $this->action === '-1' ) {
-			$this->action = ! empty( $_REQUEST['action2'] ) ? sanitize_key( $_REQUEST['action2'] ) : false;
+		// Verify nonce first; do not trust any input until nonce is valid.
+		// Accept both 'bulk-submissions' (row action links) and 'cfefd_submissions_list' (form submit with bulk dropdown).
+		if ( empty( $_GET['_wpnonce'] ) ) {
+			return;
+		}
+		$nonce = sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) );
+		if ( ! wp_verify_nonce( $nonce, 'bulk-submissions' ) && ! wp_verify_nonce( $nonce, 'cfefd_submissions_list' ) ) {
+			return;
 		}
 
-		if($this->action === 'empty_trash'){
-			$this->ids = [0];
+		// Only after nonce verification: read and validate action.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified above.
+		$action = isset( $_REQUEST['action'] ) ? str_replace( ' ', '_', strtolower( sanitize_text_field( wp_unslash( $_REQUEST['action'] ) ) ) ) : false;
+		$this->action = $action ? sanitize_key( $action ) : false;
+		if ( '-1' === $this->action && ! empty( $_REQUEST['action2'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified above.
+			$this->action = sanitize_key( wp_unslash( $_REQUEST['action2'] ) );
+		}
+
+		if ( ! in_array( $this->action, self::ALLOWED_ACTIONS, true ) ) {
+			return;
+		}
+
+		if ( 'empty_trash' === $this->action ) {
+			$this->ids = [ 0 ];
+		} else {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified above.
+			$this->ids = isset( $_GET['entry_id'] ) ? array_map( 'absint', (array) $_GET['entry_id'] ) : [];
 		}
 
 		if ( empty( $this->ids ) || empty( $this->action ) ) {
 			return;
 		}
-		
-		// Check exact action values.
-		if ( ! in_array( $this->action, self::ALLOWED_ACTIONS, true ) ) {
-			return;
-		}
-		
-		if ( empty( $_GET['_wpnonce'] ) ) {
-			return;
-		}
-		
-		// Check the nonce.
-		if ( ! wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ), 'bulk-submissions' ) ) {
-            return;
-		}
 
-		// Finally, we can process the action.
 		$this->process_action();
 	}
 
@@ -134,7 +136,7 @@ class CFEFD_Submissions_Bulk_Actions {
 		wp_safe_redirect(
 			add_query_arg(
 				$query_args,
-				remove_query_arg( [ 'action', 'action2', '_wpnonce', 'entry_id', 'paged', '_wp_http_referer' ] )
+				remove_query_arg( [ 'action', 'action2', '_wpnonce', 'entry_id', 'paged', '_wp_http_referer', 'view' ] )
 			)
 		);
 		exit;
