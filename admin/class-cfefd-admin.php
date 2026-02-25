@@ -248,7 +248,7 @@ if(!class_exists('CFEFD_Admin')) {
         public function sanitize_form_elements($input) {
             $valid = array();
 
-            $form_elements = array('file_upload','save_submission','country_code');
+            $form_elements = array('file_upload','save_submission');
 
             if (is_array($input)) {
                 foreach ($input as $element) {

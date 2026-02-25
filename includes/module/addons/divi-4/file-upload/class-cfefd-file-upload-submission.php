@@ -20,42 +20,55 @@ class CFEFD_File_Upload_Submission {
         // Reset attachments for this new submission attempt
         $this->attachments_to_send = [];
 
-        // 1. Verify this is a valid Divi Contact Form submission
+        // 1. Verify this is a valid Divi Contact Form submission (nonce must be checked before using any $_POST data).
         // Divi uses a nonce named "_wpnonce-et-pb-contact-form-submitted-X"
         $nonce_key = "_wpnonce-et-pb-contact-form-submitted-{$et_pb_contact_form_num}";
-        if (!isset($_POST[$nonce_key]) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST[$nonce_key])), 'et-pb-contact-form-submit')) {
-            // return $email;
+        if ( ! isset( $_POST[ $nonce_key ] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ $nonce_key ] ) ), 'et-pb-contact-form-submit' ) ) {
+            return $email;
         }
 
         // 2. Process Files
         $upload_tmp_dir = CFEFD_File_Upload::get_wp_upload_dir(path_join(CFEFD_File_Upload::foldername, 'tmp'), 'basedir');
         
-        // Iterate over POST to find file tokens for THIS form
-        // Divi fields format: et_pb_contact_{field_id}_{form_num}
-        // Our hidden field format: {divi_field_name}_is_file
-        
-        foreach ($_POST as $key => $value) {
-            if (strpos($key, '_is_file') !== false && $value === 'yes') {
-                $input_name = str_replace('_is_file', '', $key);
-                
-                // Ensure this field belongs to the current form number
-                // Field name format: et_pb_contact_FIELDID_FORMNUM
-                // We check if it ends with _{$et_pb_contact_form_num}
-                if (substr($input_name, -strlen("_{$et_pb_contact_form_num}")) === "_{$et_pb_contact_form_num}") {
-                    
-                     if (isset($_POST[$input_name])) {
-                        $file_names = sanitize_text_field(wp_unslash($_POST[$input_name]));
-                        if (!empty($file_names)) {
-                            $files = explode(',', $file_names);
-                            foreach ($files as $file) {
-                                $file = sanitize_file_name($file);
-                                $file_path = path_join($upload_tmp_dir, $file);
-                                if (file_exists($file_path)) {
-                                    $this->attachments_to_send[] = $file_path;
-                                }
-                            }
-                        }
-                    }
+        // Iterate over POST to find file tokens for THIS form.
+        // Instead of looping whole $_POST, only consider keys that end with '_is_file'.
+        $marker_keys = array_filter(
+            array_keys( $_POST ),
+            static function ( $key ) {
+                return is_string( $key ) && substr( $key, -8 ) === '_is_file';
+            }
+        );
+
+        foreach ( $marker_keys as $key ) {
+            $value = isset( $_POST[ $key ] ) ? sanitize_text_field(wp_unslash( $_POST[ $key ] )) : '';
+            if ( $value !== 'yes' ) {
+                continue;
+            }
+
+            $input_name = str_replace( '_is_file', '', $key );
+
+            // Ensure this field belongs to the current form number.
+            // Field name format: et_pb_contact_FIELDID_FORMNUM
+            // We check if it ends with _{$et_pb_contact_form_num}
+            if ( substr( $input_name, -strlen( "_{$et_pb_contact_form_num}" ) ) !== "_{$et_pb_contact_form_num}" ) {
+                continue;
+            }
+
+            if ( empty( $_POST[ $input_name ] ) ) {
+                continue;
+            }
+
+            $file_names = sanitize_text_field( wp_unslash( $_POST[ $input_name ] ) );
+            if ( empty( $file_names ) ) {
+                continue;
+            }
+
+            $files = explode( ',', $file_names );
+            foreach ( $files as $file ) {
+                $file = sanitize_file_name( $file );
+                $file_path = path_join( $upload_tmp_dir, $file );
+                if ( file_exists( $file_path ) ) {
+                    $this->attachments_to_send[] = $file_path;
                 }
             }
         }
