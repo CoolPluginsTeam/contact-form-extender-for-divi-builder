@@ -156,7 +156,7 @@ if(!class_exists('CFEFD_Admin')) {
             <div class="cfefd-wrapper">
                 <div class="cfefd-header">
                     <div class="cfefd-header-logo">
-                        <h2><?php esc_html_e('Contact Form Extender for Divi Builder', 'contact-form-extender-for-divi-builder'); ?></h2>
+                        <h2><?php esc_html_e('Contact Form Extender for Divi', 'contact-form-extender-for-divi-builder'); ?></h2>
                     </div>
                     <div class="cfefd-header-buttons">
                         <!-- <p><?php // esc_html_e('Advanced Divi Form Builder.', 'contact-form-extender-for-divi-builder'); ?></p>
