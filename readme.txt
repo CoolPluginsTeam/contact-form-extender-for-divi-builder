@@ -3,7 +3,7 @@ Contributors: satindersingh, narinder-singh, coolplugins
 Donate link: https://donate.stripe.com/5kQdR92iBevO75WbPm6c00i
 Tags: divi, form submissions, contact form db, file upload, country code
 Requires at least: 5.0
-Tested up to: 6.9.1
+Tested up to: 6.9
 Requires PHP: 7.2
 Stable tag: 1.0.3
 License: GPLv2 or later
