@@ -52,14 +52,6 @@ It also includes the [intl-tel-input](https://intl-tel-input.com/) library, dist
 
 **Disclaimer:** This Divi extension is developed and maintained by [Cool Plugins](https://coolplugins.net). It is not affiliated with, or endorsed by Elegant Themes. Some links inside this plugin or its readme may be affiliate links, which means we may earn a small commission at no additional cost to you.
 
-== Use of 3rd Party Services ==
-
-To improve plugin performance and user experience, this plugin may collect optional feedback and limited diagnostic information. Such data is transmitted only after explicit user consent to the Cool Plugins internal [Feedback Server](https://feedback.coolplugins.net). Any data shared is strictly optional and can be skipped. Details about what information may be collected and how it is used are available in our [Usage Tracking Policy](https://my.coolplugins.net/terms/usage-tracking/).
-
-The plugin does not perform hidden tracking or collect data without user approval. Further details are available in our [Terms of Service](https://my.coolplugins.net/terms/), and [Privacy Policy](https://my.coolplugins.net/terms/privacy-policy/).
-
-The plugin also contains an optional link to Trustpilot for public reviews. No data is automatically transmitted to Trustpilot.
-
 == Installation ==
 
 Follow the steps below to install and configure Contact Form Extender for Divi.
@@ -137,15 +129,16 @@ No. This plugin works directly with the built-in Divi Contact Form module. You d
 
 == Changelog ==
 
+= 1.0.3 - Feb 25, 2026 =
+* Added: Country Code dropdown field for Divi form module.
+
+= 1.0.2 - Feb 24, 2026 =
+* Added: Initial public release.
+* Added: Save Divi form submissions inside the WordPress dashboard.
+* Added: File Upload field support for Divi Contact Form module.
+* Added: Plugin admin dashboard under **Divi → Contact Form Extender**.
+
+== Upgrade Notice ==
+
 = 1.0.2 =
-* Added sanitization and escaping as per reviewer guidelines.
-* Mentioned external services in the readme.
-* Fixed the compressed and minified source code issue.
-
-= 1.0.1 =
-* Minor changes in readme
-
-= 1.0.0 =
-* Initial release
-* File upload field support
-* Save Divi contact form submissions in database
+Initial public stable release of plugin.
