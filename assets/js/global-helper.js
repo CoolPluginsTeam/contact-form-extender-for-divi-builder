@@ -24,9 +24,7 @@ class CFEFD_Global_Helper {
             let fileUploadToggle = current.find('.et-fb-form__group input[name="cfefd_use_as_file_upload"]');
             fileUploadToggle.closest('.et-fb-option-container').addClass('should_not_hide_warning');
 
-            console.log(' here wer are ')
             let countyCodeToggle = current.find('.et-fb-form__group input[name="cfefd_use_as_country_code"]');
-            console.log(countyCodeToggle)
             countyCodeToggle.closest('.et-fb-option-container').addClass('should_not_hide_warning');
         }, 1000);
     }
