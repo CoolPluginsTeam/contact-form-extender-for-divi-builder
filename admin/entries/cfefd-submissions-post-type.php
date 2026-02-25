@@ -112,8 +112,22 @@ class CFEFD_Submissions_Post_Type {
     }
 
     public static function get_view() {
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not required for read-only view switching.
-        return isset($_GET['view']) && in_array(wp_unslash($_GET['view']), ['all', 'trash'], true) ? sanitize_text_field(wp_unslash($_GET['view'])) : 'all';
+        if ( ! current_user_can( 'edit_posts' ) ) {
+            return 'all';
+        }
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified below when view param is present.
+        if ( ! isset( $_GET['view'] ) ) {
+            return 'all';
+        }
+        $view = sanitize_text_field( wp_unslash( $_GET['view'] ) );
+        if ( ! in_array( $view, [ 'all', 'trash' ], true ) ) {
+            return 'all';
+        }
+        // Verify nonce for view parameter to prevent tampering.
+        if ( empty( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'cfefd_submissions_view' ) ) {
+            return 'all';
+        }
+        return $view;
     }
 
     public function output_entries_list() {
@@ -134,11 +148,11 @@ class CFEFD_Submissions_Post_Type {
                     $list_table->views();
                     ?>
                     <form method="get" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>">
+                        <?php wp_nonce_field( 'cfefd_submissions_list', '_wpnonce', false ); ?>
                         <input type="hidden" name="page" value="contact-form-extender-for-divi-builder">
                         <input type="hidden" name="tab" value="submissions">
-                        <input type="hidden" name="view" value="<?php echo esc_attr(self::get_view()); ?>">
+                        <input type="hidden" name="view" value="<?php echo esc_attr( self::get_view() ); ?>">
                         <?php
-                        // $list_table->search_box( esc_html__( 'Search Submissions', 'contact-form-extender-for-divi-builder' ), 'cfefd-submissions-search' );
                         $list_table->display();
                         ?>
                     </form>

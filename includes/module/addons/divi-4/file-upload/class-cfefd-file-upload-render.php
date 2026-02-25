@@ -10,6 +10,14 @@ class CFEFD_File_Upload_Render {
         add_filter('et_module_shortcode_output', [$this, 'cfefd_filter_shortcode_output'], 10, 3);
         add_filter('et_module_shortcode_output', [$this, 'cfefd_filter_shortcode_output_css'], 10, 3);
         add_action('wp_enqueue_scripts', [$this, 'cfefd_enqueue_scripts']);
+        // Styles should also be enqueued
+        add_action('wp_enqueue_scripts', [$this, 'cfefd_enqueue_styles']);
+    }
+
+    public function cfefd_enqueue_styles() {
+        // Create a simple css for button if needed, or rely on Divi styles.
+        // For now we assume Divi styles or custom styles in js injection
+        wp_enqueue_style('cfefd-file-upload-field-helper', CFEFD_PLUGIN_URL . 'assets/css/file-upload-field-helper.css', array(), CFEFD_PLUGIN_VERSION, 'all');
     }
 
     public function cfefd_enqueue_scripts(){
@@ -22,10 +30,8 @@ class CFEFD_File_Upload_Render {
             'wpMaxUploadSizeFormatted' => size_format($wp_max_upload_size),
         ];
         
-        wp_register_script('cfefd-file-upload-field-helper', CFEFD_PLUGIN_URL . 'assets/js/file-upload-field-helper.js', array('jquery'), CFEFD_PLUGIN_VERSION , true); 
-        wp_localize_script('cfefd-file-upload-field-helper', 'DiviContactFormExtender',  $localized_data);
-
-        wp_register_style('cfefd-file-upload-field-helper', CFEFD_PLUGIN_URL . 'assets/css/file-upload-field-helper.css', array(), CFEFD_PLUGIN_VERSION, 'all');
+        wp_enqueue_script('cfefd-file-upload-field-helper', CFEFD_PLUGIN_URL . 'assets/js/file-upload-field-helper.js', array('jquery'), CFEFD_PLUGIN_VERSION , true); 
+        wp_localize_script('cfefd-file-upload-field-helper', 'CFEFD_DiviContactFormExtender',  $localized_data);
     }
 
     public function cfefd_filter_shortcode_output_css($output, $render_slug, $module) {
@@ -81,9 +87,6 @@ class CFEFD_File_Upload_Render {
         $parent_module_order = end($parts);
 
         $field_id = isset($props['field_id']) ? $props['field_id'] : '';
-
-        wp_enqueue_script('cfefd-file-upload-field-helper');
-        wp_enqueue_style('cfefd-file-upload-field-helper');
 
         $dom = $this->create_dom($output);
         $input = $dom->getElementsByTagName('input');
