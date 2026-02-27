@@ -17,19 +17,19 @@ $enabled_elements = get_option('cfefd_enabled_elements', array());
 $form_elements = array(
     'save_submission' => array(
         'label' => __('Save Submission', 'contact-form-extender-for-divi-builder'),
-        'how_to' => 'https://docs.coolplugins.net/doc/range-slider-elementor-form/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard',
+        'how_to' => '#',
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard/#range-field',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/form-list.svg'
     ),
     'file_upload' => array(
         'label' => __('File Upload', 'contact-form-extender-for-divi-builder'),
-        'how_to' => 'https://docs.coolplugins.net/doc/country-code-elementor-form/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard',
+        'how_to' => '#',
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard/#country-code',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/file-upload.svg'
     ),
     'country_code' => array(
         'label' => __('Country Code', 'contact-form-extender-for-divi-builder'),
-        'how_to' => 'https://docs.coolplugins.net/doc/country-code-elementor-form/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard',
+        'how_to' => '#',
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard/#country-code',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/country-code-min.svg'
     ),
@@ -129,7 +129,7 @@ $updated_elements = array('');
                         <div class="cfefd-stars">
                         ★★★★★
                         </div>
-                        <a href="https://trustpilot.com/review/coolplugins.net" class="button button-primary" target="_blank"><?php esc_html_e('Leave a Review', 'contact-form-extender-for-divi-builder'); ?></a>
+                        <a href="https://wordpress.org/support/plugin/contact-form-extender-for-divi-builder/reviews/" class="button button-primary" target="_blank"><?php esc_html_e('Leave a Review', 'contact-form-extender-for-divi-builder'); ?></a>
                     </div>
                 </div>
             </div>

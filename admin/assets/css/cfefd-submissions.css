@@ -2,6 +2,17 @@ body.post-type-cfefd-submissions #post-body-content {
   display: none;
 }
 
+
+.post-type-cfefd-submissions .metabox-prefs{
+  margin-top: 58px !important;
+  display: block !important;
+}
+
+.post-type-cfefd-submissions .cfefd-back-link a{
+  text-decoration: none;
+}
+
+
 .cfefd-content {
   margin-top: 60px;
 }
