@@ -391,6 +391,20 @@ body.divi_page_cfefd-entries {
     align-items: center;
 }
 
+.cfefd-header-logo .cfefd-header-logo-icon {
+    margin-right: 10px;
+}
+
+.cfefd-header-logo .cfefd-header-logo-icon{
+    display: block;
+    line-height: 0;
+}
+
+.cfefd-header-logo .cfefd-header-logo-icon img {
+    max-height: 32px;
+}
+
+
 .cfefd-header-logo a[href="?page=contact-form-extender-for-divi-builder"]:focus {
     box-shadow: unset;
     outline: none;
