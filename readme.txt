@@ -130,11 +130,11 @@ No. This plugin works directly with the built-in Divi Contact Form module. You d
 == Changelog ==
 
 = 1.0.4 - Feb 27, 2026 =
-* Updated: Review link.
 * Added: Header on single submission view page.
-* Added: "Back to View All" link/button at the top of single submission page.
-* Added: Icon in plugin header.
-* Removed: Elementor documentation links from form elements.
+* Added: "Back to View All" link on single submission page.
+* Improved: Plugin dashboard header.
+* Updated: Plugin review URL to WordPress.org review page.
+* Removed: Incorrect documentation links from dashboard.
 
 = 1.0.3 - Feb 25, 2026 =
 * Added: Country Code dropdown field for Divi form module.
