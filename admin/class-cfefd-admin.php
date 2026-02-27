@@ -296,7 +296,7 @@ if(!class_exists('CFEFD_Admin')) {
         {
             $allowed_pages = self::$allowed_pages;
 
-            $allowed_pages = apply_filters('cfkef_dashboard_allowed_pages', $allowed_pages);
+            $allowed_pages = apply_filters('cfefd_dashboard_allowed_pages', $allowed_pages);
 
             return $allowed_pages;
         }
