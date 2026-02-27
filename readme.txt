@@ -5,7 +5,7 @@ Tags: divi, form submissions, contact form db, file upload, country code
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.2
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -128,6 +128,13 @@ No. This plugin works directly with the built-in Divi Contact Form module. You d
 3. Saved Divi Form Submissions in Dashboard
 
 == Changelog ==
+
+= 1.0.4 - Feb 27, 2026 =
+* Updated: Review link.
+* Added: Header on single submission view page.
+* Added: "Back to View All" link/button at the top of single submission page.
+* Added: Icon in plugin header.
+* Removed: Elementor documentation links from form elements.
 
 = 1.0.3 - Feb 25, 2026 =
 * Added: Country Code dropdown field for Divi form module.
