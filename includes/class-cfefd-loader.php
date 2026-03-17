@@ -128,8 +128,13 @@ class CFEFD_Loader {
     }
 
     private function admin_menu_dashboard() {
-        require_once CFEFD_PLUGIN_DIR . 'admin/class-cfefd-admin.php';
-        CFEFD_Admin::get_instance($this->get_plugin_name(), $this->get_version());
+
+        if (!is_plugin_active( 'divi-contact-form-extender/divi-contact-form-extender.php')) {
+
+            require_once CFEFD_PLUGIN_DIR . 'admin/class-cfefd-admin.php';
+            CFEFD_Admin::get_instance($this->get_plugin_name(), $this->get_version());
+        }
+
     }
     /**
      * The name of the plugin used to uniquely identify it within the context of

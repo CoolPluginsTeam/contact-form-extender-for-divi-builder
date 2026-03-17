@@ -475,6 +475,51 @@ body.divi_page_cfefd-entries {
     animation: play-icon 1s ease-in-out infinite;
 }
 
+
+img.crown-diamond-pro {
+    height: 15px;
+}
+
+a.button-primary.upgrade-pro-btn {
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.cfefd-label-pro{
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: #7C3AED;
+    padding: 2px 6px;
+    border-radius: 4px;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+}
+
+
+
+.cfefd-label-coming-soon{
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: #F59E0B;
+    padding: 2px 6px;
+    border-radius: 4px;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+}
+
+.cfefd-label-pro a, .cfefd-label-coming-soon a{
+    text-decoration: none;
+    color: #fff;
+}
+
+
 @keyframes play-icon {
     0% {
         transform: scale(1);

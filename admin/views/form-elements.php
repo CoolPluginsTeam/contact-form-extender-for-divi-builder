@@ -33,6 +33,24 @@ $form_elements = array(
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard/#country-code',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/country-code-min.svg'
     ),
+
+    'range_slider' => array(
+        'label' => __('Range Slider', 'contact-form-extender-for-divi-builder'),
+        'how_to' => '#',
+        'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard/#range-field',
+        'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/range-slider-min.svg',
+        'pro' => true,
+
+    ),
+
+    'image_radio' => array(
+        'label' => __('Image Radio', 'contact-form-extender-for-divi-builder'),
+        'how_to' => '#',
+        'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard/#range-field',
+        'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/image-radio-min.svg',
+        'coming_soon' => true,
+
+    ),
 );
 
 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
@@ -91,6 +109,12 @@ $updated_elements = array('');
                                 <img src="<?php echo esc_url($element['icon'])?>" alt="Color Field">
                                 <h4>
                                     <?php echo esc_html($element['label']); ?>
+                                        <?php if (!empty($element['pro'])): ?>
+                                                    <span class="cfefd-label-pro"><a href="<?php echo esc_url($element['how_to']) ?>" target="_blank"><?php esc_html_e('Pro','contact-form-extender-for-divi-builder'); ?></a></span>
+                                        <?php endif; ?>
+                                        <?php if (!empty($element['coming_soon'])): ?>
+                                                    <span class="cfefd-label-coming-soon"><a href="<?php echo esc_url($element['how_to']) ?>" target="_blank"><?php esc_html_e('Coming Soon','contact-form-extender-for-divi-builder'); ?></a></span>
+                                        <?php endif; ?>
                                     <?php if (in_array($key, $popular_elements)): ?>
                                         <span class="cfefd-label-popular">Popular</span>
                                     <?php endif; ?>
@@ -105,7 +129,7 @@ $updated_elements = array('');
                                 </div>
                             </div>
                             <label class="cfefd-toggle-switch">
-                                <input type="checkbox" name="cfefd_enabled_elements[]" value="<?php echo esc_attr($key); ?>" <?php checked(in_array($key, $enabled_elements)); ?> class="cfefd-element-toggle">
+                                <input type="checkbox" name="cfefd_enabled_elements[]" value="<?php echo esc_attr($key); ?>" <?php checked(in_array($key, $enabled_elements)); ?> class="cfefd-element-toggle"  <?php disabled(!empty($element['pro']) || !empty($element['coming_soon'])); ?>>
                                 <span class="cfefd-slider round"></span>
                             </label>
                         </div>
