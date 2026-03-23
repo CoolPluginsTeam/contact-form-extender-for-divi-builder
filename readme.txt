@@ -203,6 +203,10 @@ Yes. Contact Form Extender for Divi is compatible with both **Divi 5** and **Div
 
 == Changelog ==
 
+= 1.0.5 - Mar 23, 2026 =
+* Updated: Form field elements in the plugin dashboard.
+* Updated: Internal Links.
+
 = 1.0.4 - Feb 27, 2026 =
 * Added: Header on single submission view page.
 * Added: "Back to View All" link on single submission page.

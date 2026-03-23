@@ -3,7 +3,7 @@
 Plugin Name: Contact Form Extender for Divi
 Plugin URI: https://coolplugins.net/product/contact-form-extender-for-divi-builder/
 Description: Extend Divi contact form module with file upload field, save form submissions in database, and many advanced form features.
-Version:     1.0.4
+Version:     1.0.5
 Author:      Satinder Singh
 Author URI:  https://profiles.wordpress.org/satindersingh/
 License:     GPL2
@@ -21,7 +21,7 @@ define( 'CFEFD_PLUGIN_FILE', __FILE__ );
 define( 'CFEFD_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'CFEFD_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CFEFD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'CFEFD_PLUGIN_VERSION', '1.0.4' );
+define( 'CFEFD_PLUGIN_VERSION', '1.0.5' );
 define('CFEFD_FEEDBACK_URL', 'https://feedback.coolplugins.net/');
 
 if ( ! function_exists( 'is_plugin_active' ) ) {
