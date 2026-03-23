@@ -167,7 +167,7 @@ if(!class_exists('CFEFD_Admin')) {
                         </span>
                         <h2><?php esc_html_e('Contact Form Extender for Divi', 'contact-form-extender-for-divi-builder'); ?></h2>
 
-                        <a class="button button-primary upgrade-pro-btn" target="_blank" href="#">
+                        <a class="button button-primary upgrade-pro-btn" target="_blank" href="https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_header#pricing">
                         <img class="crown-diamond-pro" src="<?php echo esc_url(CFEFD_PLUGIN_URL . 'assets/images/crown-diamond-pro.png'); ?>" alt="Cool FormKit Logo">
                         <?php esc_html_e('Upgrade To Pro', 'contact-form-extender-for-divi-builder'); ?>
                         </a>

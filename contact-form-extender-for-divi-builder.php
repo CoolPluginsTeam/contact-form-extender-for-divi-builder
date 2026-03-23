@@ -71,7 +71,7 @@ if(!class_exists('CFEFD_Main')) {
         public function cfefd_plugin_dashboard_link($links){
 
 
-            $get_pro_link = '<a href="#" style="font-weight: bold; color: green;" target="_blank">Get Pro</a>';
+            $get_pro_link = '<a href="https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=plugins_list#pricing" style="font-weight: bold; color: green;" target="_blank">Get Pro</a>';
 			array_unshift( $links, $get_pro_link );
 
 			$settings_link = '<a href="' . admin_url( 'admin.php?page=contact-form-extender-for-divi-builder' ) . '">Settings</a>';
