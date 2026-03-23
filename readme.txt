@@ -41,7 +41,7 @@ The interface is organized into clear sections:
 * **Lightweight & Optimized Divi Extension:**  
 Built with performance and stability in mind, this extension integrates smoothly with the Divi environment without adding unnecessary overhead. It does not replace the existing form module or inject heavy frontend scripts. The focus is on clean implementation, efficient database storage, and minimal impact on page speed. Whether you are running a small business website or a high-traffic project, the plugin is designed to maintain reliability while extending functionality in a structured and scalable way.
 
-### [Pro Version with Advanced Fields](https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=pro_version)
+### [Pro Version with Advanced Fields](https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=pro_version#pricing)
 
 The upcoming Pro version of Contact Form Extender for Divi will introduce a powerful set of advanced input fields and features designed to transform the standard Divi builder forms into a more interactive and flexible form system that will allow you to build more dynamic forms for pricing requests, bookings, applications, surveys, registrations, and custom workflows.
 
