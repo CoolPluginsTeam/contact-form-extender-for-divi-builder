@@ -5,7 +5,7 @@ Tags: divi, form submissions, contact form db, file upload, country code
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.2
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,7 +41,7 @@ The interface is organized into clear sections:
 * **Lightweight & Optimized Divi Extension:**  
 Built with performance and stability in mind, this extension integrates smoothly with the Divi environment without adding unnecessary overhead. It does not replace the existing form module or inject heavy frontend scripts. The focus is on clean implementation, efficient database storage, and minimal impact on page speed. Whether you are running a small business website or a high-traffic project, the plugin is designed to maintain reliability while extending functionality in a structured and scalable way.
 
-### Pro Version with Advanced Fields (Coming Soon)
+### [Pro Version with Advanced Fields](https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=pro_version)
 
 The upcoming Pro version of Contact Form Extender for Divi will introduce a powerful set of advanced input fields and features designed to transform the standard Divi builder forms into a more interactive and flexible form system that will allow you to build more dynamic forms for pricing requests, bookings, applications, surveys, registrations, and custom workflows.
 
@@ -61,15 +61,15 @@ Collect handwritten digital signatures directly within the Divi form. This is us
 
 Replace traditional checkboxes with a clean on/off switch inside your Divi form. Toggle fields are perfect for enabling optional add-ons, confirming agreements, activating services, or selecting preferences. The interface feels simple and modern while keeping the form layout clean.
 
-= Image Radio Field =
+= Image Radio Field (Coming Soon) =
 
 Let users select options using images instead of plain text. This works beautifully for product choices, design layouts, package selection, branding styles, or visual preferences. Inside Divi, this makes your form feel more interactive and visually engaging rather than purely text-based.
 
-= Calculator Field =
+= Calculator Field (Coming Soon) =
 
 Build intelligent calculation logic directly into your Divi form. Automatically calculate totals based on user selections such as quantity, service type, duration, or pricing models. Ideal for quotation forms, cost estimators, service configuration tools, or custom order requests. The results update dynamically, providing instant feedback to users.
 
-= Select2 Dropdown Field =
+= Select2 Dropdown Field (Coming Soon) =
 
 Enhance standard dropdown menus with a searchable and user-friendly selection interface. This is especially useful when dealing with long option lists such as cities, services, departments, categories, or product names. Visitors can quickly search and select without scrolling endlessly.
 
