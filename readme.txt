@@ -32,22 +32,22 @@ Improve the accuracy and consistency of phone number collection by enabling an i
 
 * **Clean Dashboard Interface:**
 Inside the WordPress admin area, the plugin provides a dedicated dashboard under:
-*Divi → Contact Form Extender*
+***Divi > Contact Form Extender***
 The interface is organized into clear sections:
- * Form Elements – Enable or disable specific fields.
- * Settings – Configure additional options.
- * Form Submissions – View and manage saved entries.
+ * Form Elements: Enable or disable specific fields.
+ * Settings: Configure additional options.
+ * Form Submissions: View and manage saved entries.
 
 * **Lightweight & Optimized Divi Extension:**  
 Built with performance and stability in mind, this extension integrates smoothly with the Divi environment without adding unnecessary overhead. It does not replace the existing form module or inject heavy frontend scripts. The focus is on clean implementation, efficient database storage, and minimal impact on page speed. Whether you are running a small business website or a high-traffic project, the plugin is designed to maintain reliability while extending functionality in a structured and scalable way.
 
 ### [Pro Version with Advanced Fields](https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=pro_version#pricing)
 
-The upcoming Pro version of Contact Form Extender for Divi will introduce a powerful set of advanced input fields and features designed to transform the standard Divi builder forms into a more interactive and flexible form system that will allow you to build more dynamic forms for pricing requests, bookings, applications, surveys, registrations, and custom workflows.
+The Pro version of Contact Form Extender for Divi provides powerful set of advanced input fields and features designed to transform the standard Divi builder forms into a more interactive and flexible form system.
 
 = Range Slider Field =
 
-Collect numeric input using a visual slider interface and add a smooth, draggable slider to your forms created with Divi page builder. This is perfect for budget ranges, quantity selection, service levels, rating scales, donation amounts, or custom estimates. Instead of typing numbers manually, visitors can simply slide to their preferred value.
+Collect numeric input using a smooth, draggable slider in your forms created with Divi page builder. This is perfect for budget ranges, quantity selection, service levels, rating scales, donation amounts, or custom estimates. Instead of typing numbers manually, visitors can simply slide to their preferred value.
 
 = Date & Time Picker Field =
 
@@ -73,7 +73,7 @@ Build intelligent calculation logic directly into your Divi form. Automatically 
 
 Enhance standard dropdown menus with a searchable and user-friendly selection interface. This is especially useful when dealing with long option lists such as cities, services, departments, categories, or product names. Visitors can quickly search and select without scrolling endlessly.
 
-These upcoming Pro fields are designed to expand what you can build inside Divi without leaving the builder interface. The goal is not to replace Divi - but to unlock more structured, professional, and interactive form experiences within it.
+[Upgrade to Pro!](https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=upgrade_to_pro)
 
 ### More Divi Extensions & Other Plugins
 
@@ -148,18 +148,14 @@ You will see three main tabs:
 == Frequently Asked Questions ==
 
 = How can I store Divi form entries in the WordPress database? =
-By installing Contact Form Extender for Divi, all form entries submitted through the Divi forms can be saved in your website database. It works as a Divi contact form helper and database solution. So instead of relying only on email notifications, you will have a secure backup of every form entry received through your website.
+To store Divi form entries directly inside your Wordpress database, you have to toggle on the save submission feature from the **WordPress Admin Panel >> Divi >> Contact Form Extender >> Form Elements Tab**.
 
-All saved submissions can be viewed and managed from:
+Once enabled all data entered through Divi contact forms will be securely stored within WordPress.
 
-**WP Admin → Divi → Contact Form Extender → Form Submissions**
-
-This makes it easier to track inquiries, review past communication, and ensure important leads are not lost due to email delivery issues.
+You can view these entries by navigating to: **Divi > Contact Form Extender > Form Submissions**.
 
 = Does it work with the default Divi Builder Contact Form module? =
-Yes. The plugin is designed to extend the native Divi Builder Contact Form module rather than replace it. You can continue building forms inside Divi editor exactly the way you normally would.
-
-The extension simply adds additional capabilities and fields while keeping the same editing workflow, styling controls, and design flexibility provided by Divi.
+Yes. The plugin is designed to extend the native Divi Builder Contact Form module rather than replace it. The extension simply adds additional capabilities and fields while keeping the same editing workflow, styling controls, and design flexibility provided by Divi.
 
 = Can I add a file upload field to Divi Contact Form? =
 Yes. After enabling the File Upload option from the **Form Elements** tab, the upload field becomes available inside the Divi form module.
@@ -179,6 +175,11 @@ Enable the Country Code option from the **Form Elements** tab in the plugin dash
 
 This feature is particularly useful for websites receiving international inquiries, as it helps collect phone numbers in a more consistent and structured format.
 
+= Can I disable specific features if I don’t need them? =
+Yes. You can enable or disable individual features from: **Divi > Contact Form Extender > Form Elements**
+
+Only the enabled fields will appear in the Divi builder.
+
 = Do I need a third-party contact form builder? =
 No. This plugin works directly with the built-in Divi Contact Form module, so there is no need to install a separate form builder plugin.
 
@@ -187,9 +188,7 @@ The goal of the extension is to enhance Divi’s native form system while keepin
 = Where can I view saved form submissions? =
 All form entries submitted through the Divi Contact Form module are stored in the WordPress dashboard. You can access them from:
 
-**Divi → Contact Form Extender → Form Submissions**
-
-From there, administrators can review messages, check uploaded data, and manage inquiries received through the website.
+**Divi > Contact Form Extender > Form Submissions**
 
 = Is this plugin compatible with Divi 5 and Divi 4? =
 
