@@ -53,9 +53,16 @@ class CFEFD_File_Upload_Ajax {
             wp_send_json_error(__('The file token is missing. Please contact the system administrator.', 'contact-form-extender-for-divi-builder'));
         }
         $wp_allowed_mime_types = CFEFD_File_Upload::get_wp_allowed_mime_types();
-        $token = json_decode(CFEFD_File_Upload::encrypt_decrypt($token, 'd'), ARRAY_A);
-        $allowd_filesize = $token['size'] ?? '';
-        $allowd_mimes = isset($token['mimetypes']) ? explode(',', $token['mimetypes']) : [];
+        $decrypted = CFEFD_File_Upload::encrypt_decrypt($token, 'd');
+        if ( false === $decrypted || ! is_string( $decrypted ) ) {
+            wp_send_json_error(__('The file token is invalid or expired. Please refresh the page and try again.', 'contact-form-extender-for-divi-builder'));
+        }
+        $token_payload = json_decode($decrypted, true);
+        if ( ! is_array( $token_payload ) ) {
+            wp_send_json_error(__('The file token is invalid or expired. Please refresh the page and try again.', 'contact-form-extender-for-divi-builder'));
+        }
+        $allowd_filesize = $token_payload['size'] ?? '';
+        $allowd_mimes = isset($token_payload['mimetypes']) ? explode(',', $token_payload['mimetypes']) : [];
         $security_reason_text = __('File {filename} has failed to upload. Sorry, this file type is not permitted for security reasons.', 'contact-form-extender-for-divi-builder');
         $allow_filesize_text = __('File {filename} not uploaded. Maximum file size {allowed_filesize}.', 'contact-form-extender-for-divi-builder');
         // Narrow to only the file entries this uploader creates (numeric keys 0..n),
@@ -160,15 +167,40 @@ class CFEFD_File_Upload_Ajax {
         if (!check_ajax_referer('cfefd-nonce-ajax', '_wpnonce', false)) {
             wp_send_json_error(esc_html__('The security check failed. Please try again. Tip: Hard refresh the page (Ctrl+Shift+R on Windows/Linux or Cmd+Shift+R on Mac).', 'contact-form-extender-for-divi-builder'));
         }
-        $filename = isset($_POST['file_name']) ? sanitize_text_field(wp_unslash($_POST['file_name'])) : null;
-        if (!empty($filename)) {
-            $tmp_path = path_join($this->upload_tmp_dir, $filename);
-            if (et_()->WPFS()->is_file($tmp_path) && et_()->WPFS()->exists($tmp_path)) {
-                wp_delete_file($tmp_path);
-                wp_send_json_success(__('The file has been deleted successfully!', 'contact-form-extender-for-divi-builder'));
-            } else {
-                wp_send_json_error(__('Something went wrong. Please upload file again.', 'contact-form-extender-for-divi-builder'));
-            }
+
+        $filename_raw = isset($_POST['file_name']) ? sanitize_text_field(wp_unslash($_POST['file_name'])) : '';
+        if (empty($filename_raw)) {
+            wp_send_json_error(__('Something went wrong. Please try removing the file again.', 'contact-form-extender-for-divi-builder'));
+        }
+
+        // Reject traversal/absolute paths; only allow a plain filename.
+        $filename = sanitize_file_name(wp_basename($filename_raw));
+        if ('' === $filename || $filename !== $filename_raw) {
+            wp_send_json_error(__('Invalid file removal request.', 'contact-form-extender-for-divi-builder'));
+        }
+
+        $tmp_root = realpath($this->upload_tmp_dir);
+        if (false === $tmp_root) {
+            wp_send_json_error(__('Something went wrong. Please try removing the file again.', 'contact-form-extender-for-divi-builder'));
+        }
+
+        $tmp_path = path_join($this->upload_tmp_dir, $filename);
+        $tmp_real = realpath($tmp_path);
+        if (false === $tmp_real) {
+            wp_send_json_error(__('Something went wrong. Please try removing the file again.', 'contact-form-extender-for-divi-builder'));
+        }
+
+        $tmp_root_normalized = trailingslashit(wp_normalize_path($tmp_root));
+        $tmp_real_normalized = wp_normalize_path($tmp_real);
+        if (0 !== strpos($tmp_real_normalized, $tmp_root_normalized)) {
+            wp_send_json_error(__('Invalid file removal request.', 'contact-form-extender-for-divi-builder'));
+        }
+
+        if (et_()->WPFS()->is_file($tmp_real) && et_()->WPFS()->exists($tmp_real)) {
+            wp_delete_file($tmp_real);
+            wp_send_json_success(__('The file has been deleted successfully!', 'contact-form-extender-for-divi-builder'));
+        } else {
+            wp_send_json_error(__('Something went wrong. Please try removing the file again.', 'contact-form-extender-for-divi-builder'));
         }
     }
 }

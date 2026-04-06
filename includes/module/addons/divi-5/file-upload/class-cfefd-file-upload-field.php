@@ -765,7 +765,7 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
                 'attributes' => [
                     'type' => 'hidden',
                     'name' => $input_id . '_file_token',
-                    'value' => CFEFD_File_Upload_D5::encrypt_decrypt(wp_json_encode($token_data)),
+                    'value' => CFEFD_File_Upload::encrypt_decrypt(wp_json_encode($token_data)),
                 ],
                 'selfClosing' => true,
             ]);
@@ -861,21 +861,6 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
             }
 
             return $allowed_mime_type;
-        }
-
-        public static function encrypt_decrypt($string = '', $encrypt_decrypt = 'e'){
-            $output = null;
-            $secret_key = 'wbtZKk}rohV^Uw7V?+pgtNG++R2@hT3La.A)u*8+MK]-l?pM&,lfs{79SvXu/';
-            $secret_iv = 'w}W<<gj~+$S.TzRZ,=n*P@B{Ma{MnR(0baJ<zU|V7wCvl)&gC@4%+pth_-=|jRJo';
-            $key = hash('sha256', $secret_key);
-            $iv = substr(hash('sha256', $secret_iv), 0, 16);
-            if ($encrypt_decrypt === 'e') {
-                $output = base64_encode(openssl_encrypt($string, "AES-256-CBC", $key, 0, $iv)); // phpcs:ignore
-            } elseif ($encrypt_decrypt === 'd') {
-                $output = openssl_decrypt(base64_decode($string), "AES-256-CBC", $key, 0, $iv); // phpcs:ignore
-            }
-
-            return $output;
         }
 
         /**
