@@ -136,7 +136,7 @@ if(!class_exists('CFEFD_Country_Code_D5')) {
             // Extract basic field info
             $field_id      = $module_attrs['fieldItem']['advanced']['id']['desktop']['value'] ?? 'country_code';
             $field_title   = $module_attrs['fieldItem']['advanced']['title']['desktop']['value'] ?? '';
-            $required_mark = $module_attrs['fieldItem']['advanced']['requiredMark']['desktop']['value'] ?? 'off';
+            $required_mark = $module_attrs['fieldItem']['advanced']['required']['desktop']['value'] ?? 'off';
 
             // Generate unique field ID
             $parts = explode('-', $args['parentId']);
@@ -162,7 +162,7 @@ if(!class_exists('CFEFD_Country_Code_D5')) {
                 $input->setAttribute('data-exclude-countries', esc_attr($exclude_countries));
                 $input->setAttribute('data-dial-code-visibility', esc_attr($dial_code_visibility));
                 $input->setAttribute('data-strict-mode', esc_attr($strict_mode));
-                $input->setAttribute('data-required_mark', $required_mark === 'on' ? 'required' : 'optional');
+                $input->setAttribute('data-required_mark', $required_mark === 'on' ? 'required' : 'not_required');
                 
                 $module_wrapper = $dom->saveHTML();
             } else {
@@ -175,7 +175,7 @@ if(!class_exists('CFEFD_Country_Code_D5')) {
                         'name' => $input_id,
                         'id' => $input_id,
                         'placeholder' => $field_title,
-                        'data-required_mark' => $required_mark === 'on' ? 'required' : 'optional',
+                        'data-required_mark' => $required_mark === 'on' ? 'required' : 'not_required',
                         'data-field_id' => $field_id,
                         'data-cfefd-country-code' => 'on',
                         'data-default-country' => esc_attr($default_country),
