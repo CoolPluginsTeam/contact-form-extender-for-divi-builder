@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	adminToggleButtonsHandler();
 	buttonShakeEffectHandler();
 	handleTermsClick();
+	handleProToggleRedirect();
 });
 
 function handleTermsClick() {
@@ -23,8 +24,7 @@ function handleTermsClick() {
 
 function adminToggleButtonsHandler() {
 	const toggleAll = document.getElementById('cfefd-toggle-all');
-	const elementToggles = document.querySelectorAll('.cfefd-element-toggle');
-
+	const elementToggles = document.querySelectorAll('.cfefd-element-toggle:not([disabled])');
 	/**
 	 * Update the master toggle state based on individual toggles
 	 */
@@ -110,6 +110,20 @@ function buttonShakeEffectHandler() {
 					triggerShake();
 				}
 			});
+		});
+	});
+}
+
+function handleProToggleRedirect() {
+	const proToggles = document.querySelectorAll('.cfefd-toggle-switch.cfefd-pro-toggle');
+
+	proToggles.forEach(toggle => {
+		toggle.addEventListener('click', function (e) {
+			e.preventDefault();
+			const pricingUrl = this.getAttribute('data-pricing-url');
+			if (pricingUrl) {
+				window.open(pricingUrl, '_blank', 'noopener,noreferrer');
+			}
 		});
 	});
 }

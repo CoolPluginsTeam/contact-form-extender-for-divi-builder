@@ -57,6 +57,7 @@ if(!class_exists('CFEFD_Country_Code_D5')) {
                             'lodash',
                             'divi-vendor-wp-hooks',
                             'jquery',
+                            'react'
                         ],
                         'enqueue_top_window' => false,
                         'enqueue_app_window' => true,

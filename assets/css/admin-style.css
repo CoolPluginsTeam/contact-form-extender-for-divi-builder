@@ -492,7 +492,7 @@ a.button-primary.upgrade-pro-btn {
     font-size: 10px;
     text-transform: uppercase;
     color: #fff;
-    background-color: #7C3AED;
+    background-color: #000000;
     padding: 2px 6px;
     border-radius: 4px;
     position: absolute;
@@ -719,15 +719,15 @@ td.cool-formkit-table-td.enable-spam-blocker {
     top: -10px;
     right: 0px;
     transform: translateY(-100%);
-    background: #3f415e;
+    background: #000000;
     color: #fff;
-    padding: 10px;
+    padding: 2px 6px;
     font-size: 12px;
     border-radius: 4px;
     white-space: nowrap;
     display: none;
     z-index: 99;
-    box-shadow: 0 2px 10px rgb(51, 47, 69);
+    box-shadow: 0 2px 10px #2b2323;
 }
 
 .cfefd-form-element-card.cfefd-has-tooltip:hover {
@@ -741,7 +741,15 @@ td.cool-formkit-table-td.enable-spam-blocker {
     right: 15px;
     border-width: 6px;
     border-style: solid;
-    border-color: #3f415e transparent transparent transparent;
+    border-color: #000000 transparent transparent transparent;
+}
+
+.cfefd-toggle-switch.cfefd-pro-toggle {
+    cursor: pointer;
+}
+
+.cfefd-toggle-switch.cfefd-pro-toggle:hover .cfefd-tooltip {
+    display: block;
 }
 
 /* Shake Effect On save buttons*/

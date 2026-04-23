@@ -521,6 +521,7 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
                         'deps'               => [
                             'lodash',
                             'divi-vendor-wp-hooks',
+                            'react'
                         ],
                         'enqueue_top_window' => false,
                         'enqueue_app_window' => true,

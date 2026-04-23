@@ -29,6 +29,39 @@
             $("body").on("click", ".cfefd_delete_file", this.handleFileRemove.bind(this));
             $("body").on("click", ".cfefd_file_upload_button", this.handleUploadButtonClick.bind(this));
             $("body").on("click", ".cfefd_dismiss_error", this.handleErrorDismiss.bind(this));
+
+            jQuery(document).on('click', '.et_pb_contact_submit', function (e) {
+                const $btn = jQuery(this);
+                const $form = $btn.closest('form');
+                let ok = true;
+        
+                $form.find('input.cfefd_contact_hidden_files').each(function () {
+                    const $input = jQuery(this);
+                    let hiddenVal = $input.val()
+                    let $wrap = $input.closest('.et_pb_contact_field').find('.cfefd_files_list')
+
+                    if($input.attr('data-required_mark') === 'not_required'){
+                        return;
+                    }
+        
+                    if (!hiddenVal || hiddenVal.trim() === '') {
+                        ok = false;
+                        $wrap.addClass('et_contact_error');
+                        if ($wrap.siblings('.dcfe-fileupload-error-msg').length === 0) {
+                            jQuery('<span>', { class: 'dcfe-fileupload-error-msg', text: 'Field is required',style:'color:red' }).insertAfter($wrap);
+                        }
+                    } else {
+                        $wrap.removeClass('et_contact_error');
+                        $wrap.siblings('.dcfe-fileupload-error-msg').remove();
+                    }
+                });
+        
+                if (!ok) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    return false;
+                }
+            });
         }
 
         /**
