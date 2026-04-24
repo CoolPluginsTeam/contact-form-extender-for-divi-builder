@@ -135,6 +135,31 @@ if(!class_exists('CFEFD_Admin')) {
         }
 
         /**
+         * Whether the Pro plugin (licensed build) is active.
+         *
+         * @since 1.0.8
+         * @return bool
+         */
+        public static function is_pro_plugin_active() {
+            if ( ! function_exists( 'is_plugin_active' ) ) {
+                require_once ABSPATH . 'wp-admin/includes/plugin.php';
+            }
+
+            $pro_basenames = array(
+                'divi-contact-form-extender/divi-contact-form-extender.php',
+                'cp-divi-contact-form-extender/cp-divi-contact-form-extender.php',
+            );
+
+            foreach ( $pro_basenames as $basename ) {
+                if ( is_plugin_active( $basename ) ) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /**
          * Add a menu item under Settings.
          *
          * @since    1.0.0
@@ -186,6 +211,10 @@ if(!class_exists('CFEFD_Admin')) {
                     <?php } ?>
 
                     <a href="?page=contact-form-extender-for-divi-builder&tab=submissions" class="nav-tab <?php echo $tab == 'submissions' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e('Form Submissions', 'contact-form-extender-for-divi-builder'); ?></a>
+
+                    <?php if ( ! self::is_pro_plugin_active() ) : ?>
+                        <a href="?page=contact-form-extender-for-divi-builder&tab=license" class="nav-tab <?php echo 'license' === $tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e('License', 'contact-form-extender-for-divi-builder'); ?></a>
+                    <?php endif; ?>
                 </h2>
                 <div class="tab-content">
                     <?php
@@ -202,6 +231,13 @@ if(!class_exists('CFEFD_Admin')) {
                             break;
                         case 'submissions':
                             include_once 'views/submissions.php';
+                            break;
+                        case 'license':
+                            if ( self::is_pro_plugin_active() ) {
+                                wp_safe_redirect( admin_url( 'admin.php?page=contact-form-extender-for-divi-builder&tab=form-elements' ) );
+                                exit;
+                            }
+                            include_once 'views/license-promo.php';
                             break;
                     }
                     ?>
@@ -284,7 +320,13 @@ if(!class_exists('CFEFD_Admin')) {
             $page = isset($_GET['page']) ? sanitize_key(wp_unslash($_GET['page'])) : '';
             if (strpos($page, 'contact-form-extender-for-divi-builder') !== false || strpos($page, 'cfefd-entries') !== false){
                 wp_enqueue_style('cfefd-admin-style', CFEFD_PLUGIN_URL . 'assets/css/admin-style.css', array(), $this->version, 'all');
-
+                wp_enqueue_style(
+                    'cfefd-license-promo',
+                    CFEFD_PLUGIN_URL . 'admin/assets/css/cfefd-license-promo.css',
+                    array( 'cfefd-admin-style' ),
+                    $this->version,
+                    'all'
+                );
 
                 wp_enqueue_style('dashicons');
                 wp_enqueue_script('cfefd-admin-script', CFEFD_PLUGIN_URL . 'assets/js/admin-script.js', array('jquery'), $this->version, true);
