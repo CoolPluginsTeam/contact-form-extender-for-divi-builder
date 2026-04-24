@@ -151,7 +151,7 @@ if(!class_exists('CFEFD_Country_Code_D5')) {
             wp_enqueue_style('cfefd-country-code-library-style');
             wp_enqueue_style('cfefd-country-code-field-helper-style');
 
-            $dom = $this->create_dom($module_wrapper);
+            $dom = CFEFD_Utils::create_dom($module_wrapper);
             $xpath = new DOMXPath($dom);
             $inputs = $xpath->query('//input[@type="text"]');
 
@@ -201,20 +201,5 @@ if(!class_exists('CFEFD_Country_Code_D5')) {
             return $module_wrapper;
         }
 
-        protected function create_dom( $html ) {
-            $charset = 'utf-8';
-            $dom = new DOMDocument('1.0', $charset);
-            libxml_use_internal_errors(true);
-            if (function_exists('mb_encode_numericentity')) {
-                $html = mb_encode_numericentity($html, [0x80, 0x10FFFF, 0, 0x1FFFFF], $charset);
-            } elseif (function_exists('mb_convert_encoding')) {
-                $html = mb_convert_encoding($html, 'HTML-ENTITIES', $charset);
-            } else {
-                $html = htmlentities($html, ENT_QUOTES | ENT_SUBSTITUTE, $charset);
-            }
-            $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            libxml_clear_errors();
-            return $dom;
-        }
     }
 }

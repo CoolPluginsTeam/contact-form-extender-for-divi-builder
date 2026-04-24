@@ -315,6 +315,7 @@ class CFEFD_File_Upload_Settings {
     }
 
     public function cfefd_add_fields($fields_unprocessed){
+        $file_mode_conditions = CFEFD_Utils::get_mode_conditions('file', 'input');
 
         $fields_unprocessed['cfefd_use_as_file_upload'] = array(
             'label'           => __( 'Use As File Upload Field', 'contact-form-extender-for-divi-builder' ),
@@ -330,6 +331,7 @@ class CFEFD_File_Upload_Settings {
             'show_if'         => array(
                 'field_type' => 'input',
             ),
+            'show_if_not'     => $file_mode_conditions['show_if_not'],
         );
 
         // 2. Max file size (KB)
@@ -338,7 +340,8 @@ class CFEFD_File_Upload_Settings {
             'type'            => 'text',
             'option_category' => 'basic_option',
             'toggle_slug'     => 'field_options',
-            'show_if'         => array( 'cfefd_use_as_file_upload' => 'on','field_type' => 'input' ),
+            'show_if'         => $file_mode_conditions['show_if'],
+            'show_if_not'     => $file_mode_conditions['show_if_not'],
             'description'     => __( 'Set the maximum allowed upload size (in KB).', 'contact-form-extender-for-divi-builder' ),
         );
 
@@ -348,7 +351,8 @@ class CFEFD_File_Upload_Settings {
             'type'            => 'text',
             'option_category' => 'basic_option',
             'toggle_slug'     => 'field_options',
-            'show_if'         => array( 'cfefd_use_as_file_upload' => 'on','field_type' => 'input' ),
+            'show_if'         => $file_mode_conditions['show_if'],
+            'show_if_not'     => $file_mode_conditions['show_if_not'],
             'description'     => __(
                 'Add multiple values comma (,) separated. Example: jpg, png, pdf, docx.',
                 'contact-form-extender-for-divi-builder'
@@ -361,7 +365,8 @@ class CFEFD_File_Upload_Settings {
             'type'            => 'text',
             'option_category' => 'basic_option',
             'toggle_slug'     => 'field_options',
-            'show_if'         => array( 'cfefd_use_as_file_upload' => 'on','field_type' => 'input' ),
+            'show_if'         => $file_mode_conditions['show_if'],
+            'show_if_not'     => $file_mode_conditions['show_if_not'],
             'description'     => __( 'Set how many files the user can upload.', 'contact-form-extender-for-divi-builder' ),
         );
 
@@ -371,7 +376,8 @@ class CFEFD_File_Upload_Settings {
             'option_category' => 'configuration',
             'options' => [ 'on' => 'Yes', 'off' => 'No' ],
             'default' => 'on',
-            'show_if'         => array( 'cfefd_use_as_file_upload' => 'on','field_type' => 'input' ),
+            'show_if'         => $file_mode_conditions['show_if'],
+            'show_if_not'     => $file_mode_conditions['show_if_not'],
             'toggle_slug' => 'field_options',
         ];
         
@@ -379,11 +385,13 @@ class CFEFD_File_Upload_Settings {
             'label' => __('Button Icon', 'contact-form-extender-for-divi-builder'),
             'type' => 'select_icon',
             'default' => '',
-            'show_if' => array(
-                'cfefd_use_file_button_icon' => 'on',
-                'cfefd_use_as_file_upload' => 'on',
-                'field_type' => 'input'
+            'show_if' => array_merge(
+                $file_mode_conditions['show_if'],
+                array(
+                    'cfefd_use_file_button_icon' => 'on',
+                )
             ),
+            'show_if_not' => $file_mode_conditions['show_if_not'],
             'toggle_slug' => 'field_options',
         ];
 

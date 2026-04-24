@@ -108,6 +108,7 @@ class CFEFD_Loader {
      * @access   private
      */
     private function load_dependencies() {
+        require_once CFEFD_PLUGIN_DIR . 'includes/utils/class-cfefd-utils.php';
         require_once CFEFD_PLUGIN_DIR . 'includes/module/cfefd-addon-loader.php';
         new \CFEFD_Addons_Loader($this->get_plugin_name(), $this->get_version());
 

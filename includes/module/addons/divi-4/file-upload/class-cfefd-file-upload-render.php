@@ -88,7 +88,7 @@ class CFEFD_File_Upload_Render {
 
         $field_id = isset($props['field_id']) ? $props['field_id'] : '';
 
-        $dom = $this->create_dom($output);
+        $dom = CFEFD_Utils::create_dom($output);
         $input = $dom->getElementsByTagName('input');
         $p_tag = $dom->getElementsByTagName('p');
         
@@ -486,22 +486,6 @@ class CFEFD_File_Upload_Render {
             }
         }
         return $color;
-    }
-
-    protected function create_dom( $html ) {
-        $charset = 'utf-8';
-        $dom = new DOMDocument('1.0', $charset);
-        libxml_use_internal_errors(true);
-        if (function_exists('mb_encode_numericentity')) {
-            $html = mb_encode_numericentity($html, [0x80, 0x10FFFF, 0, 0x1FFFFF], $charset);
-        } elseif (function_exists('mb_convert_encoding')) {
-            $html = mb_convert_encoding($html, 'HTML-ENTITIES', $charset);
-        } else {
-            $html = htmlentities($html, ENT_QUOTES | ENT_SUBSTITUTE, $charset);
-        }
-        $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-        libxml_clear_errors();
-        return $dom;
     }
 
     public function process_multiple_mimes_checkboxes_value($data) {

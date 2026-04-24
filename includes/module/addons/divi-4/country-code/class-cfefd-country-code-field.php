@@ -32,6 +32,8 @@ if (!class_exists('CFEFD_Country_Code_Field')) {
         }
 
         public function add_country_code_setting($fields) {
+            $country_mode_conditions = CFEFD_Utils::get_mode_conditions('country', 'input');
+
             $fields['cfefd_use_as_country_code'] = [
                 'label'           => __('Use As Country Code Field', 'contact-form-extender-for-divi-builder'),
                 'type'            => 'yes_no_button',
@@ -46,6 +48,7 @@ if (!class_exists('CFEFD_Country_Code_Field')) {
                 'show_if'         => [
                     'field_type' => 'input',
                 ],
+                'show_if_not'     => $country_mode_conditions['show_if_not'],
             ];
 
             $fields['cfefd_country_code_default'] = [
@@ -60,9 +63,8 @@ if (!class_exists('CFEFD_Country_Code_Field')) {
                     esc_html__( 'in', 'contact-form-extender-for-divi-builder' ),
                     esc_html__( 'for India', 'contact-form-extender-for-divi-builder' )
                 ),
-                'show_if'         => [
-                    'cfefd_use_as_country_code' => 'on',
-                ],
+                'show_if'         => $country_mode_conditions['show_if'],
+                'show_if_not'     => $country_mode_conditions['show_if_not'],
             ];
 
             $fields['cfefd_country_code_include'] = [
@@ -78,9 +80,8 @@ if (!class_exists('CFEFD_Country_Code_Field')) {
                     esc_html__( 'us', 'contact-form-extender-for-divi-builder' ), 
                     esc_html__( 'gb', 'contact-form-extender-for-divi-builder' )
                 ),
-                'show_if'         => [
-                    'cfefd_use_as_country_code' => 'on',
-                ],
+                'show_if'         => $country_mode_conditions['show_if'],
+                'show_if_not'     => $country_mode_conditions['show_if_not'],
             ];
 
             $fields['cfefd_country_code_exclude'] = [
@@ -95,9 +96,8 @@ if (!class_exists('CFEFD_Country_Code_Field')) {
                     esc_html__( 'pk', 'contact-form-extender-for-divi-builder' ),
                     esc_html__( 'Check country codes alpha-2 list here', 'contact-form-extender-for-divi-builder' )
                 ),
-                'show_if'         => [
-                    'cfefd_use_as_country_code' => 'on',
-                ],
+                'show_if'         => $country_mode_conditions['show_if'],
+                'show_if_not'     => $country_mode_conditions['show_if_not'],
             ];
 
             $fields['cfefd_dial_code_visibility'] = [
@@ -111,9 +111,8 @@ if (!class_exists('CFEFD_Country_Code_Field')) {
                 ],
                 'default'         => 'show',
                 'toggle_slug'     => 'field_options',
-                'show_if'         => [
-                    'cfefd_use_as_country_code' => 'on',
-                ],
+                'show_if'         => $country_mode_conditions['show_if'],
+                'show_if_not'     => $country_mode_conditions['show_if_not'],
             ];
 
             $fields['cfefd_strict_mode'] = [
@@ -126,9 +125,8 @@ if (!class_exists('CFEFD_Country_Code_Field')) {
                 ],
                 'default'         => 'off',
                 'toggle_slug'     => 'field_options',
-                'show_if'         => [
-                    'cfefd_use_as_country_code' => 'on',
-                ],
+                'show_if'         => $country_mode_conditions['show_if'],
+                'show_if_not'     => $country_mode_conditions['show_if_not'],
             ];
 
             return $fields;
@@ -163,7 +161,7 @@ if (!class_exists('CFEFD_Country_Code_Field')) {
             wp_enqueue_style('cfefd-country-code-library-style');
             wp_enqueue_style('cfefd-country-code-field-helper-style');
             
-            $dom = $this->create_dom($output);
+            $dom = CFEFD_Utils::create_dom($output);
 
             $xpath = new DOMXPath($dom);
             $inputs = $xpath->query('//input[@type="text"]');
@@ -183,20 +181,5 @@ if (!class_exists('CFEFD_Country_Code_Field')) {
             return $output;
         }
 
-        protected function create_dom( $html ) {
-            $charset = 'utf-8';
-            $dom = new DOMDocument('1.0', $charset);
-            libxml_use_internal_errors(true);
-            if (function_exists('mb_encode_numericentity')) {
-                $html = mb_encode_numericentity($html, [0x80, 0x10FFFF, 0, 0x1FFFFF], $charset);
-            } elseif (function_exists('mb_convert_encoding')) {
-                $html = mb_convert_encoding($html, 'HTML-ENTITIES', $charset);
-            } else {
-                $html = htmlentities($html, ENT_QUOTES | ENT_SUBSTITUTE, $charset);
-            }
-            $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            libxml_clear_errors();
-            return $dom;
-        }
     }
 }
