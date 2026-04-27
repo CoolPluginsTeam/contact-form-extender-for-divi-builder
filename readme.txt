@@ -5,7 +5,7 @@ Tags: divi, form submissions, contact form db, file upload, country code
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.2
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -201,6 +201,10 @@ Yes. Contact Form Extender for Divi is compatible with both **Divi 5** and **Div
 3. Saved Divi Form Submissions in Dashboard
 
 == Changelog ==
+
+= 1.0.9 - Apr 27, 2026 =
+* Improved: Plugin admin dashboard UI.
+* Improved: Module custom fields code.
 
 = 1.0.8 - Apr 13, 2026 =
 * Improved: Country code field with Divi 5.2.1
