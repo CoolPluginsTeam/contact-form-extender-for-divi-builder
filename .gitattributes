@@ -11,3 +11,4 @@ README.md export-ignore
 LICENSE export-ignore
 CHANGELOG.md export-ignore
 .wordpress-org export-ignore
+.distignore    export-ignore
