@@ -20,21 +20,21 @@ $form_elements = array(
         'how_to' => 'https://docs.coolplugins.net/doc/save-divi-contact-form-submissions/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard',
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard/#range-field',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/form-list.svg',
-        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=pricing&utm_content=dashboard#pricing'
+        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_badge#pricing'
     ),
     'file_upload' => array(
         'label' => __('File Upload', 'contact-form-extender-for-divi-builder'),
         'how_to' => 'https://docs.coolplugins.net/doc/divi-form-file-upload-field/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard',
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard/#country-code',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/file-upload.svg',
-        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=pricing&utm_content=dashboard#pricing'
+        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_badge#pricing'
     ),
     'country_code' => array(
         'label' => __('Country Code', 'contact-form-extender-for-divi-builder'),
         'how_to' => 'https://docs.coolplugins.net/doc/country-code-dropdown-divi-form/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard',
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard/#country-code',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/country-code-min.svg',
-        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=pricing&utm_content=dashboard#pricing'
+        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_badge#pricing'
     ),
 
     'range_slider' => array(
@@ -43,7 +43,7 @@ $form_elements = array(
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard/#range-field',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/range-slider-min.svg',
         'pro' => true,
-        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=pricing&utm_content=dashboard#pricing'
+        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_badge#pricing'
     ),
 
     'date_picker' => array(
@@ -52,7 +52,7 @@ $form_elements = array(
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard/#country-code',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/date-min.svg',
         'pro' => true,
-        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=pricing&utm_content=dashboard#pricing'
+        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_badge#pricing'
     ),
 
     'signature' => array(
@@ -61,7 +61,7 @@ $form_elements = array(
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard/#signature-field',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/signature.svg',
         'pro' => true,
-        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=pricing&utm_content=dashboard#pricing'
+        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_badge#pricing'
     ),
     
     'toggle' => array(
@@ -70,7 +70,7 @@ $form_elements = array(
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard/#toggle',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/toggle-field.svg',
         'pro' => true,
-        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=pricing&utm_content=dashboard#pricing'
+        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_badge#pricing'
     ),
 
     'image_radio' => array(
@@ -79,7 +79,7 @@ $form_elements = array(
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard/#range-field',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/image-radio.svg',
         'pro' => true,
-        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=pricing&utm_content=dashboard#pricing'
+        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_badge#pricing'
     ),
 
     'calculator' => array(
@@ -88,7 +88,7 @@ $form_elements = array(
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/calculator-field-min.svg',
         'pro' => true,
-        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=pricing&utm_content=dashboard#pricing'
+        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_badge#pricing'
     ),
 
     'select2' => array(
@@ -97,7 +97,7 @@ $form_elements = array(
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/select2-field-min.svg',
         'pro' => true,
-        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=pricing&utm_content=dashboard#pricing'
+        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_badge#pricing'
     ),
 
     'rating' => array(
@@ -106,7 +106,7 @@ $form_elements = array(
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/rating-field-min.svg',
         'pro' => true,
-        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=pricing&utm_content=dashboard#pricing'
+        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_badge#pricing'
     ),
 
     'currency' => array(
@@ -115,7 +115,7 @@ $form_elements = array(
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/currency-field-min.svg',
         'pro' => true,
-        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=pricing&utm_content=dashboard#pricing'
+        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_badge#pricing'
     ),
 
     'wysiwyg' => array(
@@ -124,7 +124,7 @@ $form_elements = array(
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/WYSIWYG-min.svg',
         'pro' => true,
-        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=pricing&utm_content=dashboard#pricing'
+        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_badge#pricing'
     ),
 
     'confirm_dialog' => array(
@@ -133,7 +133,7 @@ $form_elements = array(
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/dialog-box-min.svg',
         'pro' => true,
-        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=pricing&utm_content=dashboard#pricing'
+        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_badge#pricing'
     ),
 );
 
@@ -191,7 +191,7 @@ $updated_elements = array('');
                         <?php
                             $is_pro_element = !empty($element['pro']);
                             $is_coming_soon = !empty($element['coming_soon']);
-                            $pricing_url    = 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=pricing&utm_content=dashboard#pricing';
+                            $pricing_url    = 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_toggle#pricing';
                         ?>
                         <div class="cfefd-form-element-card">
                             <div class="cfefd-form-element-info">

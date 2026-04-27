@@ -200,7 +200,7 @@ if(!class_exists('CFEFD_Admin')) {
                     </div>
                     <div class="cfefd-header-buttons">
                         <p><?php esc_html_e('Need help? Check the docs.', 'contact-form-extender-for-divi-builder'); ?></p>
-                        <a href="https://docs.coolplugins.net/plugin/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=setting_page_header" class="button button-secondary" target="_blank"><?php esc_html_e('Check Docs', 'contact-form-extender-for-divi-builder'); ?></a>
+                        <a href="https://docs.coolplugins.net/plugin/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard_header" class="button button-secondary" target="_blank"><?php esc_html_e('Check Docs', 'contact-form-extender-for-divi-builder'); ?></a>
                     </div>
                 </div>
                 <h2 class="nav-tab-wrapper">

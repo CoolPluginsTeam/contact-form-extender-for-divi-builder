@@ -1,7 +1,12 @@
 class CFEFD_Global_Helper {
 	constructor() {
-		this.pricingUrl =
-			'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=pricing&utm_content=divi_editor#pricing';
+		// divi 4 editor url with utm_content=divi_editor_4 
+		this.pricingUrlD4 =
+			'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=divi_editor_4#pricing';
+
+		// divi 5 editor url with utm_content=divi_editor_5
+		this.pricingUrlD5 =
+			'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=divi_editor_5#pricing';
 		/** Divi 5: append-only Pro teaser rows (must match real field type values where applicable). */
 		this.d5ProFieldRows = [
 			{ value: 'range', label: 'Range Slider (Pro)' },
@@ -107,7 +112,7 @@ class CFEFD_Global_Helper {
 		}
 		e.preventDefault();
 		e.stopImmediatePropagation();
-		window.open(this.pricingUrl, '_blank', 'noopener,noreferrer');
+		window.open(this.pricingUrlD5, '_blank', 'noopener,noreferrer');
 	}
 
 	addClassOnToggle(e) {
@@ -137,8 +142,8 @@ class CFEFD_Global_Helper {
 
 		const noticeHtml = `
             <div class="cfefd-d4-pro-notice" style="margin: 10px 0 14px; padding: 10px 12px; border-left: 4px solid #326bff; background: #f0f6ff; color: #1d2327; font-size: 12px; line-height: 1.5;">
-                Unlock more advanced fields and settings in Pro.
-                <a href="${this.pricingUrl}" target="_blank" rel="noopener noreferrer" style="margin-left: 4px; font-weight: 600;">View Pricing</a>
+                Unlock more advanced form fields and features.
+                <a href="${this.pricingUrlD4}" target="_blank" rel="noopener noreferrer" style="font-weight: 600;">Learn More</a>
             </div>
         `;
 
