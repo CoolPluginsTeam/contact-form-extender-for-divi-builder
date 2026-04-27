@@ -11,49 +11,42 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $cfefd_pro_pricing_url = 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=license_tab#pricing';
-// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-$cfefd_support_url   = 'https://coolplugins.net/support/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=support&utm_content=license_dashboard';
 ?>
 
 <div class="cfefd-license-layout">
 	<div class="cfefd-license-box">
 		<div class="wrapper-header">
-			<h3><?php esc_html_e( 'Divi Contact Form Extender — Pro licensing', 'contact-form-extender-for-divi-builder' ); ?></h3>
+			<div class="cfefd-license-header-row">
+				<div class="cfefd-title-desc">
+					<h2><?php esc_html_e( 'License Key', 'contact-form-extender-for-divi-builder' ); ?></h2>
+				</div>
+				<div class="cfefd-save-controls">
+					<span><?php esc_html_e( 'Free', 'contact-form-extender-for-divi-builder' ); ?></span>
+					<a class="button button-primary upgrade-pro-btn" target="_blank" rel="noopener noreferrer" href="<?php echo esc_url( $cfefd_pro_pricing_url ); ?>">
+						<img class="crown-diamond-pro" src="<?php echo esc_url(CFEFD_PLUGIN_URL . 'admin/assets/images/crown-diamond-pro.png'); ?>" alt="Contact form extender">
+						<?php esc_html_e( 'Upgrade To Pro', 'contact-form-extender-for-divi-builder' ); ?>
+					</a>
+				</div>
+			</div>
 		</div>
 
 		<div class="wrapper-body">
 			<p class="cfefd-license-promo-intro">
-				<?php esc_html_e( 'Automatic updates and priority support for the full Pro feature set are unlocked with a license in the premium plugin.', 'contact-form-extender-for-divi-builder' ); ?>
+				<?php esc_html_e( 'Your license key provides access to Pro version updates and support.', 'contact-form-extender-for-divi-builder' ); ?>
 			</p>
 
-			<div class="cfefd-license-field">
-				<label for="cfefd-license-key-demo"><?php esc_html_e( 'License key', 'contact-form-extender-for-divi-builder' ); ?></label>
-				<input type="text" id="cfefd-license-key-demo" value="" size="50" placeholder="xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx" disabled="disabled" autocomplete="off" />
-			</div>
-
-			<div class="cfefd-license-field">
-				<label for="cfefd-license-email-demo"><?php esc_html_e( 'Email', 'contact-form-extender-for-divi-builder' ); ?></label>
-				<input type="email" id="cfefd-license-email-demo" value="" size="50" placeholder="<?php echo esc_attr( get_bloginfo( 'admin_email' ) ); ?>" disabled="disabled" autocomplete="off" />
-			</div>
-
-			<p class="cfefd-license-promo-note">
-				<?php esc_html_e( 'After you purchase Pro, install the premium plugin and enter your license key on its License screen to activate updates and support.', 'contact-form-extender-for-divi-builder' ); ?>
+			<p>
+				<?php esc_html_e( "You're using ", 'contact-form-extender-for-divi-builder' ); ?>
+				<strong><?php esc_html_e( 'Contact Form Extender for Divi (Free)', 'contact-form-extender-for-divi-builder' ); ?></strong>
+				<?php esc_html_e( '- no license needed. Enjoy!😊', 'contact-form-extender-for-divi-builder' ); ?>
 			</p>
 
-			<div class="cfefd-license-promo-cta">
-				<a class="button button-primary button-large" href="<?php echo esc_url( $cfefd_pro_pricing_url ); ?>" target="_blank" rel="noopener noreferrer">
-					<?php esc_html_e( 'Get Pro & license', 'contact-form-extender-for-divi-builder' ); ?>
-				</a>
-			</div>
-
-			<p><?php esc_html_e( 'The free plugin does not require a license key.', 'contact-form-extender-for-divi-builder' ); ?></p>
-
-			<div class="cfefd-license-support">
-				<p><?php esc_html_e( 'Already purchased? Manage your license in your Cool Plugins account.', 'contact-form-extender-for-divi-builder' ); ?></p>
-				<div class="cfefd-support-buttons">
-					<a href="https://my.coolplugins.net/account/" class="button button-secondary" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'My account', 'contact-form-extender-for-divi-builder' ); ?></a>
-					<a href="<?php echo esc_url( $cfefd_support_url ); ?>" class="button button-secondary" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Contact support', 'contact-form-extender-for-divi-builder' ); ?></a>
-				</div>
+			<div class="cfefd-license-upgrade-box">
+				<p>
+					<?php esc_html_e( 'To unlock more features, consider ', 'contact-form-extender-for-divi-builder' ); ?>
+					<a href="<?php echo esc_url( $cfefd_pro_pricing_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'upgrading to Pro', 'contact-form-extender-for-divi-builder' ); ?></a>.
+				</p>
+				<em><?php esc_html_e( 'As a valued user, you automatically receive an exclusive discount on the Annual License and an even greater discount on the POPULAR Lifetime License at checkout!', 'contact-form-extender-for-divi-builder' ); ?></em>
 			</div>
 		</div>
 	</div>

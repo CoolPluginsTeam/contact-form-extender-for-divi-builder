@@ -1,26 +1,21 @@
-/* License tab promo — layout mirrors Pro license tab; classes are cfefd-prefixed. */
+/* License promo tab styles for free plugin admin page. */
 .cfefd-license-layout {
 	display: flex;
-	justify-content: center;
-	gap: 20px;
-}
-
-.cfefd-license-side {
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 25px;
 	margin-top: 25px;
-	width: 40%;
 }
 
 .cfefd-license-box {
-	margin: 25px 0;
 	background: #fff;
 	border: 1px solid #ddd;
 	border-radius: 8px;
-	width: 60%;
+	width: 74%;
 	box-shadow: 0 2px 2px rgb(150 150 150 / 12%);
 	display: flex;
 	flex-direction: column;
 	box-sizing: border-box;
-	position: relative;
 	font-family: Inter, Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -29,12 +24,13 @@
 }
 
 .cfefd-license-box .wrapper-header {
-	padding: 1px 20px;
+	padding: 12px 20px;
 	background-color: #326bff;
-	border-radius: 5px 5px 0 0;
+	border-radius: 8px 8px 0 0;
 }
 
-.cfefd-license-box .wrapper-header h3 {
+.cfefd-license-box .wrapper-header h2 {
+	margin: 0;
 	color: #fff;
 }
 
@@ -42,46 +38,60 @@
 	padding: 20px;
 }
 
-.cfefd-license-field {
-	margin-bottom: 15px;
+.cfefd-license-header-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 12px;
 }
 
-.cfefd-license-field label {
-	display: block;
-	font-weight: 700;
-	margin-bottom: 5px;
+.cfefd-license-header-row .cfefd-save-controls {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	color: #fff;
+	font-weight: 600;
 }
 
-.cfefd-license-field input {
-	width: 100%;
-	padding: 10px;
-	border: 1px solid #ddd;
-	border-radius: 6px;
+.cfefd-license-header-row .upgrade-pro-btn {
+	background: #000000;
+	color: white;
+	text-shadow: none;
 }
 
-.cfefd-license-field input[disabled] {
-	background: #f5f5f5;
-	color: #646970;
-	cursor: not-allowed;
+.cfefd-license-header-row .upgrade-pro-btn:hover,
+.cfefd-license-header-row .upgrade-pro-btn:focus {
+	background: #000000;
+	color: white;
 }
 
 .cfefd-license-promo-intro {
 	margin-top: 0;
 }
 
-.cfefd-license-promo-note {
-	color: #646970;
-	font-size: 13px;
-	margin-bottom: 1.25em;
+.cfefd-license-upgrade-box {
+	margin-top: 16px;
+	padding: 14px 16px;
+	border: 1px solid #dbe7ff;
+	background: #f5f9ff;
+	border-radius: 8px;
 }
 
-.cfefd-license-promo-cta {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: 12px;
-	margin-top: 8px;
-	margin-bottom: 4px;
+.cfefd-license-upgrade-box p {
+	margin-top: 0;
+	margin-bottom: 8px;
+}
+
+.cfefd-license-upgrade-box em {
+	display: block;
+	font-size: 13px;
+	color: #4b5563;
+	line-height: 1.45;
+}
+
+.cfefd-license-side {
+	width: 26%;
 }
 
 .cfefd-license-support {
