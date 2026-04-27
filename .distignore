@@ -47,5 +47,6 @@ webpack.config.js
 tsconfig.json
 .vscode
 .cursor
+.claude
 *js.LICENSE.txt
 *.scss
