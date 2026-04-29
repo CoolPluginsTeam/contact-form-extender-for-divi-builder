@@ -37,6 +37,24 @@ $form_elements = array(
         'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_badge#pricing'
     ),
 
+    'country_name' => array(
+        'label' => __('Country', 'divi-contact-form-extender'),
+        'how_to' => 'https://docs.coolplugins.net/doc/country-state-field-divi-contact-form/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard',
+        'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard',
+        'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/country-code.svg',
+        'pro' => true,
+        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_badge#pricing',
+    ),
+    
+    'state_field' => array(
+        'label' => __('State', 'divi-contact-form-extender'),
+        'how_to' => 'https://docs.coolplugins.net/doc/country-state-field-divi-contact-form/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard',
+        'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard',
+        'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/country-state-field.svg',
+        'pro' => true,
+        'pricing_page' => 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard_badge#pricing',
+    ),
+
     'range_slider' => array(
         'label' => __('Range Slider', 'contact-form-extender-for-divi-builder'),
         'how_to' => 'https://docs.coolplugins.net/doc/range-slider-divi-contact-form/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard',

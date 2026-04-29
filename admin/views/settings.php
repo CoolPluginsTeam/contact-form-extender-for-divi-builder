@@ -55,6 +55,44 @@ if (isset($_POST['cfefd_settings_nonce'])) {
             <div class="wrapper-body">
                 <?php wp_nonce_field('cfefd_settings_save', 'cfefd_settings_nonce'); ?>
                 <table class="form-table cool-formkit-table">
+                    <tr>
+                        <th scope="row" class="cool-formkit-table-th">
+                            <label for="cfefd_geo_provider" class="usage-share-data-label">
+                                <?php esc_html_e('Geo-IP provider', 'contact-form-extender-for-divi-builder'); ?>
+                                <a href="https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=settings_page#pricing" target="_blank" rel="noopener noreferrer" class="cfefd-pro-badge">
+                                    <span>(PRO)</span>
+                                </a>
+                            </label>
+                        </th>
+                        <td class="cool-formkit-table-td">
+                            <select id="cfefd_geo_provider" class="regular-text cool-formkit-input" disabled="disabled">
+                                <option value="ipapi"><?php esc_html_e('ipapi.co', 'contact-form-extender-for-divi-builder'); ?></option>
+                                <option value="ipstack"><?php esc_html_e('ipstack.com', 'contact-form-extender-for-divi-builder'); ?></option>
+                                <option value="ipinfo"><?php esc_html_e('ipinfo.io', 'contact-form-extender-for-divi-builder'); ?></option>
+                                <option value="geojs"><?php esc_html_e('geojs.io', 'contact-form-extender-for-divi-builder'); ?></option>
+                                <option value="ip-api"><?php esc_html_e('ip-api.com', 'contact-form-extender-for-divi-builder'); ?></option>
+                            </select>
+                            <p class="description cool-formkit-description">
+                                <?php esc_html_e('Upgrade to Pro to select Geo-IP provider for auto-detect country.', 'contact-form-extender-for-divi-builder'); ?>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="cool-formkit-table-th">
+                            <label for="cfefd_geo_api_key" class="usage-share-data-label">
+                                <?php esc_html_e('Geo-IP API key', 'contact-form-extender-for-divi-builder'); ?>
+                                <a href="https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=settings_page#pricing" target="_blank" rel="noopener noreferrer" class="cfefd-pro-badge">
+                                    <span>(PRO)</span>
+                                </a>
+                            </label>
+                        </th>
+                        <td class="cool-formkit-table-td">
+                            <input type="text" id="cfefd_geo_api_key" class="regular-text cool-formkit-input" value="" disabled="disabled" placeholder="<?php esc_attr_e('Available in Pro version', 'contact-form-extender-for-divi-builder'); ?>" />
+                            <p class="description cool-formkit-description">
+                                <?php esc_html_e('Upgrade to Pro to add API keys for country auto-detection providers.', 'contact-form-extender-for-divi-builder'); ?>
+                            </p>
+                        </td>
+                    </tr>
                     <?php // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound ?>
                     <?php $cpfm_opt_in = get_option('cpfm_opt_in_choice_divi_cool_forms','');
                         if (true) {

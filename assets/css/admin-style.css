@@ -273,6 +273,12 @@ input:checked+.cfefd-slider::before {
     background-color: #3f415e;
 }
 
+a.cfefd-pro-badge{
+    color: red !important;
+    font-style: italic;
+    text-decoration: unset;
+}
+
 .cfefd-wrapper {
     margin: 0 0 0 -20px;
     padding: 0;
