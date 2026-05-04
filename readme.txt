@@ -5,29 +5,29 @@ Tags: divi, form submissions, contact form db, file upload, country code
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.2
-Stable tag: 1.0.9
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Extend Divi Contact Form module with file upload field, country code dropdown and save Divi form submissions in the database.
+Extend Divi Contact Form module with file upload field, country code dropdown, and save Divi form submissions in the database. Pro adds advanced fields such as Range Slider, Date picker, Signature, Toggle, Image Radio, and more.
 
 == Description ==
 
 ### Divi Contact Form Extender
 
-**[Contact Form Extender for Divi](https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=top_description)** is a must-use Divi extension that enhances the native contact form module with useful fields and features like **file upload field**, **country code dropdown**, and more. It also works as a Divi Contact Form DB solution that securely stores Divi form submissions inside your WordPress database.
+**[Contact Form Extender for Divi](https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=top_description)** is a must-use Divi extension that enhances the native contact form module with useful fields and features like **file upload**, **country code dropdown**, and more. It also works as a Divi Contact Form DB solution that securely stores Divi form submissions inside your WordPress database. Advanced fields (Signature, Toggle, and Image Radio) are available in **[Pro version](https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=top_pro_link#pricing)**.
 
 As a Divi theme user, you may already know that the default form module sends email notifications but does not keep a backup of entries inside the dashboard. This plugin improves form management and lead handling by saving submissions in the admin area and extending the built-in module without replacing it or requiring a separate form builder plugin.
 
 ### Features of Divi Form Extender
 
-* **Save Form Entries in Database:**  
+* **[Save Form Entries in Database](https://docs.coolplugins.net/doc/save-divi-contact-form-submissions/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=features_save)**  
 Automatically store every form entry directly inside your WordPress admin panel, giving you full control over incoming inquiries. Instead of depending only on email notifications, you can review, search, and manage submissions from a centralized location. This is especially useful for tracking leads, monitoring customer inquiries, verifying message history, and maintaining records for compliance or internal reporting. All entries are securely saved within your website’s database, ensuring that important communication data remains accessible even if email delivery fails.
 
-* **File Upload Field for Divi Forms:**  
+* **[File Upload Field for Divi Forms](https://docs.coolplugins.net/doc/divi-form-file-upload-field/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=features_file_upload)**  
 Enhance your forms by allowing visitors to attach files along with their submissions. This feature is ideal for job applications, support requests, project briefs, design assets, quotations, and document submissions. Uploaded files are handled through WordPress’s native media handling system, ensuring compatibility with standard hosting environments. You can control file types and size limits based on your server configuration, providing both flexibility and security. This makes your forms more dynamic and suitable for professional use cases.
 
-* **Country Code Selector for Phone Field:**  
+* **[Country Code Selector for Phone Field](https://docs.coolplugins.net/doc/country-code-dropdown-divi-form/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=features_country_code)**  
 Improve the accuracy and consistency of phone number collection by enabling an international country code selector. This feature is particularly valuable for websites serving global audiences. By separating the country code from the main phone number input, you reduce formatting errors and make it easier to manage international inquiries. The dropdown enhances user experience by simplifying the input process while helping administrators receive properly structured contact information.
 
 * **Clean Dashboard Interface:**
@@ -43,37 +43,59 @@ Built with performance and stability in mind, this extension integrates smoothly
 
 ### [Pro Version with Advanced Fields](https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=pro_version#pricing)
 
-The Pro version of Contact Form Extender for Divi provides powerful set of advanced input fields and features designed to transform the standard Divi builder forms into a more interactive and flexible form system.
+**[Pro version](https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=upgrade_to_pro)** adds advanced input fields to the Divi Contact Form module. After upgrading, enable each field under **Divi → Contact Form Extender → Form Elements**, then add it inside the Contact Form module in the builder. Each heading below links to documentation for that field.
 
-= Range Slider Field =
-
-Collect numeric input using a smooth, draggable slider in your forms created with Divi page builder. This is perfect for budget ranges, quantity selection, service levels, rating scales, donation amounts, or custom estimates. Instead of typing numbers manually, visitors can simply slide to their preferred value.
-
-= Date & Time Picker Field =
-
-Allow users to choose dates and time slots directly from a structured picker interface inside your Divi form. Ideal for appointment requests, meeting scheduling, delivery slots, consultation bookings, or event registrations. It prevents formatting mistakes and ensures you receive properly structured date information every time.
-
-= Signature Field =
+### [Signature Field](https://docs.coolplugins.net/doc/divi-contact-form-signature-field/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=signature_field)
 
 Collect handwritten digital signatures directly within the Divi form. This is useful for consent forms, service agreements, policy acceptance, waivers, approvals, or confirmation requests. It adds a professional touch when you need acknowledgment from users without using external tools.
 
-= Toggle Field =
+### [Toggle Field](https://docs.coolplugins.net/doc/toggle-field-divi-form/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=toggle_field)
 
 Replace traditional checkboxes with a clean on/off switch inside your Divi form. Toggle fields are perfect for enabling optional add-ons, confirming agreements, activating services, or selecting preferences. The interface feels simple and modern while keeping the form layout clean.
 
-= Image Radio Field (Coming Soon) =
+### [Image Radio Field](https://docs.coolplugins.net/doc/image-radio-divi-contact-form/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=image_radio_field)
 
 Let users select options using images instead of plain text. This works beautifully for product choices, design layouts, package selection, branding styles, or visual preferences. Inside Divi, this makes your form feel more interactive and visually engaging rather than purely text-based.
 
-= Calculator Field (Coming Soon) =
+### [Country Field](https://docs.coolplugins.net/doc/country-state-field-divi-contact-form/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=country_field)
+
+Add a dedicated country selector to your form so addresses and regional data stay standardized. Works well with shipping, registration, and lead forms that need a clear country value.
+
+### [State Field](https://docs.coolplugins.net/doc/country-state-field-divi-contact-form/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=state_field)
+
+The State field works alongside the Country field to display and select the relevant state or province based on the selected country. This ensures accurate and structured location data, making it easier to manage regional settings, routing, and data organization.
+
+### [Range Slider Field](https://docs.coolplugins.net/doc/range-slider-divi-contact-form/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=range_slider_field)
+
+Collect numeric input using a smooth, draggable slider in your forms created with Divi page builder. This is perfect for budget ranges, quantity selection, service levels, rating scales, donation amounts, or custom estimates. Instead of typing numbers manually, visitors can simply slide to their preferred value.
+
+### [Date & Time Picker Field](https://docs.coolplugins.net/doc/divi-contact-form-date-picker-field/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=date_picker_field)
+
+Allow users to choose dates and time slots directly from a structured picker interface inside your Divi form. Ideal for appointment requests, meeting scheduling, delivery slots, consultation bookings, or event registrations. It prevents formatting mistakes and ensures you receive properly structured date information every time.
+
+### [Calculator Field](https://docs.coolplugins.net/doc/divi-contact-form-calculator-field/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=calculator_field)
 
 Build intelligent calculation logic directly into your Divi form. Automatically calculate totals based on user selections such as quantity, service type, duration, or pricing models. Ideal for quotation forms, cost estimators, service configuration tools, or custom order requests. The results update dynamically, providing instant feedback to users.
 
-= Select2 Dropdown Field (Coming Soon) =
+### [Select2 Dropdown Field](https://docs.coolplugins.net/doc/divi-contact-form-select-field/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=select2_field)
 
 Enhance standard dropdown menus with a searchable and user-friendly selection interface. This is especially useful when dealing with long option lists such as cities, services, departments, categories, or product names. Visitors can quickly search and select without scrolling endlessly.
 
-[Upgrade to Pro!](https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=upgrade_to_pro)
+### [Rating Field](https://docs.coolplugins.net/doc/divi-contact-form-rating-field/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=rating_field)
+
+Let visitors rate an experience, product, or service using a clear star or icon-based control. Ideal for feedback forms, reviews, support satisfaction, and quick sentiment checks without asking for long written answers.
+
+### [Currency Field](https://docs.coolplugins.net/doc/divi-contact-form-currency-field/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=currency_field)
+
+Collect monetary amounts with a structured currency input so values stay consistent for quotes, deposits, donations, or budget inquiries. Helps reduce ambiguity compared to a plain text field.
+
+### [WYSIWYG Field](https://docs.coolplugins.net/doc/divi-contact-form-wysiwyg-field/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=wysiwyg_editor_field)
+
+Offer a rich text area with basic formatting so users can emphasize lists, links, or short structured content—useful for detailed messages, briefs, or instructions while keeping input inside the Divi form.
+
+### [Confirm Dialog Field](https://docs.coolplugins.net/doc/divi-contact-form-confirm-dialog-box/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=confirm_dialog)
+
+Show a confirmation step before the form is submitted so visitors explicitly agree to terms, pricing, or important actions. Reduces accidental submissions and supports consent-style workflows.
 
 ### More Divi Extensions & Other Plugins
 
@@ -122,9 +144,9 @@ You will see three main tabs:
 = 3. Enable Form Elements =
 
 - Open the **Form Elements** tab.
-- Enable or disable available fields and features like:
-  - File Upload Field
-  - Country Code Dropdown
+- Enable or disable available fields and features, for example:
+  - Save Submission, File Upload, Country Code (free plugin)
+  - With **[Pro version](https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=installation_setup#pricing)** active: additional fields such as Range Slider, Date picker, Signature, Toggle, Image Radio, Calculator, Select2, Rating, Currency, WYSIWYG, Confirm Dialog, Country, State, and more.
 - Only enabled elements will be available inside the Divi form builder module while building forms.
 
 = 4. Configure Plugin Settings =
@@ -192,7 +214,7 @@ All form entries submitted through the Divi Contact Form module are stored in th
 
 = Is this plugin compatible with Divi 5 and Divi 4? =
 
-Yes. Contact Form Extender for Divi is compatible with both **Divi 5** and **Divi 4**. The plugin extends the native Divi Contact Form module. Whether your website is running the latest Divi 5 release or an existing Divi 4 setup, it works seamlessly in both environments. You can use this plugin to add features like file upload fields, country code dropdowns, and form submission storage without affecting your current design workflow.
+Yes. Contact Form Extender for Divi is compatible with both **Divi 5** and **Divi 4**. The plugin extends the native Divi Contact Form module. Whether your website is running the latest Divi 5 release or an existing Divi 4 setup, it works seamlessly in both environments. The free plugin adds features like file upload, country code, and form submission storage; Pro version adds advanced fields (for example Range Slider, Date picker, Signature, Toggle, and Image Radio) without affecting your current design workflow.
 
 == Screenshots ==
 
@@ -201,6 +223,10 @@ Yes. Contact Form Extender for Divi is compatible with both **Divi 5** and **Div
 3. Saved Divi Form Submissions in Dashboard
 
 == Changelog ==
+
+= 1.1.0 - May 04, 2026 =
+* Tested compatibility with Divi Theme v5.4.0
+* Updated plugin readme.
 
 = 1.0.9 - Apr 27, 2026 =
 * Improved: Plugin admin dashboard UI.

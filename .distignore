@@ -6,7 +6,7 @@
 .eslintignore
 .eslintrc
 .git
-.github
+.github/
 .gitattributes
 .gitignore
 .gitlab-ci.yml
@@ -47,6 +47,6 @@ webpack.config.js
 tsconfig.json
 .vscode
 .cursor
-.claude
+.claude/
 *js.LICENSE.txt
 *.scss
