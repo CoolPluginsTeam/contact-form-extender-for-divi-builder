@@ -96,7 +96,7 @@ if (isset($_POST['cfefd_settings_nonce'])) {
                     <?php 
                             // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
                             $check_option =  get_option( 'cfef_usage_share_data','');
-                            if($check_option == 'on'){
+                            if($check_option === 'on'){
                                 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
                                 $checked = 'checked';
                             }else{
