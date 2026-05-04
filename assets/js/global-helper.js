@@ -9,6 +9,8 @@ class CFEFD_Global_Helper {
 			'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=divi_editor_5#pricing';
 		/** Divi 5: append-only Pro teaser rows (must match real field type values where applicable). */
 		this.d5ProFieldRows = [
+			{ value: 'country', label: 'Country (Pro)' },
+			{ value: 'state', label: 'State (Pro)' },
 			{ value: 'range', label: 'Range Slider (Pro)' },
 			{ value: 'date_picker', label: 'Date Picker (Pro)' },
 			{ value: 'signature', label: 'Signature (Pro)' },

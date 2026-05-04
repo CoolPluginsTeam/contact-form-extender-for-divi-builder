@@ -5,7 +5,7 @@ Tags: divi, form submissions, contact form db, file upload, country code
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.2
-Stable tag: 1.0.9
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,14 @@ Replace traditional checkboxes with a clean on/off switch inside your Divi form.
 
 Let users select options using images instead of plain text. This works beautifully for product choices, design layouts, package selection, branding styles, or visual preferences. Inside Divi, this makes your form feel more interactive and visually engaging rather than purely text-based.
 
+### [Country Field](https://docs.coolplugins.net/doc/country-state-field-divi-contact-form/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=country_field)
+
+Add a dedicated country selector to your form so addresses and regional data stay standardized. Works well with shipping, registration, and lead forms that need a clear country value.
+
+### [State Field](https://docs.coolplugins.net/doc/country-state-field-divi-contact-form/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=state_field)
+
+The State field works alongside the Country field to display and select the relevant state or province based on the selected country. This ensures accurate and structured location data, making it easier to manage regional settings, routing, and data organization.
+
 ### [Range Slider Field](https://docs.coolplugins.net/doc/range-slider-divi-contact-form/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=range_slider_field)
 
 Collect numeric input using a smooth, draggable slider in your forms created with Divi page builder. This is perfect for budget ranges, quantity selection, service levels, rating scales, donation amounts, or custom estimates. Instead of typing numbers manually, visitors can simply slide to their preferred value.
@@ -88,14 +96,6 @@ Offer a rich text area with basic formatting so users can emphasize lists, links
 ### [Confirm Dialog Field](https://docs.coolplugins.net/doc/divi-contact-form-confirm-dialog-box/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=confirm_dialog)
 
 Show a confirmation step before the form is submitted so visitors explicitly agree to terms, pricing, or important actions. Reduces accidental submissions and supports consent-style workflows.
-
-### [Country Field](https://docs.coolplugins.net/doc/country-state-field-divi-contact-form/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=country_field)
-
-Add a dedicated country selector to your form so addresses and regional data stay standardized. Works well with shipping, registration, and lead forms that need a clear country value.
-
-### [State Field](https://docs.coolplugins.net/doc/country-state-field-divi-contact-form/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=state_field)
-
-The State field works alongside the Country field to display and select the relevant state or province based on the selected country. This ensures accurate and structured location data, making it easier to manage regional settings, routing, and data organization.
 
 ### More Divi Extensions & Other Plugins
 
@@ -223,6 +223,10 @@ Yes. Contact Form Extender for Divi is compatible with both **Divi 5** and **Div
 3. Saved Divi Form Submissions in Dashboard
 
 == Changelog ==
+
+= 1.1.0 - May 04, 2026 =
+* Tested compatibility with Divi Theme v5.4.0
+* Updated plugin readme.
 
 = 1.0.9 - Apr 27, 2026 =
 * Improved: Plugin admin dashboard UI.

@@ -38,7 +38,7 @@ $form_elements = array(
     ),
 
     'country_name' => array(
-        'label' => __('Country', 'divi-contact-form-extender'),
+        'label' => __('Country', 'contact-form-extender-for-divi-builder'),
         'how_to' => 'https://docs.coolplugins.net/doc/country-state-field-divi-contact-form/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard',
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/country-code.svg',
@@ -47,7 +47,7 @@ $form_elements = array(
     ),
     
     'state_field' => array(
-        'label' => __('State', 'divi-contact-form-extender'),
+        'label' => __('State', 'contact-form-extender-for-divi-builder'),
         'how_to' => 'https://docs.coolplugins.net/doc/country-state-field-divi-contact-form/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard',
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/country-state-field.svg',

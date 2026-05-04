@@ -93,18 +93,16 @@ if (isset($_POST['cfefd_settings_nonce'])) {
                             </p>
                         </td>
                     </tr>
-                    <?php // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound ?>
-                    <?php $cpfm_opt_in = get_option('cpfm_opt_in_choice_divi_cool_forms','');
-                        if (true) {
+                    <?php 
                             // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
                             $check_option =  get_option( 'cfef_usage_share_data','');
-                                if($check_option == 'on'){
-                                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-                                    $checked = 'checked';
-                                }else{
-                                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-                                    $checked = '';
-                                }        
+                            if($check_option == 'on'){
+                                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+                                $checked = 'checked';
+                            }else{
+                                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+                                $checked = '';
+                            }        
                                 ?>    
                                 <tr>
                                     <th scope="row" class="cool-formkit-table-th">
@@ -133,8 +131,6 @@ if (isset($_POST['cfefd_settings_nonce'])) {
                                         </div>
                                     </td>
                                 </tr>
-                    <?php
-                     }?>
                 </table>
 
                 <div class="cool-formkit-submit">

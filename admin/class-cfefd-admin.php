@@ -180,7 +180,6 @@ if(!class_exists('CFEFD_Admin')) {
          * @since    1.0.0
          */
         public function display_plugin_admin_page() {
-            $choice_option = get_option("cpfm_opt_in_choice_divi_cool_forms");
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not required for read-only tab switching.
             $tab = isset($_GET['tab']) ? sanitize_key(wp_unslash($_GET['tab'])) : 'form-elements';
             ?>
@@ -204,11 +203,11 @@ if(!class_exists('CFEFD_Admin')) {
                     </div>
                 </div>
                 <h2 class="nav-tab-wrapper">
-                    <a href="?page=contact-form-extender-for-divi-builder&tab=form-elements" class="nav-tab <?php echo $tab == 'form-elements' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e('Form Elements', 'contact-form-extender-for-divi-builder'); ?></a>
+                    <a href="?page=contact-form-extender-for-divi-builder&tab=form-elements" class="nav-tab <?php echo $tab === 'form-elements' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e('Form Elements', 'contact-form-extender-for-divi-builder'); ?></a>
 
-                    <a href="?page=contact-form-extender-for-divi-builder&tab=settings" class="nav-tab <?php echo $tab == 'settings' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e('Settings', 'contact-form-extender-for-divi-builder'); ?></a>
+                    <a href="?page=contact-form-extender-for-divi-builder&tab=settings" class="nav-tab <?php echo $tab === 'settings' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e('Settings', 'contact-form-extender-for-divi-builder'); ?></a>
 
-                    <a href="?page=contact-form-extender-for-divi-builder&tab=submissions" class="nav-tab <?php echo $tab == 'submissions' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e('Form Submissions', 'contact-form-extender-for-divi-builder'); ?></a>
+                    <a href="?page=contact-form-extender-for-divi-builder&tab=submissions" class="nav-tab <?php echo $tab === 'submissions' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e('Form Submissions', 'contact-form-extender-for-divi-builder'); ?></a>
 
                     <?php if ( ! self::is_pro_plugin_active() ) : ?>
                         <a href="?page=contact-form-extender-for-divi-builder&tab=license" class="nav-tab <?php echo 'license' === $tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e('License', 'contact-form-extender-for-divi-builder'); ?></a>
