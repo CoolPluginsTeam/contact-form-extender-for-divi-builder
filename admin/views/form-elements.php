@@ -93,7 +93,7 @@ $form_elements = array(
 
     'image_radio' => array(
         'label' => __('Image Radio', 'contact-form-extender-for-divi-builder'),
-        'how_to' => 'docs.coolplugins.net/doc/image-radio-divi-contact-form/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard',
+        'how_to' => 'https://docs.coolplugins.net/doc/image-radio-divi-contact-form/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard',
         'demo' => 'https://coolplugins.net/cool-formkit-for-elementor-forms/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard/#range-field',
         'icon' => CFEFD_PLUGIN_URL . 'admin/assets/icons/image-radio.svg',
         'pro' => true,
