@@ -37,5 +37,5 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           settings: .claude/settings.json
           claude_args: |
-            --model claude-opus-4-6
+            --model ${{ secrets.CUSTOM_CLAUDE_MODEL }}
             --append-system-prompt-file .claude/custom-prompt.txt
