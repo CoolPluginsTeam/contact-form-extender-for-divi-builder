@@ -93,7 +93,7 @@ Collect monetary amounts with a structured currency input so values stay consist
 
 Offer a rich text area with basic formatting so users can emphasize lists, links, or short structured content—useful for detailed messages, briefs, or instructions while keeping input inside the Divi form.
 
-### [Confirm Dialog Field](https://docs.coolplugins.net/doc/divi-contact-form-confirm-dialog-box/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=confirm_dialog)
+### [Confirm Dialog Box](https://docs.coolplugins.net/doc/divi-contact-form-confirm-dialog-box/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=confirm_dialog)
 
 Show a confirmation step before the form is submitted so visitors explicitly agree to terms, pricing, or important actions. Reduces accidental submissions and supports consent-style workflows.
 
