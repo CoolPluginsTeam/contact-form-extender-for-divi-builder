@@ -869,9 +869,13 @@ td.cool-formkit-table-td.enable-spam-blocker {
         margin: 0px;
     }
 
+    .cfefd-wrapper{
+        margin-top: 100px;
+    }
     .cfefd-header {
         flex-wrap: wrap;
         height: auto;
+        top: 46px;
     }
 
     .cfefd-header .cfefd-header-buttons {
@@ -910,5 +914,10 @@ td.cool-formkit-table-td.enable-spam-blocker {
     .cfefd-review-request {
         flex-wrap: wrap;
         gap: 15px;
+    }
+
+    .usage-share-data #cfef_usage_share_data{
+        width: 55px;
+        height: 25px;
     }
 }
