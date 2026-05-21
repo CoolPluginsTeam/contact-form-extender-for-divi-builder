@@ -55,7 +55,7 @@ class CFEFD_Submissions_Handler {
 		if ( '' !== $et_pb_contact_num ) {
 			// Raw JSON from POST; decoded values are validated and sanitized below (field_id, field_label, etc.).
 			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitization applied to decoded array elements.
-			$visible_fields_json = isset( $_POST[ "et_pb_contact_email_fields_{$et_pb_contact_num}" ] ) ? wp_unslash( $_POST[ "et_pb_contact_email_fields_{$et_pb_contact_num}" ] ) : '';
+			$visible_fields_json = isset( $_POST[ "et_pb_contact_email_fields_{$et_pb_contact_num}" ] ) ? sanitize_text_field( wp_unslash( $_POST[ "et_pb_contact_email_fields_{$et_pb_contact_num}" ] ) ) : '';
 			if ( ! empty( $visible_fields_json ) ) {
 				$visible_fields = json_decode( str_replace( '\\', '', $visible_fields_json ), true );
 				if ( is_array( $visible_fields ) ) {
@@ -63,10 +63,11 @@ class CFEFD_Submissions_Handler {
 						if ( ! is_array( $field ) || empty( $field['field_id'] ) ) {
 							continue;
 						}
-						$field_id = sanitize_key( $field['field_id'] );
-						if ( '' === $field_id ) {
+						$field_id = preg_replace('/[^A-Za-z0-9_-]/', '', $field['field_id']);
+						if (empty($field_id)) {
 							continue;
 						}
+						
 						$field_definitions[ $field_id ] = [
 							'field_id'     => $field_id,
 							'field_label'  => isset( $field['field_label'] ) ? sanitize_text_field( $field['field_label'] ) : $field_id,
@@ -80,7 +81,7 @@ class CFEFD_Submissions_Handler {
 			// Extract hidden fields from $_POST. Decoded JSON is validated and sanitized.
 			// Raw JSON from POST; decoded values are validated and sanitized below (hidden_field, meta_array keys).
 			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitization applied to decoded array elements.
-			$hidden_fields_json = isset( $_POST[ "et_pb_contact_email_hidden_fields_{$et_pb_contact_num}" ] ) ? wp_unslash( $_POST[ "et_pb_contact_email_hidden_fields_{$et_pb_contact_num}" ] ) : '';
+			$hidden_fields_json = isset( $_POST[ "et_pb_contact_email_hidden_fields_{$et_pb_contact_num}" ] ) ? sanitize_text_field( wp_unslash( $_POST[ "et_pb_contact_email_hidden_fields_{$et_pb_contact_num}" ] ) ) : '';
 			if ( ! empty( $hidden_fields_json ) ) {
 				$hidden_fields = json_decode( str_replace( '\\', '', $hidden_fields_json ), true );
 				if ( is_array( $hidden_fields ) ) {
@@ -91,6 +92,7 @@ class CFEFD_Submissions_Handler {
 						}
 						$meta_field_id = "et_pb_contact_{$hidden_field}_{$et_pb_contact_num}_cond_meta";
 						$cond_meta     = isset( $_POST[ $meta_field_id ] ) ? sanitize_text_field( wp_unslash( $_POST[ $meta_field_id ] ) ) : '';
+						// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 						$meta_array    = is_string( $cond_meta ) ? json_decode( base64_decode( $cond_meta, true ), true ) : null;
 						$cond_field_title = ( is_array( $meta_array ) && isset( $meta_array['title'] ) ) ? sanitize_text_field( $meta_array['title'] ) : '';
 						$cond_field_type  = ( is_array( $meta_array ) && isset( $meta_array['type'] ) ) ? sanitize_key( $meta_array['type'] ) : '';
@@ -138,7 +140,7 @@ class CFEFD_Submissions_Handler {
 			$form_data[ $field_id ] = [
 				'id' => $original_id,
 				'label' => $field_label,
-				'value' => stripslashes( $field_value ),
+				'value' => $field_value,
 				'type' => $field_type,
 			];
 		}

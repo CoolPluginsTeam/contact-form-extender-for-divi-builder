@@ -35,13 +35,13 @@ class CFEFD_Submissions_Handler_D5 {
 		}
 
 		// Extract form info
-		$form_id    = $contact_form_info['contact_form_id'] ?? 'unknown';
-		$unique_id  = $contact_form_info['contact_form_unique_id'] ?? '';
+		$form_id   = isset( $contact_form_info['contact_form_id'] ) ? sanitize_text_field( (string) $contact_form_info['contact_form_id'] ) : 'unknown';
+		$unique_id = isset( $contact_form_info['contact_form_unique_id'] ) ? $this->sanitize_nonce_identifier( $contact_form_info['contact_form_unique_id'] ) : '';
 		
 		// Attempt to extract the unique ID from the form ID as per the default pattern
 		// This was the logic that the user confirmed was working before
 		if ( preg_match( '/et_pb_contact_form_(.+)$/', $form_id, $matches ) ) {
-			$unique_id = $matches[1];
+			$unique_id = $this->sanitize_nonce_identifier( $matches[1] );
 		}
 
 		$nonce_key = '_wpnonce-et-pb-contact-form-submitted-' . $unique_id;
@@ -70,16 +70,34 @@ class CFEFD_Submissions_Handler_D5 {
 			$id    = $field['id'] ?? $field_key;
 			$label = $field['label'] ?? $field_key;
 
-			if ( 'email' === $type && is_email( $value ) ) {
+			$field_key_sanitized = sanitize_key( (string) $field_key );
+			if ( '' === $field_key_sanitized ) {
+				$field_key_sanitized = 'field_' . count( $form_data );
+			}
+
+			$id_sanitized = sanitize_key( (string) $id );
+			if ( '' === $id_sanitized ) {
+				$id_sanitized = $field_key_sanitized;
+			}
+
+			$label_sanitized = sanitize_text_field( (string) $label );
+			$type_sanitized  = sanitize_key( (string) $type );
+			if ( '' === $type_sanitized ) {
+				$type_sanitized = 'input';
+			}
+
+			$value = $this->sanitize_submission_value( $value, $type_sanitized );
+
+			if ( 'email' === $type_sanitized && is_email( $value ) ) {
 				$sender_email = $value;
 			}
 
 			// === SAME DATA STRUCTURE AS DIVI 4 ===
-			$form_data[ $field_key ] = [
-				'id'    => $id,
-				'label' => $label,
-				'value' => stripslashes( $value ),
-				'type'  => $type,
+			$form_data[ $field_key_sanitized ] = [
+				'id'    => $id_sanitized,
+				'label' => $label_sanitized,
+				'value' => $value,
+				'type'  => $type_sanitized,
 			];
 		}
 
@@ -158,5 +176,44 @@ class CFEFD_Submissions_Handler_D5 {
 			return sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
 		}
 		return '';
+	}
+
+	/**
+	 * Sanitize the form nonce identifier while preserving Divi's expected suffix shape.
+	 *
+	 * @param mixed $identifier Identifier used in nonce field/action names.
+	 * @return string
+	 */
+	private function sanitize_nonce_identifier( $identifier ) {
+		return preg_replace( '/[^A-Za-z0-9_-]/', '', (string) $identifier );
+	}
+
+	/**
+	 * Sanitize a submission field value before storing it in post meta.
+	 *
+	 * @param mixed  $value Submission value.
+	 * @param string $type  Field type.
+	 * @return string
+	 */
+	private function sanitize_submission_value( $value, $type ) {
+		if ( ! is_scalar( $value ) ) {
+			$value = '';
+		}
+
+		$value = (string) $value;
+
+		if ( 'wysiwyg' === $type ) {
+			return wp_kses_post( $value );
+		}
+
+		if ( 'email' === $type ) {
+			return is_email( $value ) ? sanitize_email( $value ) : sanitize_textarea_field( $value );
+		}
+
+		if ( wp_http_validate_url( $value ) ) {
+			return esc_url_raw( $value );
+		}
+
+		return sanitize_textarea_field( $value );
 	}
 }

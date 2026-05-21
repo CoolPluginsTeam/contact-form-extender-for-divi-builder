@@ -58,15 +58,25 @@ if(!class_exists('CFEFD_Addons_Loader')) {
 
         }
 
-        public function load_addons() {
-            // Check if Divi 5 is enabled
-            // if(wp_get_theme()->get('Version') === '4.27.4'){
-            //     $this->load_divi_4_addons();
-            // }else{
-            //     $this->load_divi_5_addons();
-            // }
+        /**
+         * Get Divi theme version from active theme, parent, or direct lookup.
+         *
+         * @since 1.0.0
+         * @return string
+         */
+        private function get_divi_version() {
+            $theme      = wp_get_theme();
+            $divi_theme = ('divi' === strtolower((string) $theme->get('Template'))) ? $theme : $theme->parent();
 
-            if (wp_get_theme('Divi')->get('Version') >= 5) {
+            if (! $divi_theme || 'divi' !== strtolower((string) $divi_theme->get('Template'))) {
+                $divi_theme = wp_get_theme('Divi');
+            }
+
+            return (string) $divi_theme->get('Version');
+        }
+
+        public function load_addons() {
+            if ( version_compare( $this->get_divi_version(), '5.0', '>=' ) ) {
                 $this->load_divi_5_addons();
             } else {
                 $this->load_divi_4_addons();
@@ -74,6 +84,8 @@ if(!class_exists('CFEFD_Addons_Loader')) {
         }
 
         public function load_divi_4_addons() {
+            require_once CFEFD_PLUGIN_DIR . 'includes/utils/class-cfefd-utils.php';
+
             if ($this->is_field_enabled('file_upload')) {
                 require_once CFEFD_PLUGIN_DIR . 'includes/module/addons/divi-4/file-upload/class-cfefd-file-upload.php';
                 new CFEFD_File_Upload();
@@ -85,6 +97,8 @@ if(!class_exists('CFEFD_Addons_Loader')) {
         }
 
         public function load_divi_5_addons() {
+            require_once CFEFD_PLUGIN_DIR . 'includes/utils/class-cfefd-utils.php';
+
             // Load shared File Upload utility class (needed for both range slider and file upload)
             if (!class_exists('CFEFD_File_Upload')) {
                 require_once CFEFD_PLUGIN_DIR . 'includes/module/addons/divi-4/file-upload/class-cfefd-file-upload.php';
