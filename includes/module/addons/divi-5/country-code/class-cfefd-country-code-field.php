@@ -143,7 +143,7 @@ if(!class_exists('CFEFD_Country_Code_D5')) {
             $parts = explode('-', $args['parentId']);
             $lastNumber = end($parts);
             $orderIndex = $args['orderIndex'];
-            $field_id = strtolower($field_id);
+            $field_id = sanitize_key( strtolower( (string) $field_id ) );
             $input_id = "et_pb_contact_{$lastNumber}_{$field_id}_{$orderIndex}";
 
             wp_enqueue_script('cfefd-country-code-library-script');
@@ -175,7 +175,7 @@ if(!class_exists('CFEFD_Country_Code_D5')) {
                         'class' => 'input',
                         'name' => $input_id,
                         'id' => $input_id,
-                        'placeholder' => $field_title,
+                        'placeholder' => esc_attr($field_title),
                         'data-required_mark' => $required_mark === 'on' ? 'required' : 'not_required',
                         'data-field_id' => $field_id,
                         'data-cfefd-country-code' => 'on',

@@ -355,7 +355,7 @@ class CFEFD_File_Upload_Render {
             $lc = $this->process_color($lbc);
             ET_Builder_Element::set_style($order_class, [
                 'selector' => '.' . $order_class . ' .cfefd_files_list span',
-                'declaration' => "background-color: $lbc !important;",
+                'declaration' => "background-color: $lc !important;",
             ]);
         }
 
