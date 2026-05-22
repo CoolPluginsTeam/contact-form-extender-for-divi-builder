@@ -91,11 +91,18 @@
          * Display inline errors
          */
         showErrors(errors, fieldWrapper) {
-            const errorList = $("<ul class='cool-file-errors'></ul>");
-            // errors.forEach(err => {
-            //     errorList.append("<li>" + err + "<span class='cfefd_dismiss_error et-pb-icon'>&#x4d;</span></li>");
-            // });
-            errorList.append("<li>" + errors[0] + "<span class='cfefd_dismiss_error et-pb-icon'>&#x4d;</span></li>");
+            const errorList = $("<ul>", { class: "cool-file-errors" });
+            const errorText = Array.isArray(errors) && errors.length ? String(errors[0]) : "Unknown error occurred.";
+            const errorItem = $("<li>");
+
+            errorItem.append(document.createTextNode(errorText));
+            errorItem.append(
+                $("<span>", {
+                    class: "cfefd_dismiss_error et-pb-icon",
+                    text: "M"
+                })
+            );
+            errorList.append(errorItem);
 
             fieldWrapper.find(".cool-file-errors").remove();
             fieldWrapper.append(errorList);
@@ -270,19 +277,42 @@
          * Render HTML for a single file item
          */
         renderFileItem(file, fieldId, fieldName) {
-            return `
-                <span class="cfefd_file" data-id="${file.name}">
-                    <a href="${file.url}" class="cfefd_file_name" download>${file.tmp_name}</a>
-                    <span class="cfefd_file_size">(${file.size})</span>
-                    <span class="et-pb-icon cfefd_delete_file"
-                        data-field-id="${fieldId}"
-                        data-field-name="${fieldName}"
-                        data-file-name="${file.name}"
-                        data-file-tmp-name="${file.tmp_name}">
-                        &#x4d;
-                    </span>
-                </span>
-            `;
+            const fileName = String(file.name || "");
+            const fileUrl = String(file.url || "");
+            const tempName = String(file.tmp_name || "");
+            const fileSize = String(file.size || "");
+
+            const item = $("<span>", {
+                class: "cfefd_file",
+                "data-id": fileName
+            });
+
+            item.append(
+                $("<a>", {
+                    href: fileUrl,
+                    class: "cfefd_file_name",
+                    download: ""
+                }).text(tempName)
+            );
+
+            item.append(
+                $("<span>", {
+                    class: "cfefd_file_size"
+                }).text(`(${fileSize})`)
+            );
+
+            item.append(
+                $("<span>", {
+                    class: "et-pb-icon cfefd_delete_file",
+                    "data-field-id": fieldId,
+                    "data-field-name": fieldName,
+                    "data-file-name": fileName,
+                    "data-file-tmp-name": tempName,
+                    text: "M"
+                })
+            );
+
+            return item;
         }
 
         /**
