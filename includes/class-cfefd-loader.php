@@ -85,7 +85,7 @@ class CFEFD_Loader {
      * @return   CFEFD_Loader    The instance of this class.
      */
     public static function get_instance() {
-        if (null == self::$instance) {
+        if ( null === self::$instance ) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -111,15 +111,32 @@ class CFEFD_Loader {
         require_once CFEFD_PLUGIN_DIR . 'includes/module/cfefd-addon-loader.php';
         new \CFEFD_Addons_Loader($this->get_plugin_name(), $this->get_version());
 
-        if($this->is_field_enabled('save_submission')){
-            if ( wp_get_theme('Divi')->get('Version') >= 5 ) {
+        if ( $this->is_field_enabled( 'save_submission' ) ) {
+            if ( version_compare( $this->get_divi_version(), '5.0', '>=' ) ) {
                 require_once CFEFD_PLUGIN_DIR . 'includes/submissions/class-cfefd-submissions-handler-d5.php';
                 new \CFEFD\Submissions\CFEFD_Submissions_Handler_D5();
-            }else{
+            } else {
                 require_once CFEFD_PLUGIN_DIR . 'includes/submissions/class-cfefd-submissions-handler.php';
                 new \CFEFD\Submissions\CFEFD_Submissions_Handler();
             }
         }
+    }
+
+    /**
+     * Get Divi theme version from active theme, parent, or direct lookup.
+     *
+     * @since 1.0.0
+     * @return string
+     */
+    private function get_divi_version() {
+        $theme      = wp_get_theme();
+        $divi_theme = ( 'divi' === strtolower( (string) $theme->get( 'Template' ) ) ) ? $theme : $theme->parent();
+
+        if ( ! $divi_theme || 'divi' !== strtolower( (string) $divi_theme->get( 'Template' ) ) ) {
+            $divi_theme = wp_get_theme( 'Divi' );
+        }
+
+        return (string) $divi_theme->get( 'Version' );
     }
     
     private function is_field_enabled($field_key) {

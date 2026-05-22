@@ -50,7 +50,7 @@ if(!class_exists('CFEFD_Main')) {
          * @return CFEFD_Main - Main instance.
          */
         public static function get_instance() {
-            if ( null == self::$instance ) {
+            if ( null === self::$instance ) {
                 self::$instance = new self();
             }
             return self::$instance;
@@ -68,20 +68,27 @@ if(!class_exists('CFEFD_Main')) {
             }
         }
 
-        public function cfefd_plugin_dashboard_link($links){
+        public function cfefd_plugin_dashboard_link( $links ) {
+            $get_pro_link = sprintf(
+                '<a href="%s" style="font-weight: bold; color: green;" target="_blank" rel="noopener noreferrer">%s</a>',
+                esc_url( 'https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=plugins_list#pricing' ),
+                esc_html__( 'Get Pro', 'contact-form-extender-for-divi-builder' )
+            );
+            array_unshift( $links, $get_pro_link );
 
+            $settings_url  = admin_url( 'admin.php?page=contact-form-extender-for-divi-builder' );
+            $settings_link = sprintf(
+                '<a href="%s">%s</a>',
+                esc_url( $settings_url ),
+                esc_html__( 'Settings', 'contact-form-extender-for-divi-builder' )
+            );
+            array_unshift( $links, $settings_link );
 
-            $get_pro_link = '<a href="https://coolplugins.net/product/contact-form-extender-for-divi-builder/?utm_source=cfefd_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=plugins_list#pricing" style="font-weight: bold; color: green;" target="_blank">Get Pro</a>';
-			array_unshift( $links, $get_pro_link );
-
-			$settings_link = '<a href="' . admin_url( 'admin.php?page=contact-form-extender-for-divi-builder' ) . '">Settings</a>';
-			array_unshift( $links, $settings_link );
-
-			return $links;
-		}
+            return $links;
+        }
         
         public function cfefd_plugin_redirection( $plugin ) {
-			if ( $plugin == CFEFD_PLUGIN_BASENAME ) {
+			if ( $plugin === CFEFD_PLUGIN_BASENAME ) {
                 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
 				exit( wp_safe_redirect( admin_url( 'admin.php?page=contact-form-extender-for-divi-builder' ) ) );
 			}

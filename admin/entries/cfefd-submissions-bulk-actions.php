@@ -45,8 +45,11 @@ class CFEFD_Submissions_Bulk_Actions {
 	 */
 	private function hooks() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not required for read-only hook initialization.
-		if( is_admin() && isset($_GET['page']) && $_GET['page'] === 'contact-form-extender-for-divi-builder' && isset($_GET['tab']) && $_GET['tab'] === 'submissions' ){
-			add_action('admin_init', [$this, 'after_admin_init']);
+		$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not required for read-only hook initialization.
+		$tab  = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : '';
+		if ( is_admin() && 'contact-form-extender-for-divi-builder' === $page && 'submissions' === $tab ) {
+			add_action( 'admin_init', array( $this, 'after_admin_init' ) );
 		}
 	}
 
@@ -75,12 +78,13 @@ class CFEFD_Submissions_Bulk_Actions {
 		}
 
 		// Only after nonce verification: read and validate action.
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified above.
-		$action = isset( $_REQUEST['action'] ) ? str_replace( ' ', '_', strtolower( sanitize_text_field( wp_unslash( $_REQUEST['action'] ) ) ) ) : false;
+		// Bulk dropdown and row-action links submit via GET (see output_entries_list form method).
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified above.
+		$action = isset( $_GET['action'] ) ? str_replace( ' ', '_', strtolower( sanitize_text_field( wp_unslash( $_GET['action'] ) ) ) ) : false;
 		$this->action = $action ? sanitize_key( $action ) : false;
-		if ( '-1' === $this->action && ! empty( $_REQUEST['action2'] ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified above.
-			$this->action = sanitize_key( wp_unslash( $_REQUEST['action2'] ) );
+		if ( '-1' === $this->action && ! empty( $_GET['action2'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified above.
+			$this->action = sanitize_key( wp_unslash( $_GET['action2'] ) );
 		}
 
 		if ( ! in_array( $this->action, self::ALLOWED_ACTIONS, true ) ) {

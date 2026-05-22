@@ -129,18 +129,10 @@ if (!class_exists('CFEFD_File_Upload')) {
         }
 
         public static function get_wp_allowed_mime_types(){
-            $allowed_mime_type = [];
-            foreach (get_allowed_mime_types() as $key => $value) {
-                if ('css' === $key) {
-                    $allowed_mime_type[$key] = $value;
-                    $allowed_mime_type['htm|html'] = 'text/html';
-                } elseif ('rtf' === $key) {
-                    $allowed_mime_type[$key] = $value;
-                    $allowed_mime_type['js'] = 'application/javascript';
-                } else {
-                    $allowed_mime_type[$key] = $value;
-                }
-            }
+            $allowed_mime_type = get_allowed_mime_types();
+
+            unset( $allowed_mime_type['htm|html'] );
+            unset( $allowed_mime_type['js'] );
 
             return $allowed_mime_type;
         }

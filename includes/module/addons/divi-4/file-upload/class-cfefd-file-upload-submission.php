@@ -29,7 +29,9 @@ class CFEFD_File_Upload_Submission {
 
         // 2. Process Files
         $upload_tmp_dir = CFEFD_File_Upload::get_wp_upload_dir(path_join(CFEFD_File_Upload::foldername, 'tmp'), 'basedir');
-        
+        $tmp_root              = realpath( $upload_tmp_dir );
+        $tmp_root_normalized   = false !== $tmp_root ? trailingslashit( wp_normalize_path( $tmp_root ) ) : '';
+
         // Iterate over POST to find file tokens for THIS form.
         // Instead of looping whole $_POST, only consider keys that end with '_is_file'.
         $marker_keys = array_filter(
@@ -66,9 +68,20 @@ class CFEFD_File_Upload_Submission {
             $files = explode( ',', $file_names );
             foreach ( $files as $file ) {
                 $file = sanitize_file_name( $file );
+                if ( '' === $file || '' === $tmp_root_normalized ) {
+                    continue;
+                }
                 $file_path = path_join( $upload_tmp_dir, $file );
-                if ( file_exists( $file_path ) ) {
-                    $this->attachments_to_send[] = $file_path;
+                $file_real = realpath( $file_path );
+                if ( false === $file_real ) {
+                    continue;
+                }
+                $file_real_normalized = wp_normalize_path( $file_real );
+                if ( 0 !== strpos( $file_real_normalized, $tmp_root_normalized ) ) {
+                    continue;
+                }
+                if ( is_file( $file_real ) ) {
+                    $this->attachments_to_send[] = $file_real;
                 }
             }
         }

@@ -86,7 +86,7 @@ class CFEFD_File_Upload_Render {
         $parts = explode('_', $parent_order_class);
         $parent_module_order = end($parts);
 
-        $field_id = isset($props['field_id']) ? $props['field_id'] : '';
+        $field_id = isset($props['field_id']) ? sanitize_key($props['field_id']) : '';
 
         $dom = CFEFD_Utils::create_dom($output);
         $input = $dom->getElementsByTagName('input');
@@ -112,9 +112,9 @@ class CFEFD_File_Upload_Render {
             $input_item = $dom->createElement('input');
             $input_item->setAttribute('type', 'text');
             $input_name = 'et_pb_contact_' . $field_id . '_' . $parent_module_order;
-            $input_item->setAttribute('name', $input_name);
+            $input_item->setAttribute('name', esc_attr($input_name));
             $input_class = 'et_pb_contact_field';
-            $input_item->setAttribute('class', $input_class);
+            $input_item->setAttribute('class', esc_attr($input_class));
             $p_item->appendChild($input_item);
         }
 
@@ -122,7 +122,7 @@ class CFEFD_File_Upload_Render {
             $input_item->setAttribute('class', $input_class . ' cfefd_contact_hidden_files cool_hidden_original');
 
             $input_item->setAttribute('readonly', 'readonly');
-            $input_item->setAttribute('data-field-id', $field_id);
+            $input_item->setAttribute('data-field-id', esc_attr($field_id));
             
             $p_item = $p_tag->item(0);
             $p_class = $p_item->getAttribute('class');
@@ -171,15 +171,15 @@ class CFEFD_File_Upload_Render {
             // Changed class to cfefd_file_input
             $file_input->setAttribute('class', $input_class . ' cfefd_file_input');
             $file_input->setAttribute('id', "et_pb_file_input_$field_id");
-            $file_input->setAttribute('name', $input_name);
+            $file_input->setAttribute('name', esc_attr($input_name));
              // Note: This input does NOT have the 'name' attribute of the form field, so it isn't submitted normally.
              // It's just for selecting files for AJAX.
-            $file_input->setAttribute('data-limit', $files_limit);
+            $file_input->setAttribute('data-limit', esc_attr($files_limit));
             $file_input->setAttribute('multiple', 'multiple');
             
-            $file_input->setAttribute('data-field-id', $field_id);
-            $file_input->setAttribute('data-size', $file_size_bytes);
-            $file_input->setAttribute('data-size-formatted', $file_size_formatted);
+            $file_input->setAttribute('data-field-id', esc_attr($field_id));
+            $file_input->setAttribute('data-size', esc_attr($file_size_bytes));
+            $file_input->setAttribute('data-size-formatted', esc_attr($file_size_formatted));
             $p_item->appendChild($file_input);
             
             // 3. Upload Button (Visual)
@@ -210,7 +210,7 @@ class CFEFD_File_Upload_Render {
                 ]);
             }
 
-            $file_upload_button->setAttribute('class', $button_class_attr);
+            $file_upload_button->setAttribute('class', esc_attr($button_class_attr));
             $p_item->appendChild($file_upload_button);
             
             // 4. Chosen File Text
@@ -231,10 +231,11 @@ class CFEFD_File_Upload_Render {
             $file_token_input->setAttribute('type', 'hidden');
             $file_token_input->setAttribute('name', $input_name.'_file_token');
             $token_data = [
-                'size' => $file_size_bytes,
+                'size'     => $file_size_bytes,
                 'extentions' => $files_extentions,
                 'mimetypes' => $files_mimes,
-                'limit' => $files_limit,
+                'limit'    => $files_limit,
+                'issued'   => time(),
             ];
             $file_token_input->setAttribute('value', CFEFD_File_Upload::encrypt_decrypt(wp_json_encode($token_data)));
             $p_item->appendChild($file_token_input);

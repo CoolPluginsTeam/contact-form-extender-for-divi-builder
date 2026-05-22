@@ -128,7 +128,7 @@ if(!class_exists('CFEFD_Admin')) {
          * @return   cfefd_Admin    The instance of this class.
          */
         public static function get_instance($plugin_name, $version) {
-            if (null == self::$instance) {
+            if ( null === self::$instance ) {
                 self::$instance = new self($plugin_name, $version);
             }
             return self::$instance;
@@ -203,14 +203,14 @@ if(!class_exists('CFEFD_Admin')) {
                     </div>
                 </div>
                 <h2 class="nav-tab-wrapper">
-                    <a href="?page=contact-form-extender-for-divi-builder&tab=form-elements" class="nav-tab <?php echo $tab === 'form-elements' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e('Form Elements', 'contact-form-extender-for-divi-builder'); ?></a>
+                    <a href="?page=contact-form-extender-for-divi-builder&tab=form-elements" class="nav-tab <?php echo esc_attr( 'form-elements' === $tab ? 'nav-tab-active' : '' ); ?>"><?php esc_html_e('Form Elements', 'contact-form-extender-for-divi-builder'); ?></a>
 
-                    <a href="?page=contact-form-extender-for-divi-builder&tab=settings" class="nav-tab <?php echo $tab === 'settings' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e('Settings', 'contact-form-extender-for-divi-builder'); ?></a>
+                    <a href="?page=contact-form-extender-for-divi-builder&tab=settings" class="nav-tab <?php echo esc_attr($tab === 'settings' ? 'nav-tab-active' : ''); ?>"><?php esc_html_e('Settings', 'contact-form-extender-for-divi-builder'); ?></a>
 
-                    <a href="?page=contact-form-extender-for-divi-builder&tab=submissions" class="nav-tab <?php echo $tab === 'submissions' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e('Form Submissions', 'contact-form-extender-for-divi-builder'); ?></a>
+                    <a href="?page=contact-form-extender-for-divi-builder&tab=submissions" class="nav-tab <?php echo esc_attr($tab === 'submissions' ? 'nav-tab-active' : ''); ?>"><?php esc_html_e('Form Submissions', 'contact-form-extender-for-divi-builder'); ?></a>
 
                     <?php if ( ! self::is_pro_plugin_active() ) : ?>
-                        <a href="?page=contact-form-extender-for-divi-builder&tab=license" class="nav-tab <?php echo 'license' === $tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e('License', 'contact-form-extender-for-divi-builder'); ?></a>
+                        <a href="?page=contact-form-extender-for-divi-builder&tab=license" class="nav-tab <?php echo esc_attr( 'license' === $tab ? 'nav-tab-active' : '' ); ?>"><?php esc_html_e('License', 'contact-form-extender-for-divi-builder'); ?></a>
                     <?php endif; ?>
                 </h2>
                 <div class="tab-content">
@@ -245,6 +245,10 @@ if(!class_exists('CFEFD_Admin')) {
          * @since    1.0.0
          */
         public function register_form_elements_settings() {
+            if ( ! current_user_can( 'manage_options' ) ) {
+                return;
+            }
+
             register_setting('cfefd_form_elements_group', 'cfefd_enabled_elements', array(
                 'type' => 'array',
                 'description' => 'Enabled Form Elements',
@@ -295,7 +299,7 @@ if(!class_exists('CFEFD_Admin')) {
 
             if (is_array($input)) {
                 foreach ($input as $element) {
-                    if (in_array($element, $form_elements)) {
+                    if ( in_array( $element, $form_elements, true ) ) {
                         $valid[] = $element;
                     }
                 }
@@ -349,14 +353,15 @@ if(!class_exists('CFEFD_Admin')) {
 
         private static function cfefd_current_page($slug)
         {
-            $current_page = isset($_REQUEST['page']) ? esc_html($_REQUEST['page']) : (isset($_REQUEST['post_type']) ? esc_html($_REQUEST['post_type']) : '');
-            $status=false;
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            $current_page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : ( isset( $_REQUEST['post_type'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['post_type'] ) ) : '' );
+            $status = false;
 
-            if (in_array($current_page, self::get_allowed_pages()) && $current_page === $slug) {
+            if ( in_array( $current_page, self::get_allowed_pages(), true ) && $current_page === $slug ) {
                 $status=true;
             }
 
-            if(function_exists('get_current_screen') && in_array($slug, self::get_allowed_pages())){
+            if ( function_exists( 'get_current_screen' ) && in_array( $slug, self::get_allowed_pages(), true ) ) {
                 $screen = get_current_screen();
 
                 if($screen && property_exists($screen, 'id') && $screen->id && $screen->id === $slug){
@@ -369,22 +374,23 @@ if(!class_exists('CFEFD_Admin')) {
 
         public function hide_unrelated_notices()
         { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded, Generic.Metrics.NestingLevel.MaxExceeded
-            $cfkef_pages = false;
+            $cfefd_pages = false;
             foreach (self::$allowed_pages as $page) {
 
                 if (self::current_screen($page)) {
-                    $cfkef_pages = true;
+                    $cfefd_pages = true;
                     break;
                 }
             }
 
-            if ($cfkef_pages) {
+            if ($cfefd_pages) {
                 global $wp_filter;
 
                 // Define rules to remove callbacks.
                 $rules = [
                     'user_admin_notices' => [], // remove all callbacks.
                     'admin_notices'      => [],
+                    'ctl_display_admin_notices' => [],
                     'all_admin_notices'  => [],
                     'admin_footer'       => [
                         'render_delayed_admin_notices', // remove this particular callback.
@@ -431,6 +437,14 @@ if(!class_exists('CFEFD_Admin')) {
                 }
             }
 
+            add_action( 'admin_notices', [ $this, 'display_admin_notices' ], PHP_INT_MAX );
+        }
+
+        /**
+         * Display admin notices.
+         */
+        public function display_admin_notices() {
+            do_action( 'cfefd_admin_notices' );
         }
 
     }

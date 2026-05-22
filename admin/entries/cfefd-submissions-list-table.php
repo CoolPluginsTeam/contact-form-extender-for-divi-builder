@@ -2,6 +2,10 @@
 
 namespace CFEFD\Admin\Entries;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! class_exists( 'WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
     require_once( ABSPATH . 'wp-admin/includes/screen.php' ); 
@@ -102,9 +106,9 @@ class CFEFD_Submissions_List_Table extends WP_List_Table {
     public function get_columns() {
         return [
             'cb' => '<input type="checkbox" />',
-            'user_email' => 'Email',
-            'form_name' => 'Form Name',
-            'page_title' => 'Page Title',
+            'user_email' => esc_html__('Email', 'contact-form-extender-for-divi-builder'),
+            'form_name' => esc_html__('Form Name', 'contact-form-extender-for-divi-builder'),
+            'page_title' => esc_html__('Page Title', 'contact-form-extender-for-divi-builder'),
             'id' => 'ID',
             'submission_date' => 'Submission Date',
         ];
@@ -157,16 +161,72 @@ class CFEFD_Submissions_List_Table extends WP_List_Table {
         }
 
         $view = CFEFD_Submissions_Post_Type::get_view();
+        $entry_id = absint( $item->ID );
+        $submissions_url = admin_url( 'admin.php' );
 
         $actions           = array();
         if($view === 'all'){
-            $edit_url = admin_url('post.php?post='.intval($item->ID).'&action=edit');
-            $actions['View']   = sprintf('<a href="%s" class="row-title">View</a>', $edit_url);
-            $actions['Trash'] = sprintf('<a href="?page=contact-form-extender-for-divi-builder&tab=submissions&action=trash&entry_id=%s&_wpnonce=%s" class="row-title submitdelete">Trash</a>', $item->ID, wp_create_nonce('bulk-submissions'));
+            $edit_url = admin_url( 'post.php?post=' . $entry_id . '&action=edit' );
+            $trash_url = wp_nonce_url(
+                add_query_arg(
+                    array(
+                        'page'     => 'contact-form-extender-for-divi-builder',
+                        'tab'      => 'submissions',
+                        'action'   => 'trash',
+                        'entry_id' => $entry_id,
+                    ),
+                    $submissions_url
+                ),
+                'bulk-submissions'
+            );
+
+            $actions['View'] = sprintf(
+                '<a href="%s" class="row-title">%s</a>',
+                esc_url( $edit_url ),
+                esc_html__( 'View', 'contact-form-extender-for-divi-builder' )
+            );
+            $actions['Trash'] = sprintf(
+                '<a href="%s" class="row-title submitdelete">%s</a>',
+                esc_url( $trash_url ),
+                esc_html__( 'Trash', 'contact-form-extender-for-divi-builder' )
+            );
         }
         if($view === 'trash'){
-            $actions['Restore'] = sprintf('<a href="?page=contact-form-extender-for-divi-builder&tab=submissions&action=restore&entry_id=%s&_wpnonce=%s" class="row-title">Restore</a>', $item->ID, wp_create_nonce('bulk-submissions'));
-            $actions['Delete'] = sprintf('<a href="?page=contact-form-extender-for-divi-builder&tab=submissions&action=delete&entry_id=%s&_wpnonce=%s" class="row-title submitdelete">Delete</a>', $item->ID, wp_create_nonce('bulk-submissions'));
+            $restore_url = wp_nonce_url(
+                add_query_arg(
+                    array(
+                        'page'     => 'contact-form-extender-for-divi-builder',
+                        'tab'      => 'submissions',
+                        'action'   => 'restore',
+                        'entry_id' => $entry_id,
+                    ),
+                    $submissions_url
+                ),
+                'bulk-submissions'
+            );
+            $delete_url = wp_nonce_url(
+                add_query_arg(
+                    array(
+                        'page'     => 'contact-form-extender-for-divi-builder',
+                        'tab'      => 'submissions',
+                        'action'   => 'delete',
+                        'entry_id' => $entry_id,
+                    ),
+                    $submissions_url
+                ),
+                'bulk-submissions'
+            );
+
+            $actions['Restore'] = sprintf(
+                '<a href="%s" class="row-title">%s</a>',
+                esc_url( $restore_url ),
+                esc_html__( 'Restore', 'contact-form-extender-for-divi-builder' )
+            );
+            $actions['Delete'] = sprintf(
+                '<a href="%s" class="row-title submitdelete">%s</a>',
+                esc_url( $delete_url ),
+                esc_html__( 'Delete', 'contact-form-extender-for-divi-builder' )
+            );
         }
 
         return $this->row_actions($actions);
@@ -194,15 +254,23 @@ class CFEFD_Submissions_List_Table extends WP_List_Table {
             ++$i;
     
             $separator = ( $i < $action_count ) ? ' | ' : '';
-    
-            $output .= "<span class='".esc_attr(lcfirst($action))."'>{$link}{$separator}</span>";
+
+            $output .= '<span class="' . esc_attr( lcfirst( $action ) ) . '">' . wp_kses(
+                $link,
+                array(
+                    'a' => array(
+                        'href'  => array(),
+                        'class' => array(),
+                    ),
+                )
+            ) . esc_html( $separator ) . '</span>';
         }
     
         $output .= '</div>';
     
         $output .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' .
             /* translators: Hidden accessibility text. */
-            __( 'Show more details','contact-form-extender-for-divi-builder' ) .
+            esc_html__( 'Show more details','contact-form-extender-for-divi-builder' ) .
         '</span></button>';
     
         return $output;
@@ -210,7 +278,9 @@ class CFEFD_Submissions_List_Table extends WP_List_Table {
 
 
     public function prepare_items() {
-        
+        if ( ! current_user_can('manage_options') ) { 
+            return;
+        }
 		$columns = $this->get_columns();
 		$this->_column_headers = [ $columns ];
 
@@ -218,23 +288,20 @@ class CFEFD_Submissions_List_Table extends WP_List_Table {
         $page     = $this->get_pagenum();
 		$order    = isset( $_GET['order'] ) && sanitize_text_field( wp_unslash( $_GET['order'] ) ) === 'asc' ? 'ASC' : 'DESC';
         $search   = isset( $_GET['cfkef-entries-search'] ) ? sanitize_text_field( wp_unslash( $_GET['cfkef-entries-search'] ) ) : '';
-		$allowed_orderby = ['ID','post_title','post_date','post_modified','post_status'];
-        $orderby = isset($_GET['orderby']) ? sanitize_key($_GET['orderby']) : 'ID';
-        $orderby = in_array($orderby, $allowed_orderby, true) ? $orderby : 'ID';
+		$allowed_orderby = [
+			'ID'            => 'ID',
+			'post_title'    => 'post_title',
+			'post_date'     => 'post_date',
+			'post_modified' => 'post_modified',
+			'post_status'   => 'post_status',
+		];
+        $orderby_key = isset( $_GET['orderby'] ) ? sanitize_key( wp_unslash( $_GET['orderby'] ) ) : 'ID';
+        $orderby     = isset( $allowed_orderby[ $orderby_key ] ) ? $allowed_orderby[ $orderby_key ] : 'ID';
         $per_page = $this->get_items_per_page( $this->get_per_page_option_name() , 20 );
         $date_filter = isset( $_GET['date_filter'] ) && isset( $_GET['m'] ) && ! empty( $_GET['m'] ) ? sanitize_text_field( wp_unslash( $_GET['m'] ) ) : '';
         $view = CFEFD_Submissions_Post_Type::get_view();
         // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-        if ( $orderby === 'date' ) {
-			$orderby = [
-				'modified' => $order,
-				'date'     => $order,
-			];
-		};
-
-        $orderby = esc_sql($orderby);
-        $order = esc_sql($order);
         $page = esc_sql($page);
         $view = esc_sql($view);
         $search = esc_sql($search);
@@ -272,15 +339,15 @@ class CFEFD_Submissions_List_Table extends WP_List_Table {
            }
         }
 
-        // Build ORDER BY clause from whitelisted values, then use prepare() only for LIMIT/OFFSET.
-        $order_by_clause = " ORDER BY {$args['orderby']} {$args['order']} ";
+        // Build ORDER BY from whitelisted column map only; LIMIT/OFFSET via prepare().
+        $order_by_clause = ' ORDER BY ' . $orderby . ' ' . $order . ' ';
         $query .= $order_by_clause . $wpdb->prepare(
             "LIMIT %d OFFSET %d",
             $args['posts_per_page'],
             ( $args['paged'] - 1 ) * $args['posts_per_page']
         );
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is incrementally prepared above. orderby/order validated against whitelist and escaped. Caching not used for list table queries.
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is incrementally prepared above. orderby/order from fixed column map and ASC|DESC only. Caching not used for list table queries.
         $this->items = $wpdb->get_results( $query );
 
         $total_posts=wp_count_posts($this->post_type);

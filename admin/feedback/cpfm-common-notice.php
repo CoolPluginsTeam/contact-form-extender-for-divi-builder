@@ -219,8 +219,9 @@ class CPFM_Feedback_Notice {
             $output .= '<div class="cpf-extra-info">';
             $output .= '<p>' . esc_html__('Opt in to receive email updates about security improvements, new features, helpful tutorials, and occasional special offers. We\'ll collect:', 'contact-form-extender-for-divi-builder') . '</p>';
             $output .= '<ul>';
-            $output .= '<li>' . esc_html__('Your website home URL and WordPress admin email.', 'contact-form-extender-for-divi-builder') . '</li>';
-            $output .= '<li>' . esc_html__('To check plugin compatibility, we will collect the following: list of active plugins and themes, server type, MySQL version, WordPress version, memory limit, site language and database prefix.', 'contact-form-extender-for-divi-builder') . ' <a href="https://my.coolplugins.net/terms/usage-tracking/" target="_blank">Click Here</a> </li>';
+            $output .= '<li>' . esc_html__( 'Your website home URL and WordPress admin email.', 'contact-form-extender-for-divi-builder' ) . '</li>';
+            $usage_tracking_url = 'https://my.coolplugins.net/terms/usage-tracking/';
+            $output            .= '<li>' . esc_html__( 'To check plugin compatibility, we will collect the following: list of active plugins and themes, server type, MySQL version, WordPress version, memory limit, site language and database prefix.', 'contact-form-extender-for-divi-builder' ) . ' <a href="' . esc_url( $usage_tracking_url ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Click Here', 'contact-form-extender-for-divi-builder' ) . '</a> </li>';
             $output .= '</ul>';
             
             $output .= '</div>';

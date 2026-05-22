@@ -14,10 +14,10 @@ if (!class_exists('CFEFD_Country_Code_Field')) {
 
         public function register_assets() {
             wp_register_script( 'cfefd-country-code-library-script', CFEFD_PLUGIN_URL . 'assets/lib/js/intlTelInput.js', array(), CFEFD_PLUGIN_VERSION, true );
-            wp_register_script( 'cfefd-country-code-field-helper', CFEFD_PLUGIN_URL . 'assets/js/country-code-field-helper.js', array('jquery', 'cfefd-country-code-library-script'), CFEFD_PLUGIN_VERSION, true );
+            wp_register_script( 'cfefd-country-code-field-helper', CFEFD_PLUGIN_URL . 'assets/js/country-code-field-helper.min.js', array('jquery', 'cfefd-country-code-library-script'), CFEFD_PLUGIN_VERSION, true );
 		    wp_register_style( 'cfefd-country-code-library-style', CFEFD_PLUGIN_URL . 'assets/lib/css/intlTelInput.min.css', array(), CFEFD_PLUGIN_VERSION, 'all' );
 
-		    wp_register_style( 'cfefd-country-code-field-helper-style', CFEFD_PLUGIN_URL . 'assets/css/country-code-field-helper.css', array(), CFEFD_PLUGIN_VERSION, 'all' );
+		    wp_register_style( 'cfefd-country-code-field-helper-style', CFEFD_PLUGIN_URL . 'assets/css/country-code-field-helper.min.css', array(), CFEFD_PLUGIN_VERSION, 'all' );
 
             wp_localize_script('cfefd-country-code-field-helper', 'CFEDF_Data', array(
                 'pluginUrl' => CFEFD_PLUGIN_URL,
@@ -32,7 +32,7 @@ if (!class_exists('CFEFD_Country_Code_Field')) {
         }
 
         public function add_country_code_setting($fields) {
-            $country_mode_conditions = CFEFD_Utils::get_mode_conditions('country', 'input');
+            $country_mode_conditions = CFEFD_Utils::get_mode_conditions( 'country', 'input' );
 
             $fields['cfefd_use_as_country_code'] = [
                 'label'           => __('Use As Country Code Field', 'contact-form-extender-for-divi-builder'),
@@ -45,9 +45,9 @@ if (!class_exists('CFEFD_Country_Code_Field')) {
                 'default'         => 'off',
                 'toggle_slug'     => 'field_options',
                 'description'     => __('Turn this on to use this field as a country code dropdown.', 'contact-form-extender-for-divi-builder'),
-                'show_if'         => [
-                    'field_type' => 'input',
-                ],
+                'show_if'         => array(
+                    'field_type'  => 'input'
+                ),
                 'show_if_not'     => $country_mode_conditions['show_if_not'],
             ];
 

@@ -22,6 +22,7 @@ class CFEFD_File_Upload_Submission_D5 {
         }
 
         $form_id = $form_info['contact_form_id'] ?? '';
+        $contact_form_number = isset( $form_info['contact_form_number'] ) ? (string) $form_info['contact_form_number'] : '';
         if ( ! preg_match( '/et_pb_contact_form_(.+)$/', $form_id, $matches ) ) {
             return;
         }
@@ -44,6 +45,8 @@ class CFEFD_File_Upload_Submission_D5 {
             path_join( CFEFD_File_Upload::foldername, 'tmp' ),
             'basedir'
         );
+        $tmp_root            = realpath( $upload_tmp_dir );
+        $tmp_root_normalized = false !== $tmp_root ? trailingslashit( wp_normalize_path( $tmp_root ) ) : '';
 
         // Only consider our own marker fields that end with '_is_file'
         $marker_keys = array_filter(
@@ -63,18 +66,37 @@ class CFEFD_File_Upload_Submission_D5 {
 
             $input_name = str_replace( '_is_file', '', $key );
 
+            // Ensure this field belongs to the current form number.
+            if ( strpos( $input_name, "et_pb_contact_{$contact_form_number}_" ) !== 0 ) {
+                continue;
+            }
+
             if ( empty( $_POST[ $input_name ] ) ) {
                 continue;
             }
 
-            $files = explode( ',', sanitize_text_field( wp_unslash( $_POST[ $input_name ] ) ) );
+            $file_names = sanitize_text_field( wp_unslash( $_POST[ $input_name ] ) );
+            if ( empty( $file_names ) ) {
+                continue;
+            }
 
+            $files = explode( ',', $file_names );
             foreach ( $files as $file ) {
                 $file = sanitize_file_name( $file );
-                $path = path_join( $upload_tmp_dir, $file );
-
-                if ( file_exists( $path ) ) {
-                    self::$attachments[] = $path;
+                if ( '' === $file || '' === $tmp_root_normalized ) {
+                    continue;
+                }
+                $file_path = path_join( $upload_tmp_dir, $file );
+                $file_real = realpath( $file_path );
+                if ( false === $file_real ) {
+                    continue;
+                }
+                $file_real_normalized = wp_normalize_path( $file_real );
+                if ( 0 !== strpos( $file_real_normalized, $tmp_root_normalized ) ) {
+                    continue;
+                }
+                if ( is_file( $file_real ) ) {
+                    self::$attachments[] = $file_real;
                 }
             }
         }

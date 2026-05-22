@@ -48,7 +48,13 @@ class CFEFD_CountryCode_JS {
         // Default Country
         attributes.fieldItemAdvancedCfefdCountryCodeDefault = {
             type: 'string',
-            default: 'in',
+            default:{
+                innerContent:{
+                    desktop:{
+                        value:'in'
+                    }
+                }
+            },
             settings: {
                 innerContent: {
                     groupType: 'group-item',
@@ -71,7 +77,13 @@ class CFEFD_CountryCode_JS {
         // Include Countries
         attributes.fieldItemAdvancedCfefdCountryCodeInclude = {
             type: 'string',
-            default: '',
+            default:{
+                innerContent:{
+                    desktop:{
+                        value:''
+                    }
+                }
+            },
             settings: {
                 innerContent: {
                     groupType: 'group-item',
@@ -94,7 +106,13 @@ class CFEFD_CountryCode_JS {
         // Exclude Countries
         attributes.fieldItemAdvancedCfefdCountryCodeExclude = {
             type: 'string',
-            default: '',
+            default:{
+                innerContent:{
+                    desktop:{
+                        value:''
+                    }
+                }
+            },
             settings: {
                 innerContent: {
                     groupType: 'group-item',
@@ -117,7 +135,13 @@ class CFEFD_CountryCode_JS {
         // Dial Code Visibility
         attributes.fieldItemAdvancedCfefdDialCodeVisibility = {
             type: 'string',
-            default: 'show',
+            default:{
+                innerContent:{
+                    desktop:{
+                        value:'show'
+                    }
+                }
+            },
             settings: {
                 innerContent: {
                     groupType: 'group-item',
@@ -146,7 +170,13 @@ class CFEFD_CountryCode_JS {
         // Strict Mode
         attributes.fieldItemAdvancedCfefdStrictMode = {
             type: 'string',
-            default: 'off',
+            default:{
+                innerContent:{
+                    desktop:{
+                        value:'off'
+                    }
+                }
+            },
             settings: {
                 innerContent: {
                     groupType: 'group-item',
@@ -236,7 +266,7 @@ class CFEFD_CountryCode_JS {
 
 
         const fieldTitle = attrs.fieldItem?.advanced?.title?.desktop?.value || '';
-        const requiredMark = attrs.fieldItem?.advanced?.requiredMark?.desktop?.value || 'off';
+        const requiredMark = attrs.fieldItem?.advanced?.required?.desktop?.value || 'off';
         const defaultCountry = attrs.fieldItem?.advanced?.cfefdCountryCodeDefault?.desktop?.value || 'in';
         const countryCodeInclude = attrs.fieldItem?.advanced?.cfefdCountryCodeInclude?.desktop?.value || '';
         const countryCodeExclude = attrs.fieldItem?.advanced?.cfefdCountryCodeExclude?.desktop?.value || '';
@@ -252,7 +282,7 @@ class CFEFD_CountryCode_JS {
             id: `et_pb_contact_${fieldId}_${id}`,
             placeholder: fieldTitle,
             readOnly: true,
-            'data-required_mark': requiredMark === 'on' ? 'required' : 'optional',
+            'data-required_mark': requiredMark === 'on' ? 'required' : 'not_required',
             'data-cfefd-country-code': 'on',
             'data-default-country': defaultCountry,
             'data-include-countries': countryCodeInclude,

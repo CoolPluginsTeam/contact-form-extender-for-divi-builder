@@ -22,6 +22,7 @@ class CFEFD_File_Upload_Ajax {
     public function cfefd_upload_file(){
         if (!check_ajax_referer('cfefd-nonce-ajax', '_wpnonce', false)) {
             wp_send_json_error(esc_html__('The security check failed. Please try again. Tip: Hard refresh the page (Ctrl+Shift+R on Windows/Linux or Cmd+Shift+R on Mac).', 'contact-form-extender-for-divi-builder'));
+            return;
         }
         $file_error_types = [
             UPLOAD_ERR_INI_SIZE => __('The file you tried to upload is too large. Please choose a smaller file.', 'contact-form-extender-for-divi-builder'),
@@ -45,24 +46,42 @@ class CFEFD_File_Upload_Ajax {
         }
 
         if (!wp_is_writable($upload_temp_dir)) {
-            wp_send_json_error("Upload directory is not writable: {$upload_temp_dir}");
+            wp_send_json_error( esc_html__( 'Upload directory is not writable.', 'contact-form-extender-for-divi-builder' ) );
+            return;
         }
 
         $token = isset($_POST['token']) ? sanitize_text_field(wp_unslash($_POST['token'])) : null;
         if (empty($token)) {
             wp_send_json_error(__('The file token is missing. Please contact the system administrator.', 'contact-form-extender-for-divi-builder'));
+            return;
         }
         $wp_allowed_mime_types = CFEFD_File_Upload::get_wp_allowed_mime_types();
         $decrypted = CFEFD_File_Upload::encrypt_decrypt($token, 'd');
         if ( false === $decrypted || ! is_string( $decrypted ) ) {
             wp_send_json_error(__('The file token is invalid or expired. Please refresh the page and try again.', 'contact-form-extender-for-divi-builder'));
+            return;
         }
         $token_payload = json_decode($decrypted, true);
         if ( ! is_array( $token_payload ) ) {
             wp_send_json_error(__('The file token is invalid or expired. Please refresh the page and try again.', 'contact-form-extender-for-divi-builder'));
+            return;
         }
-        $allowd_filesize = $token_payload['size'] ?? '';
+        if ( isset( $token_payload['issued'] ) ) {
+            $issued  = absint( $token_payload['issued'] );
+            $max_age = (int) apply_filters( 'cfefd_file_upload_token_max_age', DAY_IN_SECONDS );
+            if ( $issued > 0 && $max_age > 0 && ( time() - $issued ) > $max_age ) {
+                wp_send_json_error(__('The file token is invalid or expired. Please refresh the page and try again.', 'contact-form-extender-for-divi-builder'));
+                return;
+            }
+        }
+        $allowd_filesize = absint( $token_payload['size'] ?? 0 );
         $allowd_mimes = isset($token_payload['mimetypes']) ? explode(',', $token_payload['mimetypes']) : [];
+        $allowed_limit = isset( $token_payload['limit'] ) ? absint( $token_payload['limit'] ) : 1;
+        if ( $allowed_limit < 1 ) {
+            $allowed_limit = 1;
+        }
+        $blocked_extensions = $this->get_blocked_filename_segments();
+        $blocked_mime_types   = $this->get_blocked_file_mime_types();
         $security_reason_text = __('File {filename} has failed to upload. Sorry, this file type is not permitted for security reasons.', 'contact-form-extender-for-divi-builder');
         $allow_filesize_text = __('File {filename} not uploaded. Maximum file size {allowed_filesize}.', 'contact-form-extender-for-divi-builder');
         // Narrow to only the file entries this uploader creates (numeric keys 0..n),
@@ -75,6 +94,38 @@ class CFEFD_File_Upload_Ajax {
             },
             ARRAY_FILTER_USE_KEY
         );
+
+        if ( count( $cfefd_files ) > $allowed_limit ) {
+            $json_response['errors'][] = [
+                'name' => '',
+                'message' => sprintf(
+                    /* translators: %d: max number of files allowed */
+                    __( 'You can upload only %d file(s) at a time.', 'contact-form-extender-for-divi-builder' ),
+                    $allowed_limit
+                ),
+            ];
+            wp_send_json_success( $json_response );
+            return;
+        }
+
+        $rate_limit = (int) apply_filters( 'cfefd_file_upload_rate_limit', 50 );
+        $rate_window = (int) apply_filters( 'cfefd_file_upload_rate_window', 10 * MINUTE_IN_SECONDS );
+        if ( ! empty( $cfefd_files ) && $rate_limit > 0 && $rate_window > 0 ) {
+            $remote_ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : 'unknown';
+            $rate_key = 'cfefd_upload_rate_' . md5( $remote_ip );
+            $attempts = (int) get_transient( $rate_key );
+
+            if ( $attempts >= $rate_limit ) {
+                $json_response['errors'][] = [
+                    'name' => '',
+                    'message' => __( 'Too many upload attempts. Please wait a few minutes and try again.', 'contact-form-extender-for-divi-builder' ),
+                ];
+                wp_send_json_success( $json_response );
+                return;
+            }
+
+            set_transient( $rate_key, $attempts + 1, $rate_window );
+        }
 
         // Check for errors in uploaded files
         foreach ( $cfefd_files as $file ) {
@@ -99,12 +150,19 @@ class CFEFD_File_Upload_Ajax {
                     }
                     $wp_filetype = wp_check_filetype_and_ext( $file_tmpname, $filename, $wp_allowed_mime_types );
                     // Validate file type and size
-                    if ( empty( $wp_filetype['type'] ) || empty( $wp_filetype['ext'] ) ) {
+                    if ( $this->filename_has_disallowed_extension_segment( $filename ) || in_array( $file_real_mime, $blocked_mime_types, true ) ) {
+                        $error_message = str_replace( '{filename}', $filename, $security_reason_text );
+                    } elseif ( empty( $wp_filetype['type'] ) || empty( $wp_filetype['ext'] ) ) {
                         $error_message = str_replace( '{filename}', $filename, $security_reason_text );
                     } elseif ( ! in_array( $file_real_mime, $allowd_mimes, true ) || ! in_array( $file_real_mime, $wp_allowed_mime_types, true ) ) {
                         $error_message = str_replace( '{filename}', $filename, $security_reason_text );
                     } elseif ( ( $file_size > $allowd_filesize ) || ( $file_size > wp_max_upload_size() ) ) {
-                        $error_message = str_replace( '{filename}', $filename, $allow_filesize_text );
+                        $max_for_message = $allowd_filesize > 0 ? min( $allowd_filesize, wp_max_upload_size() ) : wp_max_upload_size();
+                        $error_message   = str_replace(
+                            array( '{filename}', '{allowed_filesize}' ),
+                            array( $filename, size_format( $max_for_message ) ),
+                            $allow_filesize_text
+                        );
                     }
                 }
             }
@@ -118,6 +176,7 @@ class CFEFD_File_Upload_Ajax {
         // If errors are present, return the error response
         if (!empty(array_filter($json_response['errors']))) {
             wp_send_json_success($json_response);
+            return;
         }
 
         // Upload valid files (validate tmp_name again before move),
@@ -135,7 +194,14 @@ class CFEFD_File_Upload_Ajax {
             $wp_filetype = wp_check_filetype_and_ext( $file_tmpname, $filename, $wp_allowed_mime_types );
             $filename_renamed = strtolower( pathinfo( $filename, PATHINFO_FILENAME ) );
             $filename_renamed = preg_replace( '/[^A-Za-z\d\-]/', ' ', $filename_renamed );
-            $file_extension = pathinfo( $filename, PATHINFO_EXTENSION );
+            $file_extension = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
+            if ( $this->filename_has_disallowed_extension_segment( $filename ) || in_array( (string) ( $wp_filetype['type'] ?? '' ), $blocked_mime_types, true ) ) {
+                $json_response['errors'][] = [
+                    'name' => $filename,
+                    'message' => str_replace( '{filename}', $filename, $security_reason_text ),
+                ];
+                continue;
+            }
             $filename_unique = wp_unique_filename(
                 $upload_temp_dir,
                 sprintf( '%1$s-%2$s-%3$s.%4$s', mb_substr( $filename_renamed, 0, 30, 'utf-8' ), str_pad( wp_rand( 999, time() ), 5, 0, STR_PAD_BOTH ), time(), $file_extension )
@@ -160,47 +226,122 @@ class CFEFD_File_Upload_Ajax {
         // Return response for successful uploads
         if (!empty(array_filter($json_response['success']))) {
             wp_send_json_success($json_response);
+            return;
         }
     }
 
     public function cfefd_remove_uploaded_file(){
         if (!check_ajax_referer('cfefd-nonce-ajax', '_wpnonce', false)) {
             wp_send_json_error(esc_html__('The security check failed. Please try again. Tip: Hard refresh the page (Ctrl+Shift+R on Windows/Linux or Cmd+Shift+R on Mac).', 'contact-form-extender-for-divi-builder'));
+            return;
         }
 
         $filename_raw = isset($_POST['file_name']) ? sanitize_text_field(wp_unslash($_POST['file_name'])) : '';
         if (empty($filename_raw)) {
             wp_send_json_error(__('Something went wrong. Please try removing the file again.', 'contact-form-extender-for-divi-builder'));
+            return;
         }
 
         // Reject traversal/absolute paths; only allow a plain filename.
         $filename = sanitize_file_name(wp_basename($filename_raw));
         if ('' === $filename || $filename !== $filename_raw) {
             wp_send_json_error(__('Invalid file removal request.', 'contact-form-extender-for-divi-builder'));
+            return;
         }
 
         $tmp_root = realpath($this->upload_tmp_dir);
         if (false === $tmp_root) {
             wp_send_json_error(__('Something went wrong. Please try removing the file again.', 'contact-form-extender-for-divi-builder'));
+            return;
         }
 
         $tmp_path = path_join($this->upload_tmp_dir, $filename);
         $tmp_real = realpath($tmp_path);
         if (false === $tmp_real) {
             wp_send_json_error(__('Something went wrong. Please try removing the file again.', 'contact-form-extender-for-divi-builder'));
+            return;
         }
 
         $tmp_root_normalized = trailingslashit(wp_normalize_path($tmp_root));
         $tmp_real_normalized = wp_normalize_path($tmp_real);
         if (0 !== strpos($tmp_real_normalized, $tmp_root_normalized)) {
             wp_send_json_error(__('Invalid file removal request.', 'contact-form-extender-for-divi-builder'));
+            return;
         }
 
         if (et_()->WPFS()->is_file($tmp_real) && et_()->WPFS()->exists($tmp_real)) {
             wp_delete_file($tmp_real);
             wp_send_json_success(__('The file has been deleted successfully!', 'contact-form-extender-for-divi-builder'));
+            return;
         } else {
             wp_send_json_error(__('Something went wrong. Please try removing the file again.', 'contact-form-extender-for-divi-builder'));
+            return;
         }
+    }
+
+    /**
+     * Filename segments that must never appear (single or double extensions, e.g. file.php.jpg).
+     *
+     * @return string[]
+     */
+    private function get_blocked_filename_segments() {
+        return array(
+            'htm',
+            'html',
+            'js',
+            'mjs',
+            'svg',
+            'php',
+            'phtml',
+            'php3',
+            'php4',
+            'php5',
+            'phar',
+            'pht',
+            'cgi',
+            'pl',
+            'asp',
+            'aspx',
+            'jsp',
+            'htaccess',
+        );
+    }
+
+    /**
+     * MIME types rejected regardless of field settings (XSS / script risk).
+     *
+     * @return string[]
+     */
+    private function get_blocked_file_mime_types() {
+        return array(
+            'text/html',
+            'application/javascript',
+            'text/javascript',
+            'application/x-javascript',
+            'application/ecmascript',
+            'image/svg+xml',
+            'image/svg',
+        );
+    }
+
+    /**
+     * Reject empty segments or any dotted segment in the basename that is blocked.
+     *
+     * @param string $filename Original upload filename.
+     * @return bool
+     */
+    private function filename_has_disallowed_extension_segment( $filename ) {
+        $basename = strtolower( basename( (string) $filename ) );
+        if ( false === strpos( $basename, '.' ) ) {
+            return false;
+        }
+        $segments = explode( '.', $basename );
+        $blocked  = $this->get_blocked_filename_segments();
+        foreach ( $segments as $segment ) {
+            if ( '' === $segment || in_array( $segment, $blocked, true ) ) {
+                return true;
+            }
+        }
+        return false;
     }
 }

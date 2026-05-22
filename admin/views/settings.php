@@ -27,14 +27,24 @@ function cfefd_handle_unchecked_checkbox($new_value) {
 }
 
 if (isset($_POST['cfefd_settings_nonce'])) {
-    check_admin_referer('cfefd_settings_save', 'cfefd_settings_nonce');
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_die( esc_html__( 'Unauthorized.', 'contact-form-extender-for-divi-builder' ) );
+    }
 
-    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound	
-    $cfef_usage_share_data = isset($_POST['cfef_usage_share_data']) ? sanitize_text_field(wp_unslash($_POST['cfef_usage_share_data'])) : '';    
+    check_admin_referer('cfefd_settings_save', 'cfefd_settings_nonce');
+    $cfefd_notice_type    = 'success';
+    $cfefd_notice_message = esc_html__( 'Settings saved.', 'contact-form-extender-for-divi-builder' );
+
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+    $cfef_usage_share_data = ( isset( $_POST['cfef_usage_share_data'] ) && 'on' === sanitize_text_field( wp_unslash( $_POST['cfef_usage_share_data'] ) ) ) ? 'on' : '';
 
     cfefd_handle_unchecked_checkbox($cfef_usage_share_data);
 
     update_option('cfef_usage_share_data', $cfef_usage_share_data);
+
+    if ( isset( $cfefd_notice_message ) ) {
+        echo '<div class="notice notice-' . esc_attr( $cfefd_notice_type ) . ' is-dismissible"><p>' . esc_html( $cfefd_notice_message ) . '</p></div>';
+    }
 }
 ?>
 
@@ -115,11 +125,20 @@ if (isset($_POST['cfefd_settings_nonce'])) {
                                             <a href="#" class="ccpw-see-terms">[<?php esc_html_e('See terms', 'contact-form-extender-for-divi-builder'); ?>]</a>
                                             <div id="termsBox" style="display: none; padding-left: 20px; margin-top: 10px; font-size: 12px; color: #999;">
                                                 <p>
-                                                    <?php 
+                                                    <?php
                                                     printf(
-                                                        /* translators: site link. */
-                                                        esc_html__('Opt in to receive email updates about security improvements, new features, helpful tutorials, and occasional special offers. We\'ll collect: %s', 'contact-form-extender-for-divi-builder'),
-                                                            '<a href="https://my.coolplugins.net/terms/usage-tracking" target="_blank">' . esc_html__('Click here', 'contact-form-extender-for-divi-builder') . '</a>'
+                                                        wp_kses(
+                                                            /* translators: %s: usage tracking terms link. */
+                                                            __( 'Opt in to receive email updates about security improvements, new features, helpful tutorials, and occasional special offers. We\'ll collect: %s', 'contact-form-extender-for-divi-builder' ),
+                                                            array(
+                                                                'a' => array(
+                                                                    'href'   => array(),
+                                                                    'target' => array(),
+                                                                    'rel'    => array(),
+                                                                ),
+                                                            )
+                                                        ),
+                                                        '<a href="' . esc_url( 'https://my.coolplugins.net/terms/usage-tracking' ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Click here', 'contact-form-extender-for-divi-builder' ) . '</a>'
                                                     );
                                                     ?>
                                                 </p>

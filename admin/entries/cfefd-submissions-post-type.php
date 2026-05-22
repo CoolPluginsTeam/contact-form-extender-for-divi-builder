@@ -113,6 +113,15 @@ class CFEFD_Submissions_Post_Type {
             }
         }
 
+        add_action( 'admin_notices', [ $this, 'display_admin_notices' ], PHP_INT_MAX );
+
+    }
+
+    /**
+     * Display admin notices.
+     */
+    public function display_admin_notices() {
+        do_action( 'cfefd_admin_notices' );
     }
 
     /**
@@ -187,8 +196,23 @@ class CFEFD_Submissions_Post_Type {
             'description'           => esc_html__( 'cfefd-submission', 'contact-form-extender-for-divi-builder' ),
             'labels'                => $labels,
             'supports'              => false,
-            'capabilities'          => ['create_posts' => 'do_not_allow'],
-            'map_meta_cap'          => true,
+            'capabilities'          => array(
+                'create_posts'           => 'do_not_allow',
+                'edit_posts'             => 'manage_options',
+                'edit_others_posts'      => 'manage_options',
+                'publish_posts'          => 'manage_options',
+                'read_private_posts'     => 'manage_options',
+                'delete_posts'           => 'manage_options',
+                'delete_private_posts'   => 'manage_options',
+                'delete_published_posts' => 'manage_options',
+                'delete_others_posts'    => 'manage_options',
+                'edit_private_posts'     => 'manage_options',
+                'edit_published_posts'   => 'manage_options',
+                'edit_post'              => 'manage_options',
+                'read_post'              => 'manage_options',
+                'delete_post'            => 'manage_options',
+            ),
+            'map_meta_cap'          => false,
             'hierarchical'          => false,
             'public'                => false,
             'show_ui'               => true, 
@@ -201,7 +225,7 @@ class CFEFD_Submissions_Post_Type {
             'rewrite'               => false,
             'query_var'             => true,
             'exclude_from_search'   => true,
-            'show_in_rest'          => true,
+            'show_in_rest'          => false,
         );
 
         register_post_type( self::$post_type, $args );
@@ -209,7 +233,7 @@ class CFEFD_Submissions_Post_Type {
     }
 
     public static function get_view() {
-        if ( ! current_user_can( 'edit_posts' ) ) {
+        if ( ! current_user_can( 'manage_options' ) ) {
             return 'all';
         }
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified below when view param is present.
@@ -293,7 +317,8 @@ class CFEFD_Submissions_Post_Type {
     public function add_screen_option() {
         $screen = get_current_screen();
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not required for read-only tab check to add screen options.
-        if ( $screen && $screen->id === 'divi_page_contact-form-extender-for-divi-builder' && isset($_GET['tab']) && $_GET['tab'] === 'submissions' ) {
+        $tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : '';
+        if ( $screen && $screen->id === 'divi_page_contact-form-extender-for-divi-builder' && 'submissions' === $tab ) {
 
             $args = array(
                 'label'   => 'Items per page',
@@ -324,7 +349,8 @@ class CFEFD_Submissions_Post_Type {
 
         // Submissions list inside the plugin settings page.
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check of current tab.
-        if ( $screen->id === 'divi_page_contact-form-extender-for-divi-builder' && isset( $_GET['tab'] ) && $_GET['tab'] === 'submissions' ) {
+        $tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : '';
+        if ( $screen->id === 'divi_page_contact-form-extender-for-divi-builder' && 'submissions' === $tab ) {
             return true;
         }
 

@@ -43,11 +43,20 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
         }
 
         public function enqueue_google_font($font_family) {
-            $font_parts = explode('|', $font_family);
-            $font_family_name = $font_parts[0];
-            if ($font_family_name) {
-                wp_enqueue_style('tmdivi-gfonts-' . $font_family_name, "https://fonts.googleapis.com/css2?family=$font_family_name&display=swap", array(),CFEFD_PLUGIN_VERSION, null);
+            $font_parts         = explode('|', $font_family);
+            $font_family_name   = isset($font_parts[0]) ? trim($font_parts[0]) : '';
+            if ($font_family_name === '') {
+                return;
             }
+            $family_param = rawurlencode($font_family_name);
+            $font_url     = 'https://fonts.googleapis.com/css2?family=' . $family_param . '&display=swap';
+            wp_enqueue_style(
+                'tmdivi-gfonts-' . sanitize_key($font_family_name),
+                esc_url($font_url),
+                array(),
+                CFEFD_PLUGIN_VERSION,
+                'all'
+            );
         }
 
         public function filter_wrapper_render_styles( $module_wrapper, $args ){
@@ -585,7 +594,7 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
             $parts = explode('-', $args['parentId']);
             $lastNumber = end($parts);
             $orderIndex = $args['orderIndex'];
-            $field_id = strtolower($field_id);
+            $field_id = strtolower(sanitize_key( $field_id));
             $input_id = "et_pb_contact_{$lastNumber}_{$field_id}_{$orderIndex}";
 
             // Process file size
@@ -642,10 +651,10 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
                 'attributes' => [
                     'type' => 'text',
                     'class' => 'input cfefd_contact_hidden_files cool_hidden_original',
-                    'name' => $input_id,
-                    'id' => $input_id,
+                    'name' => esc_attr($input_id),
+                    'id' => esc_attr($input_id),
                     'readonly' => 'readonly',
-                    'data-field-id' => $field_id,
+                    'data-field-id' => esc_attr($field_id),
                 ],
                 'selfClosing' => true,
             ]);
@@ -656,12 +665,12 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
                 'attributes' => [
                     'type' => 'file',
                     'class' => 'input cfefd_file_input',
-                    'name' => $input_id,
+                    'name' => esc_attr($input_id),
                     'id' => "et_pb_file_input_{$field_id}",
-                    'data-field-id' => $field_id,
-                    'data-size' => $file_size_bytes,
-                    'data-size-formatted' => $file_size_formatted,
-                    'data-limit' => $max_files,
+                    'data-field-id' => esc_attr($field_id),
+                    'data-size' => esc_attr($file_size_bytes),
+                    'data-size-formatted' => esc_attr($file_size_formatted),
+                    'data-limit' => esc_attr($max_files),
                     'multiple' => $max_files > 1 ? 'multiple' : null,
                 ],
                 'selfClosing' => true,
@@ -676,7 +685,7 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
             $upload_button_html = HTMLUtility::render([
                 'tag' => 'span',
                 'attributes' => [
-                    'class' => $button_class,
+                    'class' => esc_attr($button_class),
                     'role' => 'button',
                 ],
                 'children' => __('Choose Files', 'contact-form-extender-for-divi-builder'),
@@ -759,6 +768,7 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
                 'extentions' => $files_extensions,
                 'mimetypes' => $files_mimes,
                 'limit' => $max_files,
+                'issued'     => time(),
             ];
             
             $token_input_html = HTMLUtility::render([
@@ -848,18 +858,10 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
         }
 
         public static function get_wp_allowed_mime_types(){
-            $allowed_mime_type = [];
-            foreach (get_allowed_mime_types() as $key => $value) {
-                if ('css' === $key) {
-                    $allowed_mime_type[$key] = $value;
-                    $allowed_mime_type['htm|html'] = 'text/html';
-                } elseif ('rtf' === $key) {
-                    $allowed_mime_type[$key] = $value;
-                    $allowed_mime_type['js'] = 'application/javascript';
-                } else {
-                    $allowed_mime_type[$key] = $value;
-                }
-            }
+            $allowed_mime_type = get_allowed_mime_types();
+
+            unset( $allowed_mime_type['htm|html'] );
+            unset( $allowed_mime_type['js'] );
 
             return $allowed_mime_type;
         }

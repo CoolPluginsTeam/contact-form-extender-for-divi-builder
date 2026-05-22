@@ -93,7 +93,7 @@ class CFEFD_CountryCode_Helper {
             var iti = window.intlTelInput($input[0], itiOptions);
             setTimeout(() => {
                 if (document.body.classList.contains('et-fb')) {
-                    if (jQuery(iti.countryContainer).find('.iti__selected-country').attr('title') === 'Afghanistan: +93' && defaultCountry != 'af') {
+                    if (jQuery(iti.countryContainer).find('.iti__selected-country').attr('title') === 'Afghanistan: +93' && defaultCountry !== 'af') {
                         iti.setCountry(defaultCountry);
                     }
                 }
