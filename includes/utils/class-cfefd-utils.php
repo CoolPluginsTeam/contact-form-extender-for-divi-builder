@@ -69,23 +69,29 @@ if (!class_exists('CFEFD_Utils')) {
         /**
          * Create DOMDocument from HTML string.
          *
-         * @param string $html HTML content.
+         * @param string|mixed $html HTML content. Non-strings (e.g. arrays from Divi builder/heartbeat) are treated as empty.
          * @return DOMDocument
          */
-        public static function create_dom($html) {
-            $charset = 'utf-8';
-            $dom     = new DOMDocument('1.0', $charset);
-            libxml_use_internal_errors(true);
-
-            if (function_exists('mb_encode_numericentity')) {
-                $html = mb_encode_numericentity($html, array(0x80, 0x10FFFF, 0, 0x1FFFFF), $charset);
-            } elseif (function_exists('mb_convert_encoding')) {
-                $html = mb_convert_encoding($html, 'HTML-ENTITIES', $charset);
-            } else {
-                $html = htmlentities($html, ENT_QUOTES | ENT_SUBSTITUTE, $charset);
+        public static function create_dom( $html ) {
+            if ( is_array( $html ) || is_object( $html ) ) {
+                $html = '';
+            } elseif ( ! is_string( $html ) ) {
+                $html = is_scalar( $html ) ? (string) $html : '';
             }
 
-            $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $charset = 'utf-8';
+            $dom     = new DOMDocument( '1.0', $charset );
+            libxml_use_internal_errors( true );
+
+            if ( function_exists( 'mb_encode_numericentity' ) ) {
+                $html = mb_encode_numericentity( $html, array( 0x80, 0x10FFFF, 0, 0x1FFFFF ), $charset );
+            } elseif ( function_exists( 'mb_convert_encoding' ) ) {
+                $html = mb_convert_encoding( $html, 'HTML-ENTITIES', $charset );
+            } else {
+                $html = htmlentities( $html, ENT_QUOTES | ENT_SUBSTITUTE, $charset );
+            }
+
+            $dom->loadHTML( $html, LIBXML_NOERROR | LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
             libxml_clear_errors();
 
             return $dom;
