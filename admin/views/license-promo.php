@@ -36,14 +36,20 @@ $cfefd_pro_pricing_url = 'https://coolplugins.net/product/contact-form-extender-
 			</p>
 
 			<p>
-				<?php esc_html_e( "You're using ", 'contact-form-extender-for-divi-builder' ); ?>
-				<strong><?php esc_html_e( 'Contact Form Extender for Divi (Free)', 'contact-form-extender-for-divi-builder' ); ?></strong>
-				<?php esc_html_e( '- no license needed. Enjoy!😊', 'contact-form-extender-for-divi-builder' ); ?>
+				<?php
+				echo wp_kses_post(
+					sprintf(
+						/* translators: %s is the product name for the free plugin. */
+						__( 'You\'re using %s - no license needed. Enjoy!😊', 'contact-form-extender-for-divi-builder' ),
+						'<strong>' . esc_html__( 'Contact Form Extender for Divi (Free)', 'contact-form-extender-for-divi-builder' ) . '</strong>'
+					)
+				);
+				?>
 			</p>
 
 			<div class="cfefd-license-upgrade-box">
 				<p>
-					<?php esc_html_e( 'To unlock more features, consider ', 'contact-form-extender-for-divi-builder' ); ?>
+					<?php esc_html_e( 'To unlock more features, consider', 'contact-form-extender-for-divi-builder' ); ?>
 					<a href="<?php echo esc_url( $cfefd_pro_pricing_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'upgrading to Pro', 'contact-form-extender-for-divi-builder' ); ?></a>.
 				</p>
 				<em><?php esc_html_e( 'As a valued user, you automatically receive an exclusive discount on the Annual License and an even greater discount on the POPULAR Lifetime License at checkout!', 'contact-form-extender-for-divi-builder' ); ?></em>

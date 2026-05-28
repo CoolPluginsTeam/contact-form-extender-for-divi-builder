@@ -200,7 +200,17 @@ $updated_elements = array('');
                 <div class="wrapper-body">
                     <div>
                         <p><?php esc_html_e('Enable or disable a form element that you are using in your form module.', 'contact-form-extender-for-divi-builder'); ?></p>
-                        <p><?php esc_html_e('After enabling or disabling any element make sure to click the ', 'contact-form-extender-for-divi-builder'); ?><strong><?php esc_html_e('Save Changes', 'contact-form-extender-for-divi-builder'); ?></strong> <?php esc_html_e(' button.', 'contact-form-extender-for-divi-builder'); ?></p>
+                        <p>
+                            <?php
+                            echo wp_kses_post(
+                                sprintf(
+                                    /* translators: %s is the "Save Changes" button label. */
+                                    __('After enabling or disabling any element make sure to click the <strong>%s</strong> button.', 'contact-form-extender-for-divi-builder'),
+                                    esc_html__('Save Changes', 'contact-form-extender-for-divi-builder')
+                                )
+                            );
+                            ?>
+                        </p>
                     </div>
 
                     <div class="cfefd-form-element-box">

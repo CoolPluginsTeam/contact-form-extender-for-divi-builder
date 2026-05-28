@@ -1,5 +1,14 @@
 (function ($) {
     'use strict';
+    const i18nSource = (window.CFEFD_DiviContactFormExtender && window.CFEFD_DiviContactFormExtender.i18n) || {};
+    const t = (key, fallback) => i18nSource[key] || fallback;
+    const formatText = (template, replacements) => {
+        let formatted = String(template);
+        Object.keys(replacements).forEach((token) => {
+            formatted = formatted.replaceAll(`{${token}}`, String(replacements[token]));
+        });
+        return formatted;
+    };
     /**
      * CFEFD_FileUpload Class
      * Handles the frontend logic for the file upload field.
@@ -48,7 +57,7 @@
                         ok = false;
                         $wrap.addClass('et_contact_error');
                         if ($wrap.siblings('.dcfe-fileupload-error-msg').length === 0) {
-                            jQuery('<span>', { class: 'dcfe-fileupload-error-msg', text: 'Field is required',style:'color:red' }).insertAfter($wrap);
+                            jQuery('<span>', { class: 'dcfe-fileupload-error-msg', text: t('fieldRequired', 'Field is required'),style:'color:red' }).insertAfter($wrap);
                         }
                     } else {
                         $wrap.removeClass('et_contact_error');
@@ -92,7 +101,7 @@
          */
         showErrors(errors, fieldWrapper) {
             const errorList = $("<ul>", { class: "cool-file-errors" });
-            const errorText = Array.isArray(errors) && errors.length ? String(errors[0]) : "Unknown error occurred.";
+            const errorText = Array.isArray(errors) && errors.length ? String(errors[0]) : t('unknownError', 'Unknown error occurred.');
             const errorItem = $("<li>");
 
             errorItem.append(document.createTextNode(errorText));
@@ -162,17 +171,17 @@
 
             // Validate count
             if (files.length + this.uploadedFiles[fieldId].length > limit) {
-                errors.push(`You can upload only ${limit} file(s).`);
+                errors.push(formatText(t('uploadLimit', 'You can upload only {count} file(s).'), { count: limit }));
             }
 
             // Validate individual files
             for (let file of files) {
                 if (file.size >= maxSize) {
-                    errors.push(`${file.name} exceeds ${maxSizeFormatted} limit.`);
+                    errors.push(formatText(t('fileExceedsLimit', '{filename} exceeds {size} limit.'), { filename: file.name, size: maxSizeFormatted }));
                 }
                 // Check against currently uploaded files (using the name we stored)
                 if (this.filesValidation[fieldName].includes(file.name)) {
-                    errors.push(`${file.name} is already uploaded.`);
+                    errors.push(formatText(t('alreadyUploaded', '{filename} is already uploaded.'), { filename: file.name }));
                 }
             }
 
@@ -227,7 +236,7 @@
                         if (e.lengthComputable) {
                             const percent = Math.round((e.loaded / e.total) * 100);
                             $("#cfefd_accepted_files_desc_" + fieldId)
-                                .text(`Uploading ${percent}%`);
+                                .text(formatText(t('uploadingPercent', 'Uploading {percent}%'), { percent }));
                         }
                     });
                     return xhr;
@@ -243,7 +252,7 @@
                         // Extract error messages
                         const errs = response.data && response.data.errors
                             ? response.data.errors.map(err => err.message)
-                            : ["Unknown error occurred."];
+                            : [t('unknownError', 'Unknown error occurred.')];
                         self.showErrors(errs, fieldWrapper);
                         return;
                     }
@@ -259,7 +268,7 @@
 
                     let fileLenght = self.uploadedFiles[fieldId]?.length
                     if (fileLenght) {
-                        fieldWrapper.find('.cfefd_file_chosen_desc').text('You have ' + fileLenght + ' file(s) selected')
+                        fieldWrapper.find('.cfefd_file_chosen_desc').text(formatText(t('filesSelected', 'You have {count} file(s) selected'), { count: fileLenght }))
                     }
                     // Update hidden original input
                     hiddenField.val(self.uploadedFiles[fieldId].join(","));
@@ -323,7 +332,7 @@
             const fileName = btn.data("file-name");
             const tmpName = btn.data("file-tmp-name");
 
-            if (!confirm(`Remove file: ${tmpName}?`)) {
+            if (!confirm(formatText(t('removeFileConfirm', 'Remove file: {filename}?'), { filename: tmpName }))) {
                 return;
             }
 
@@ -358,7 +367,7 @@
 
                 success: function (response) {
                     if (!response.success) {
-                        alert("Could not remove file.");
+                        alert(t('couldNotRemoveFile', 'Could not remove file.'));
                         return;
                     }
 
@@ -385,9 +394,9 @@
 
                     let fileLenght = self.uploadedFiles[fieldId]?.length
                     if (fileLenght) {
-                        fieldWrapper.find('.cfefd_file_chosen_desc').text('You have ' + fileLenght + ' file(s) selected')
+                        fieldWrapper.find('.cfefd_file_chosen_desc').text(formatText(t('filesSelected', 'You have {count} file(s) selected'), { count: fileLenght }))
                     } else {
-                        fieldWrapper.find('.cfefd_file_chosen_desc').text('No file chosen')
+                        fieldWrapper.find('.cfefd_file_chosen_desc').text(t('noFileChosen', 'No file chosen'))
                     }
 
                 },

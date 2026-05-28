@@ -21,9 +21,6 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
             add_filter('divi_module_wrapper_render', array($this, 'render_file_upload_output_frontend'), 10, 2);
             add_filter( 'divi_module_wrapper_render', array($this, 'filter_wrapper_render_styles'), 10, 2 );
             
-            // D4 to D5 Migration
-            // add_filter('divi.moduleLibrary.conversion.moduleConversionOutline', array($this, 'add_conversion_mapping'), 10, 2);
-            // add_filter('divi.moduleLibrary.conversion.convertModuleAttribute', array($this, 'convert_complex_attributes'), 10, 4);
         }
 
         private function normalize_attr( $value ) {
@@ -509,6 +506,22 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
                 'pluginURL' => CFEFD_PLUGIN_URL,
                 'wpMaxUploadSize' => $wp_max_upload_size,
                 'wpMaxUploadSizeFormatted' => size_format($wp_max_upload_size),
+                'i18n' => [
+                    'fieldRequired' => __('Field is required', 'contact-form-extender-for-divi-builder'),
+                    'unknownError' => __('Unknown error occurred.', 'contact-form-extender-for-divi-builder'),
+                    'uploadLimit' => __('You can upload only {count} file(s).', 'contact-form-extender-for-divi-builder'),
+                    'fileExceedsLimit' => __('{filename} exceeds {size} limit.', 'contact-form-extender-for-divi-builder'),
+                    'alreadyUploaded' => __('{filename} is already uploaded.', 'contact-form-extender-for-divi-builder'),
+                    'uploadingPercent' => __('Uploading {percent}%', 'contact-form-extender-for-divi-builder'),
+                    'filesSelected' => __('You have {count} file(s) selected', 'contact-form-extender-for-divi-builder'),
+                    'noFileChosen' => __('No file chosen', 'contact-form-extender-for-divi-builder'),
+                    'removeFileConfirm' => __('Remove file: {filename}?', 'contact-form-extender-for-divi-builder'),
+                    'couldNotRemoveFile' => __('Could not remove file.', 'contact-form-extender-for-divi-builder'),
+                    'chooseFiles' => __('Choose Files', 'contact-form-extender-for-divi-builder'),
+                    'acceptedFileTypes' => __('Accepted file types:', 'contact-form-extender-for-divi-builder'),
+                    'maxFileSize' => __('Max. file size:', 'contact-form-extender-for-divi-builder'),
+                    'fileUpload' => __('File Upload', 'contact-form-extender-for-divi-builder'),
+                ],
             ];
             wp_localize_script('cfefd-file-upload-field-helper', 'CFEFD_DiviContactFormExtender', $localized_data);
 
@@ -540,6 +553,20 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
                     ],
                 ]
             );
+
+            wp_add_inline_script(
+                'divi-vendor-wp-hooks',
+                'window.CFEFDRegisterFileUploadI18n = ' . wp_json_encode(
+                    [
+                        'chooseFiles' => __('Choose Files', 'contact-form-extender-for-divi-builder'),
+                        'noFileChosen' => __('No file chosen', 'contact-form-extender-for-divi-builder'),
+                        'acceptedFileTypes' => __('Accepted file types:', 'contact-form-extender-for-divi-builder'),
+                        'maxFileSize' => __('Max. file size:', 'contact-form-extender-for-divi-builder'),
+                        'fileUpload' => __('File Upload', 'contact-form-extender-for-divi-builder'),
+                    ]
+                ) . ';',
+                'before'
+            );
         }
 
         public function register_file_upload_field_frontend($settings) {
@@ -553,7 +580,7 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
 
                 if (is_array($options)) {
                     $options['file_upload'] = [
-                        'label' => 'File Upload',
+                        'label' => __('File Upload', 'contact-form-extender-for-divi-builder'),
                     ];
                     $settings['attributes']['fieldItem']['settings']['advanced']['type']['item']['component']['props']['options'] = $options;
                 }
@@ -588,6 +615,7 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
             $max_files = $module_attrs['fieldItem']['advanced']['fileUploadMaxFiles']['desktop']['value'] ?? '2';
             $use_button_icon = $module_attrs['fieldItem']['advanced']['fileUploadUseButtonIcon']['desktop']['value'] ?? 'on';
             $button_icon = $module_attrs['fieldItem']['advanced']['fileUploadButtonIcon']['desktop']['value'] ?? '';
+            $required_mark = $module_attrs['fieldItem']['advanced']['required']['desktop']['value'] ?? 'off';
 
 
             // Generate unique field ID
@@ -654,6 +682,7 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
                     'name' => esc_attr($input_id),
                     'id' => esc_attr($input_id),
                     'readonly' => 'readonly',
+                    'data-required_mark' => $required_mark === 'on' ? 'required' : 'not_required',
                     'data-field-id' => esc_attr($field_id),
                 ],
                 'selfClosing' => true,
@@ -864,136 +893,6 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
             unset( $allowed_mime_type['js'] );
 
             return $allowed_mime_type;
-        }
-
-        /**
-         * D4 to D5 Migration - Add conversion mapping
-         */
-        public function add_conversion_mapping($outline, $module_name) {
-            // Contact Field conversion
-            if ($module_name === 'et_pb_contact_field') {
-                $outline['module'] = $outline['module'] ?? [];
-                $outline['module']['cfefd_fileupload_max_size'] = 'fieldItem.advanced.fileUploadMaxSize.*';
-                $outline['module']['cfefd_fileupload_allowed_types'] = 'fieldItem.advanced.fileUploadAllowedTypes.*';
-                $outline['module']['cfefd_fileupload_max_files'] = 'fieldItem.advanced.fileUploadMaxFiles.*';
-                $outline['module']['cfefd_use_file_button_icon'] = 'fieldItem.advanced.fileUploadUseButtonIcon.*';
-                $outline['module']['cfefd_file_button_icon'] = 'fieldItem.advanced.fileUploadButtonIcon.*';
-            }
-
-            // Contact Form conversion
-            if ($module_name === 'et_pb_contact_form') {
-                $outline['module'] = $outline['module'] ?? [];
-
-                // Container settings
-                $outline['module']['cfefd_files_container_background'] = 'cfefdFileUploadDesignTabs.innerContent.*.containerBackground';
-                $outline['module']['cfefd_files_container_border_color'] = 'cfefdFileUploadDesignTabs.innerContent.*.containerBorderColor';
-                $outline['module']['cfefd_files_container_border_width'] = 'cfefdFileUploadDesignTabs.innerContent.*.containerBorderWidth';
-                $outline['module']['cfefd_files_container_border_style'] = 'cfefdFileUploadDesignTabs.innerContent.*.containerBorderStyle';
-                $outline['module']['cfefd_files_container_list_color'] = 'cfefdFileUploadDesignTabs.innerContent.*.containerListColor';
-                $outline['module']['cfefd_files_container_list_background_color'] = 'cfefdFileUploadDesignTabs.innerContent.*.containerListBg';
-
-                // Description settings
-                $outline['module']['cfefd_accepted_file_text_color'] = 'cfefdFileUploadDesignTabs.innerContent.*.acceptedTextColor';
-                $outline['module']['cfefd_accepted_file_text_size'] = 'cfefdFileUploadDesignTabs.innerContent.*.acceptedTextSize';
-                $outline['module']['cfefd_accepted_file_text_font'] = 'cfefdFileUploadDesignTabs.innerContent.*.acceptedTextFont';
-                $outline['module']['cfefd_chosen_file_text_color'] = 'cfefdFileUploadDesignTabs.innerContent.*.fileChoosenTextColor';
-
-                // Button settings
-                $outline['module']['cfefd_file_button_background'] = 'cfefdFileUploadDesignTabs.innerContent.*.buttonBg';
-                $outline['module']['cfefd_file_button_color'] = 'cfefdFileUploadDesignTabs.innerContent.*.buttonColor';
-                $outline['module']['cfefd_file_button_font'] = 'cfefdFileUploadDesignTabs.innerContent.*.buttonTextFont';
-                $outline['module']['cfefd_file_button_size'] = 'cfefdFileUploadDesignTabs.innerContent.*.buttonTextSize';
-                $outline['module']['cfefd_file_button_border_color'] = 'cfefdFileUploadDesignTabs.innerContent.*.buttonBorderColor';
-            }
-
-            return $outline;
-        }
-
-        /**
-         * D4 to D5 Migration - Convert complex attributes
-         * Handles conversion of pipe-separated values to individual properties
-         */
-        public function convert_complex_attributes($d5_value, $d4_value, $d4_attr_name, $module_name) {
-            // Only process for contact form module
-            if ($module_name !== 'et_pb_contact_form') {
-                return $d5_value;
-            }
-
-            // Helper function to split pipe-separated values
-            $split_piped_value = function($value) {
-                if (empty($value) || !is_string($value)) {
-                    return null;
-                }
-                $parts = explode('|', $value);
-                return count($parts) === 4 ? $parts : null;
-            };
-
-            // Container Padding: "20px|20px|0px|20px" → individual properties
-            if ($d4_attr_name === 'cfefd_files_container_padding') {
-                $parts = $split_piped_value($d4_value);
-                if ($parts) {
-                    return [
-                        'containerPaddingTop' => $parts[0],
-                        'containerPaddingRight' => $parts[1],
-                        'containerPaddingBottom' => $parts[2],
-                        'containerPaddingLeft' => $parts[3]
-                    ];
-                }
-            }
-
-            // Container Border Radius: "3px|3px|3px|3px" → individual properties
-            if ($d4_attr_name === 'cfefd_files_container_border') {
-                $parts = $split_piped_value($d4_value);
-                if ($parts) {
-                    return [
-                        'containerBorderTopLeftRadius' => $parts[0],
-                        'containerBorderTopRightRadius' => $parts[1],
-                        'containerBorderBottomRightRadius' => $parts[2],
-                        'containerBorderBottomLeftRadius' => $parts[3]
-                    ];
-                }
-            }
-
-            // Button Margin: "0px|0px|0px|0px" → individual properties
-            if ($d4_attr_name === 'cfefd_file_button_margin') {
-                $parts = $split_piped_value($d4_value);
-                if ($parts) {
-                    return [
-                        'buttonMarginTop' => $parts[0],
-                        'buttonMarginRight' => $parts[1],
-                        'buttonMarginBottom' => $parts[2],
-                        'buttonMarginLeft' => $parts[3]
-                    ];
-                }
-            }
-
-            // Button Padding: "6px|20px|6px|20px" → individual properties
-            if ($d4_attr_name === 'cfefd_file_button_padding') {
-                $parts = $split_piped_value($d4_value);
-                if ($parts) {
-                    return [
-                        'buttonPaddingTop' => $parts[0],
-                        'buttonPaddingRight' => $parts[1],
-                        'buttonPaddingBottom' => $parts[2],
-                        'buttonPaddingLeft' => $parts[3]
-                    ];
-                }
-            }
-
-            // Button Border Radius: "3px|3px|3px|3px" → individual properties
-            if ($d4_attr_name === 'cfefd_file_button_border') {
-                $parts = $split_piped_value($d4_value);
-                if ($parts) {
-                    return [
-                        'buttonBorderTopLeftRadius' => $parts[0],
-                        'buttonBorderTopRightRadius' => $parts[1],
-                        'buttonBorderBottomRightRadius' => $parts[2],
-                        'buttonBorderBottomLeftRadius' => $parts[3]
-                    ];
-                }
-            }
-
-            return $d5_value;
         }
         
     }

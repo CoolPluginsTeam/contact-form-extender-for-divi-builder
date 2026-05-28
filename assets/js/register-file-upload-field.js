@@ -6,7 +6,16 @@ class CFEFD_FileUpload_JS {
 
         this.hooks = window.vendor.wp.hooks;
         this.React = window.React;
+        this.i18n = window.CFEFDRegisterFileUploadI18n || {};
         this.registerHooks();
+    }
+
+    t(key, fallback) {
+        if (this.i18n[key]) {
+            return this.i18n[key];
+        }
+
+        return fallback;
     }
 
     /**
@@ -48,29 +57,6 @@ class CFEFD_FileUpload_JS {
             'cfefd',
             this.renderFileUploadAdditionalStyles.bind(this)
         );
-
-        // D4 to D5 Migration - Contact Field
-        // this.hooks.addFilter(
-        //     'divi.moduleLibrary.conversion.moduleConversionOutline',
-        //     'cfefd',
-        //     this.addContactFieldConversion.bind(this)
-        // );
-
-        // // D4 to D5 Migration - Contact Form
-        // this.hooks.addFilter(
-        //     'divi.moduleLibrary.conversion.moduleConversionOutline',
-        //     'cfefd',
-        //     this.addContactFormConversion.bind(this)
-        // );
-
-        // // D4 to D5 Migration - Custom attribute conversions for complex fields
-        // this.hooks.addFilter(
-        //     'divi.moduleLibrary.conversion.convertModuleAttribute',
-        //     'cfefd',
-        //     this.convertComplexAttributes.bind(this),
-        //     10,
-        //     4
-        // );
 
     }
 
@@ -1277,7 +1263,7 @@ class CFEFD_FileUpload_JS {
         attributes.fieldItem.settings.advanced.type.item.component.props.options = {
             ...options,
             file_upload: {
-                label: "File Upload",
+                label: this.t('fileUpload', "File Upload"),
             },
         };
 
@@ -1433,7 +1419,7 @@ class CFEFD_FileUpload_JS {
         const fileSizeFormatted = this.formatFileSize(fileSizeBytes);
 
         // Create file description
-        const fileDesc = `Accepted file types: ${allowedTypes}. Max. file size: ${fileSizeFormatted}`;
+        const fileDesc = `${this.t('acceptedFileTypes', 'Accepted file types:')} ${allowedTypes}. ${this.t('maxFileSize', 'Max. file size:')} ${fileSizeFormatted}`;
 
         // Build the file upload UI elements
         const elements = [];
@@ -1472,12 +1458,14 @@ class CFEFD_FileUpload_JS {
             decodedIcon = this.decodeIconUnicode(buttonIcon?.unicode);
         }
 
+        console.log(this.i18n)
+
         elements.push(createElement("span", {
             key: "upload-button",
             className: buttonClass,
             role: "button",
             'data-icon': decodedIcon,
-        }, "Choose Files"));
+        }, this.t('chooseFiles', "Choose Files")));
 
         const buttonSelector =
             `${moduleElements.orderClass} .cfefd_file_upload_button`;
@@ -1536,7 +1524,7 @@ class CFEFD_FileUpload_JS {
         elements.push(createElement("span", {
             key: "chosen-desc",
             className: "cfefd_file_chosen_desc",
-        }, "No file chosen"));
+        }, this.t('noFileChosen', "No file chosen")));
 
         // 5. File description
         elements.push(createElement("span", {
@@ -1580,150 +1568,6 @@ class CFEFD_FileUpload_JS {
         return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
     }
 
-    /**
-     * D4 to D5 Migration - Contact Field Conversion
-     */
-    addContactFieldConversion(conversionOutline, moduleName) {
-        if (moduleName !== 'et_pb_contact_field') {
-            return conversionOutline;
-        }
-
-        // Map D4 field names to D5 attribute paths
-        conversionOutline.module = conversionOutline.module || {};
-
-        // Include the toggle field for migration
-        conversionOutline.module['cfefd_use_as_file_upload'] = 'fieldItem.advanced.useAsFileUpload.*';
-        conversionOutline.module['cfefd_fileupload_max_size'] = 'fieldItem.advanced.fileUploadMaxSize.*';
-        conversionOutline.module['cfefd_fileupload_allowed_types'] = 'fieldItem.advanced.fileUploadAllowedTypes.*';
-        conversionOutline.module['cfefd_fileupload_max_files'] = 'fieldItem.advanced.fileUploadMaxFiles.*';
-        conversionOutline.module['cfefd_use_file_button_icon'] = 'fieldItem.advanced.fileUploadUseButtonIcon.*';
-        conversionOutline.module['cfefd_file_button_icon'] = 'fieldItem.advanced.fileUploadButtonIcon.*';
-
-        return conversionOutline;
-    }
-
-    /**
-     * D4 to D5 Migration - Contact Form Conversion
-     */
-    addContactFormConversion(conversionOutline, moduleName) {
-        if (moduleName !== 'et_pb_contact_form') {
-            return conversionOutline;
-        }
-
-        // console.log(' second method ')
-        // console.log(' conversionOutline ', conversionOutline)
-        // console.log('moduleName ', moduleName)
-
-        conversionOutline.module = conversionOutline.module || {};
-
-        // Container settings
-        conversionOutline.module['cfefd_files_container_background'] = 'cfefdFileUploadDesignTabs.innerContent.*.containerBackground';
-        conversionOutline.module['cfefd_files_container_border_color'] = 'cfefdFileUploadDesignTabs.innerContent.*.containerBorderColor';
-        conversionOutline.module['cfefd_files_container_border_width'] = 'cfefdFileUploadDesignTabs.innerContent.*.containerBorderWidth';
-        conversionOutline.module['cfefd_files_container_border_style'] = 'cfefdFileUploadDesignTabs.innerContent.*.containerBorderStyle';
-        conversionOutline.module['cfefd_files_container_list_color'] = 'cfefdFileUploadDesignTabs.innerContent.*.containerListColor';
-        conversionOutline.module['cfefd_files_container_list_background_color'] = 'cfefdFileUploadDesignTabs.innerContent.*.containerListBg';
-
-        // Description settings
-        conversionOutline.module['cfefd_accepted_file_text_color'] = 'cfefdFileUploadDesignTabs.innerContent.*.acceptedTextColor';
-        conversionOutline.module['cfefd_accepted_file_text_size'] = 'cfefdFileUploadDesignTabs.innerContent.*.acceptedTextSize';
-        conversionOutline.module['cfefd_accepted_file_text_font'] = 'cfefdFileUploadDesignTabs.innerContent.*.acceptedTextFont';
-        conversionOutline.module['cfefd_chosen_file_text_color'] = 'cfefdFileUploadDesignTabs.innerContent.*.fileChoosenTextColor';
-
-        // Button settings
-        conversionOutline.module['cfefd_file_button_background'] = 'cfefdFileUploadDesignTabs.innerContent.*.buttonBg';
-        conversionOutline.module['cfefd_file_button_color'] = 'cfefdFileUploadDesignTabs.innerContent.*.buttonColor';
-        conversionOutline.module['cfefd_file_button_font'] = 'cfefdFileUploadDesignTabs.innerContent.*.buttonTextFont';
-        conversionOutline.module['cfefd_file_button_size'] = 'cfefdFileUploadDesignTabs.innerContent.*.buttonTextSize';
-        conversionOutline.module['cfefd_file_button_border_color'] = 'cfefdFileUploadDesignTabs.innerContent.*.buttonBorderColor';
-
-        return conversionOutline;
-    }
-
-    /**
-     * D4 to D5 Migration - Convert complex attributes
-     * Handles conversion of pipe-separated values to individual properties
-     */
-    convertComplexAttributes(d5Value, d4Value, d4AttrName, moduleName) {
-        // Only process for contact form module
-        if (moduleName !== 'et_pb_contact_form') {
-            return d5Value;
-        }
-
-        // Helper function to split pipe-separated values
-        const splitPipedValue = (value) => {
-            if (!value || typeof value !== 'string') return null;
-            const parts = value.split('|');
-            return parts.length === 4 ? parts : null;
-        };
-
-        // Container Padding: "20px|20px|0px|20px" → individual properties
-        if (d4AttrName === 'cfefd_files_container_padding') {
-            const parts = splitPipedValue(d4Value);
-            if (parts) {
-                return {
-                    containerPaddingTop: parts[0],
-                    containerPaddingRight: parts[1],
-                    containerPaddingBottom: parts[2],
-                    containerPaddingLeft: parts[3]
-                };
-            }
-        }
-
-        // Container Border Radius: "3px|3px|3px|3px" → individual properties
-        if (d4AttrName === 'cfefd_files_container_border') {
-            const parts = splitPipedValue(d4Value);
-            if (parts) {
-                return {
-                    containerBorderTopLeftRadius: parts[0],
-                    containerBorderTopRightRadius: parts[1],
-                    containerBorderBottomRightRadius: parts[2],
-                    containerBorderBottomLeftRadius: parts[3]
-                };
-            }
-        }
-
-        // Button Margin: "0px|0px|0px|0px" → individual properties
-        if (d4AttrName === 'cfefd_file_button_margin') {
-            const parts = splitPipedValue(d4Value);
-            if (parts) {
-                return {
-                    buttonMarginTop: parts[0],
-                    buttonMarginRight: parts[1],
-                    buttonMarginBottom: parts[2],
-                    buttonMarginLeft: parts[3]
-                };
-            }
-        }
-
-        // Button Padding: "6px|20px|6px|20px" → individual properties
-        if (d4AttrName === 'cfefd_file_button_padding') {
-            const parts = splitPipedValue(d4Value);
-            if (parts) {
-                return {
-                    buttonPaddingTop: parts[0],
-                    buttonPaddingRight: parts[1],
-                    buttonPaddingBottom: parts[2],
-                    buttonPaddingLeft: parts[3]
-                };
-            }
-        }
-
-        // Button Border Radius: "3px|3px|3px|3px" → individual properties
-        if (d4AttrName === 'cfefd_file_button_border') {
-            const parts = splitPipedValue(d4Value);
-            if (parts) {
-                return {
-                    buttonBorderTopLeftRadius: parts[0],
-                    buttonBorderTopRightRadius: parts[1],
-                    buttonBorderBottomRightRadius: parts[2],
-                    buttonBorderBottomLeftRadius: parts[3]
-                };
-            }
-        }
-
-        return d5Value;
-    }
 }
 
 // Initialize class automatically

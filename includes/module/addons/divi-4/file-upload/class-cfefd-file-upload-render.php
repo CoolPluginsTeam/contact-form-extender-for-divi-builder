@@ -28,6 +28,19 @@ class CFEFD_File_Upload_Render {
             'pluginURL' => CFEFD_PLUGIN_URL,
             'wpMaxUploadSize' => $wp_max_upload_size,
             'wpMaxUploadSizeFormatted' => size_format($wp_max_upload_size),
+            'i18n' => [
+                'fieldRequired' => __('Field is required', 'contact-form-extender-for-divi-builder'),
+                'unknownError' => __('Unknown error occurred.', 'contact-form-extender-for-divi-builder'),
+                'uploadLimit' => __('You can upload only {count} file(s).', 'contact-form-extender-for-divi-builder'),
+                'fileExceedsLimit' => __('{filename} exceeds {size} limit.', 'contact-form-extender-for-divi-builder'),
+                'alreadyUploaded' => __('{filename} is already uploaded.', 'contact-form-extender-for-divi-builder'),
+                'uploadingPercent' => __('Uploading {percent}%', 'contact-form-extender-for-divi-builder'),
+                'filesSelected' => __('You have {count} file(s) selected', 'contact-form-extender-for-divi-builder'),
+                'noFileChosen' => __('No file chosen', 'contact-form-extender-for-divi-builder'),
+                'removeFileConfirm' => __('Remove file: {filename}?', 'contact-form-extender-for-divi-builder'),
+                'couldNotRemoveFile' => __('Could not remove file.', 'contact-form-extender-for-divi-builder'),
+                'fileInput' => __('File Input', 'contact-form-extender-for-divi-builder'),
+            ],
         ];
         
         wp_enqueue_script('cfefd-file-upload-field-helper', CFEFD_PLUGIN_URL . 'assets/js/file-upload-field-helper.js', array('jquery'), CFEFD_PLUGIN_VERSION , true); 
@@ -160,7 +173,7 @@ class CFEFD_File_Upload_Render {
             // Create the visible UI components
             
             // 1. Label
-            $file_label = $dom->createElement('label', 'File Input');
+            $file_label = $dom->createElement('label', __('File Input', 'contact-form-extender-for-divi-builder'));
             $file_label->setAttribute('for', "et_pb_file_input_$field_id");
             $file_label->setAttribute('class', 'et_pb_visually_hidden');
             $p_item->appendChild($file_label);

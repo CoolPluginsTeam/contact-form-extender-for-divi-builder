@@ -92,9 +92,9 @@
     transition: background-color 0.2s;
 }
 
-.cfefd_files_list .cfefd_file:hover {
+/* .cfefd_files_list .cfefd_file:hover {
     background-color: #f2f2f2;
-}
+} */
 
 /* File Icon */
 .cfefd_files_list .cfefd_file:before {
