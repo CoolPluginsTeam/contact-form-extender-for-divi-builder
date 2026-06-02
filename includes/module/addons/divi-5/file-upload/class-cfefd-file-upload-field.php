@@ -608,15 +608,46 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
                 return et_core_esc_previously($module_wrapper);
             }
 
-            // Extract field configuration
-            $field_id = $module_attrs['fieldItem']['advanced']['id']['desktop']['value'] ?? 'file_upload';
-            $max_size = $module_attrs['fieldItem']['advanced']['fileUploadMaxSize']['desktop']['value'] ?? '1024';
-            $allowed_types = $module_attrs['fieldItem']['advanced']['fileUploadAllowedTypes']['desktop']['value'] ?? '.jpg,.png';
-            $max_files = $module_attrs['fieldItem']['advanced']['fileUploadMaxFiles']['desktop']['value'] ?? '2';
-            $use_button_icon = $module_attrs['fieldItem']['advanced']['fileUploadUseButtonIcon']['desktop']['value'] ?? 'on';
-            $button_icon = $module_attrs['fieldItem']['advanced']['fileUploadButtonIcon']['desktop']['value'] ?? '';
-            $required_mark = $module_attrs['fieldItem']['advanced']['required']['desktop']['value'] ?? 'off';
+            // Extract field configuration (!empty handles null and empty string; ?? does not).
+            $field_item_advanced = $module_attrs['fieldItem']['advanced'] ?? array();
 
+            $field_id = ! empty( $field_item_advanced['id']['desktop']['value'] )
+                ? (string) $field_item_advanced['id']['desktop']['value']
+                : 'file_upload';
+
+            $file_size = ! empty( $field_item_advanced['fileUploadMaxSize']['desktop']['value'] )
+                ? preg_replace( '/\D/', '', (string) $field_item_advanced['fileUploadMaxSize']['desktop']['value'] )
+                : '1024';
+            if ( '' === $file_size ) {
+                $file_size = '1024';
+            }
+
+            $allowed_types = ! empty( $field_item_advanced['fileUploadAllowedTypes']['desktop']['value'] )
+                ? (string) $field_item_advanced['fileUploadAllowedTypes']['desktop']['value']
+                : '.jpg,.png';
+
+            $max_files = ! empty( $field_item_advanced['fileUploadMaxFiles']['desktop']['value'] )
+                ? preg_replace( '/\D/', '', (string) $field_item_advanced['fileUploadMaxFiles']['desktop']['value'] )
+                : '2';
+            if ( '' === $max_files ) {
+                $max_files = '2';
+            }
+            $max_files = max( 1, (int) $max_files );
+
+            $use_button_icon = ! empty( $field_item_advanced['fileUploadUseButtonIcon']['desktop']['value'] )
+                ? (string) $field_item_advanced['fileUploadUseButtonIcon']['desktop']['value']
+                : 'on';
+
+            $button_icon = ! empty( $field_item_advanced['fileUploadButtonIcon']['desktop']['value'] )
+                ? $field_item_advanced['fileUploadButtonIcon']['desktop']['value']
+                : array();
+            if ( ! is_array( $button_icon ) ) {
+                $button_icon = array();
+            }
+
+            $required_mark = ! empty( $field_item_advanced['required']['desktop']['value'] )
+                ? (string) $field_item_advanced['required']['desktop']['value']
+                : 'off';
 
             // Generate unique field ID
             $parts = explode('-', $args['parentId']);
@@ -625,9 +656,9 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
             $field_id = strtolower(sanitize_key( $field_id));
             $input_id = "et_pb_contact_{$lastNumber}_{$field_id}_{$orderIndex}";
 
-            // Process file size
-            $file_size = preg_replace('/\D/', '', $max_size);
-            $file_size_bytes = $file_size * 1024; // KB to Bytes
+            $file_size_kb    = max( 1, (int) $file_size );
+
+            $file_size_bytes = $file_size_kb * 1024; // KB to bytes.
             $wp_max_upload_size = wp_max_upload_size();
             if ($file_size_bytes > $wp_max_upload_size) {
                 $file_size_bytes = $wp_max_upload_size;
@@ -707,7 +738,7 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
 
             // 3. Upload button
             $button_class = 'cfefd_file_upload_button et_pb_button';
-            if ($use_button_icon === 'on' && !empty($button_icon)) {
+            if ( 'on' === $use_button_icon && ! empty( $button_icon['unicode'] ) ) {
                 $button_class .= ' et_pb_icon';
             }
 
@@ -721,8 +752,8 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
             ]);
 
             // Add data-icon if used
-            if ($use_button_icon === 'on' && !empty($button_icon)) {
-                $icon_processed = html_entity_decode(esc_attr(et_pb_process_font_icon($button_icon['unicode'])));
+            if ( 'on' === $use_button_icon && ! empty( $button_icon['unicode'] ) ) {
+                $icon_processed = html_entity_decode( esc_attr( et_pb_process_font_icon( $button_icon['unicode'] ) ) );
                 
                 $upload_button_html = str_replace('<span ', '<span data-icon="' . esc_attr($icon_processed) . '" ', $upload_button_html);
             }
