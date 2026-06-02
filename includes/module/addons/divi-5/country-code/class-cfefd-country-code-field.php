@@ -128,16 +128,34 @@ if(!class_exists('CFEFD_Country_Code_D5')) {
                 return $module_wrapper;
             }
 
-            $default_country      = $module_attrs['fieldItem']['advanced']['cfefdCountryCodeDefault']['desktop']['value'] ?? 'in';
-            $include_countries    = $module_attrs['fieldItem']['advanced']['cfefdCountryCodeInclude']['desktop']['value'] ?? '';
-            $exclude_countries    = $module_attrs['fieldItem']['advanced']['cfefdCountryCodeExclude']['desktop']['value'] ?? '';
-            $dial_code_visibility = $module_attrs['fieldItem']['advanced']['cfefdDialCodeVisibility']['desktop']['value'] ?? 'show';
-            $strict_mode          = $module_attrs['fieldItem']['advanced']['cfefdStrictMode']['desktop']['value'] ?? 'off';
+            $field_item_advanced = $module_attrs['fieldItem']['advanced'] ?? array();
+
+            $default_country = ! empty( $field_item_advanced['cfefdCountryCodeDefault']['desktop']['value'] )
+                ? (string) $field_item_advanced['cfefdCountryCodeDefault']['desktop']['value']
+                : 'in';
+            $include_countries = ! empty( $field_item_advanced['cfefdCountryCodeInclude']['desktop']['value'] )
+                ? (string) $field_item_advanced['cfefdCountryCodeInclude']['desktop']['value']
+                : '';
+            $exclude_countries = ! empty( $field_item_advanced['cfefdCountryCodeExclude']['desktop']['value'] )
+                ? (string) $field_item_advanced['cfefdCountryCodeExclude']['desktop']['value']
+                : '';
+            $dial_code_visibility = ! empty( $field_item_advanced['cfefdDialCodeVisibility']['desktop']['value'] )
+                ? (string) $field_item_advanced['cfefdDialCodeVisibility']['desktop']['value']
+                : 'show';
+            $strict_mode = ! empty( $field_item_advanced['cfefdStrictMode']['desktop']['value'] )
+                ? (string) $field_item_advanced['cfefdStrictMode']['desktop']['value']
+                : 'off';
 
             // Extract basic field info
-            $field_id      = $module_attrs['fieldItem']['advanced']['id']['desktop']['value'] ?? 'country_code';
-            $field_title   = $module_attrs['fieldItem']['advanced']['title']['desktop']['value'] ?? '';
-            $required_mark = $module_attrs['fieldItem']['advanced']['required']['desktop']['value'] ?? 'off';
+            $field_id = ! empty( $field_item_advanced['id']['desktop']['value'] )
+                ? (string) $field_item_advanced['id']['desktop']['value']
+                : 'country_code';
+            $field_title = ! empty( $field_item_advanced['title']['desktop']['value'] )
+                ? (string) $field_item_advanced['title']['desktop']['value']
+                : '';
+            $required_mark = ! empty( $field_item_advanced['required']['desktop']['value'] )
+                ? (string) $field_item_advanced['required']['desktop']['value']
+                : 'off';
 
             // Generate unique field ID
             $parts = explode('-', $args['parentId']);

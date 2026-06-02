@@ -36,11 +36,16 @@ if (isset($_POST['cfefd_settings_nonce'])) {
     $cfefd_notice_message = esc_html__( 'Settings saved.', 'contact-form-extender-for-divi-builder' );
 
     // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-    $cfef_usage_share_data = ( isset( $_POST['cfef_usage_share_data'] ) && 'on' === sanitize_text_field( wp_unslash( $_POST['cfef_usage_share_data'] ) ) ) ? 'on' : '';
+    $opt_consent = get_option( 'cpfm_opt_in_choice_divi_cool_forms', false );
 
-    cfefd_handle_unchecked_checkbox($cfef_usage_share_data);
+    if ( 'yes' === $opt_consent || 'no' === $opt_consent ) {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+        $cfef_usage_share_data = ( isset( $_POST['cfef_usage_share_data'] ) && 'on' === sanitize_text_field( wp_unslash( $_POST['cfef_usage_share_data'] ) ) ) ? 'on' : '';
 
-    update_option('cfef_usage_share_data', $cfef_usage_share_data);
+        cfefd_handle_unchecked_checkbox( $cfef_usage_share_data );
+
+        update_option( 'cfef_usage_share_data', $cfef_usage_share_data );
+    }
 
     if ( isset( $cfefd_notice_message ) ) {
         echo '<div class="notice notice-' . esc_attr( $cfefd_notice_type ) . ' is-dismissible"><p>' . esc_html( $cfefd_notice_message ) . '</p></div>';
@@ -103,17 +108,22 @@ if (isset($_POST['cfefd_settings_nonce'])) {
                             </p>
                         </td>
                     </tr>
-                    <?php 
+                    <?php
                             // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-                            $check_option =  get_option( 'cfef_usage_share_data','');
-                            if($check_option === 'on'){
+                            $opt_consent = get_option( 'cpfm_opt_in_choice_divi_cool_forms', false );
+
+                            // Show usage-share setting only after user answered the opt-in notice (yes/no).
+                            if ( 'yes' === $opt_consent || 'no' === $opt_consent ) :
+                            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+                            $check_option = get_option( 'cfef_usage_share_data', '' );
+                            if ( 'on' === $check_option ) {
                                 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
                                 $checked = 'checked';
-                            }else{
+                            } else {
                                 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
                                 $checked = '';
-                            }        
-                                ?>    
+                            }
+                                ?>
                                 <tr>
                                     <th scope="row" class="cool-formkit-table-th">
                                         <label for="cfef_usage_share_data" class="usage-share-data-label"><?php esc_html_e('Usage Share Data', 'contact-form-extender-for-divi-builder'); ?></label>
@@ -150,6 +160,7 @@ if (isset($_POST['cfefd_settings_nonce'])) {
                                         </div>
                                     </td>
                                 </tr>
+                    <?php endif; ?>
                 </table>
 
                 <div class="cool-formkit-submit">
