@@ -19,6 +19,8 @@ Extend Divi Contact Form module with file upload field, country code dropdown, a
 
 As a Divi theme user, you may already know that the default form module sends email notifications but does not keep a backup of entries inside the dashboard. This plugin improves form management and lead handling by saving submissions in the admin area and extending the built-in module without replacing it or requiring a separate form builder plugin.
 
+https://www.youtube.com/watch?v=k3NLq5NRiVE
+
 ### Features of Divi Form Extender
 
 * **[Save Form Entries in Database](https://docs.coolplugins.net/doc/save-divi-contact-form-submissions/?utm_source=cfefd_plugin&utm_medium=readme&utm_campaign=docs&utm_content=features_save)**  
