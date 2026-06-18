@@ -48,5 +48,6 @@ tsconfig.json
 .vscode
 .cursor
 .claude/
+.codex
 *js.LICENSE.txt
 *.scss
