@@ -228,7 +228,7 @@ Yes. Contact Form Extender for Divi is compatible with both **Divi 5** and **Div
 == Changelog ==
 
 = 1.1.4 - Jun 19, 2026 =
-* Updated: Textual changess.
+* Updated: Textual Changes.
 
 = 1.1.3 - Jun 16, 2026 =
 * Fixed: Bug fixes.
