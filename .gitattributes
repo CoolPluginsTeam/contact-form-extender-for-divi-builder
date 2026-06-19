@@ -3,6 +3,7 @@
 /visual-builer/node_modules/
 .claude/ export-ignore
 .codex/ export-ignore
+.codex export-ignore
 .cursor/ export-ignore
 .vscode export-ignore
 .git export-ignore
