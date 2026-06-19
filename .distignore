@@ -49,5 +49,6 @@ tsconfig.json
 .cursor
 .claude/
 .codex/
+.codex
 *js.LICENSE.txt
 *.scss
