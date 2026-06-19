@@ -223,7 +223,7 @@ Yes. Contact Form Extender for Divi is compatible with both **Divi 5** and **Div
 1. Divi Contact Form - Country Code Field
 2. Divi Contact Form - File Upload Input Field
 3. Saved Divi Form Submissions in Dashboard
-4. Divi Contact Form - Dashboard.
+4. Divi Contact Form - Dashboard
 
 == Changelog ==
 
