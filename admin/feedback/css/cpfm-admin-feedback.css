@@ -44,12 +44,6 @@
   margin-bottom: 10px;
   display: block;
 }
-#cpfNoticePanel .opt-in-text {
-  font-size: 13px;
-  color: #50575e;
-  margin-bottom: 15px;
-  line-height: 1.6;
-}
 #cpfNoticePanel .notice-actions {
   display: flex;
   justify-content: space-between;

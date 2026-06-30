@@ -120,11 +120,17 @@ class CFEFD_Global_Helper {
 	addClassOnToggle(e) {
 		const current = jQuery(e.currentTarget);
 		setTimeout(() => {
-			let fileUploadToggle = current.find('.et-fb-form__group input[name="cfefd_use_as_file_upload"]');
-			fileUploadToggle.closest('.et-fb-option-container').addClass('should_not_hide_warning');
+			const formGroups = current.find('.et-fb-form__group');
+			const fieldToggleInputs = [
+				'cfefd_use_as_file_upload',
+				'cfefd_use_as_country_code',
+			];
 
-			let countyCodeToggle = current.find('.et-fb-form__group input[name="cfefd_use_as_country_code"]');
-			countyCodeToggle.closest('.et-fb-option-container').addClass('should_not_hide_warning');
+			fieldToggleInputs.forEach((inputName) => {
+				formGroups.find(`input[name="${inputName}"]`)
+					.closest('.et-fb-option-container')
+					.addClass('should_not_hide_warning');
+			});
 
 			this.injectProUpgradeNotice(current);
 		}, 1000);

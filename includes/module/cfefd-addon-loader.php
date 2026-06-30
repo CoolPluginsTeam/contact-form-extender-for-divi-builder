@@ -45,38 +45,16 @@ if(!class_exists('CFEFD_Addons_Loader')) {
 
             $this->load_addons();
         }
-        /**
-         * Check if a field is enabled in the settings.
-         *
-         * @since 1.0.0
-         * @param string $field_key The field key.
-         * @return bool True if the field is enabled, false otherwise.
-         */
-        private function is_field_enabled($field_key) {
-            $enabled_elements = get_option('cfefd_enabled_elements', array());
-            return in_array(sanitize_key($field_key), array_map('sanitize_key', $enabled_elements));
-
-        }
 
         /**
-         * Get Divi theme version from active theme, parent, or direct lookup.
+         * Load enabled addons for the active Divi version.
          *
          * @since 1.0.0
-         * @return string
          */
-        private function get_divi_version() {
-            $theme      = wp_get_theme();
-            $divi_theme = ('divi' === strtolower((string) $theme->get('Template'))) ? $theme : $theme->parent();
-
-            if (! $divi_theme || 'divi' !== strtolower((string) $divi_theme->get('Template'))) {
-                $divi_theme = wp_get_theme('Divi');
-            }
-
-            return (string) $divi_theme->get('Version');
-        }
-
         public function load_addons() {
-            if ( version_compare( $this->get_divi_version(), '5.0', '>=' ) ) {
+            require_once CFEFD_PLUGIN_DIR . 'includes/utils/class-cfefd-utils.php';
+
+            if ( CFEFD_Utils::is_divi_5() ) {
                 $this->load_divi_5_addons();
             } else {
                 $this->load_divi_4_addons();
@@ -86,11 +64,11 @@ if(!class_exists('CFEFD_Addons_Loader')) {
         public function load_divi_4_addons() {
             require_once CFEFD_PLUGIN_DIR . 'includes/utils/class-cfefd-utils.php';
 
-            if ($this->is_field_enabled('file_upload')) {
+            if (CFEFD_Utils::is_field_enabled('file_upload')) {
                 require_once CFEFD_PLUGIN_DIR . 'includes/module/addons/divi-4/file-upload/class-cfefd-file-upload.php';
                 new CFEFD_File_Upload();
             }
-            if ($this->is_field_enabled('country_code')) {
+            if (CFEFD_Utils::is_field_enabled('country_code')) {
                 require_once CFEFD_PLUGIN_DIR . 'includes/module/addons/divi-4/country-code/class-cfefd-country-code-field.php';
                 new CFEFD_Country_Code_Field();
             }
@@ -104,11 +82,11 @@ if(!class_exists('CFEFD_Addons_Loader')) {
                 require_once CFEFD_PLUGIN_DIR . 'includes/module/addons/divi-4/file-upload/class-cfefd-file-upload.php';
             }
 
-            if ($this->is_field_enabled('file_upload')) {
+            if (CFEFD_Utils::is_field_enabled('file_upload')) {
                 require_once CFEFD_PLUGIN_DIR . 'includes/module/addons/divi-5/file-upload/class-cfefd-file-upload-field.php';
                 new CFEFD_File_Upload_D5();
             }
-            if ($this->is_field_enabled('country_code')) {
+            if (CFEFD_Utils::is_field_enabled('country_code')) {
                 require_once CFEFD_PLUGIN_DIR . 'includes/module/addons/divi-5/country-code/class-cfefd-country-code-field.php';
                 new CFEFD_Country_Code_D5();
             }

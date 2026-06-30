@@ -302,10 +302,6 @@ class CFEFD_Submissions_List_Table extends WP_List_Table {
         $view = CFEFD_Submissions_Post_Type::get_view();
         // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-        $page = esc_sql($page);
-        $view = esc_sql($view);
-        $search = esc_sql($search);
-
         $args = [
             'post_type'      => $this->post_type,
             'orderby'        => $orderby,
@@ -359,8 +355,8 @@ class CFEFD_Submissions_List_Table extends WP_List_Table {
 
         $this->set_pagination_args([
             'total_items' => $post_count,
-            'per_page'    => $this->get_items_per_page( $this->get_per_page_option_name() , 20 ),
-            'total_pages' => (int) ceil( $post_count / $this->get_items_per_page( $this->get_per_page_option_name() , 20 ) ),
+            'per_page'    => $per_page,
+            'total_pages' => (int) ceil( $post_count / $per_page ),
         ]);
     }
 

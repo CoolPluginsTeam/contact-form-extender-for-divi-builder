@@ -41,7 +41,7 @@ if (!class_exists('cfefd_cronjob')) {
         |--------------------------------------------------------------------------
          */
 
-        function cfefd_cron_extra_data_autoupdater() {
+        public function cfefd_cron_extra_data_autoupdater() {
 
             $settings  = get_option('cfef_usage_share_data');
             

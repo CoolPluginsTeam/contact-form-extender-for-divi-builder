@@ -62,7 +62,12 @@ if(!class_exists('CFEFD_Main')) {
         private function __construct() {
             $this->includes();
 
-            if(wp_get_theme()->get('Name') === 'Divi'){
+            $theme = wp_get_theme();
+            $theme_name = $theme->parent()
+                ? $theme->parent()->get( 'Name' )
+                : $theme->get( 'Name' );
+
+            if ( 'Divi' === $theme_name ) {
                 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'cfefd_plugin_dashboard_link' ) );
                 add_action( 'activated_plugin', array( $this, 'cfefd_plugin_redirection' ) );
             }

@@ -75,7 +75,7 @@ class CFEFD_Loader {
         $this->admin_menu_dashboard();
 
         $this->load_dependencies();
-        add_action('wp_enqueue_scripts', [$this, 'cfefd_enqueue_global_helper_assets']);
+        $this->register_hooks();
     }
 
     /**
@@ -91,6 +91,10 @@ class CFEFD_Loader {
         return self::$instance;
     }
 
+
+    public function register_hooks() {
+        add_action('wp_enqueue_scripts', [$this, 'cfefd_enqueue_global_helper_assets']);
+    }
 
     public function cfefd_enqueue_global_helper_assets() {
         if(function_exists('et_core_is_fb_enabled') && et_core_is_fb_enabled()){
@@ -108,11 +112,12 @@ class CFEFD_Loader {
      * @access   private
      */
     private function load_dependencies() {
+        require_once CFEFD_PLUGIN_DIR . 'includes/utils/class-cfefd-utils.php';
         require_once CFEFD_PLUGIN_DIR . 'includes/module/cfefd-addon-loader.php';
         new \CFEFD_Addons_Loader($this->get_plugin_name(), $this->get_version());
 
-        if ( $this->is_field_enabled( 'save_submission' ) ) {
-            if ( version_compare( $this->get_divi_version(), '5.0', '>=' ) ) {
+        if ( CFEFD_Utils::is_field_enabled( 'save_submission' ) ) {
+            if ( CFEFD_Utils::is_divi_5() ) {
                 require_once CFEFD_PLUGIN_DIR . 'includes/submissions/class-cfefd-submissions-handler-d5.php';
                 new \CFEFD\Submissions\CFEFD_Submissions_Handler_D5();
             } else {
@@ -120,28 +125,6 @@ class CFEFD_Loader {
                 new \CFEFD\Submissions\CFEFD_Submissions_Handler();
             }
         }
-    }
-
-    /**
-     * Get Divi theme version from active theme, parent, or direct lookup.
-     *
-     * @since 1.0.0
-     * @return string
-     */
-    private function get_divi_version() {
-        $theme      = wp_get_theme();
-        $divi_theme = ( 'divi' === strtolower( (string) $theme->get( 'Template' ) ) ) ? $theme : $theme->parent();
-
-        if ( ! $divi_theme || 'divi' !== strtolower( (string) $divi_theme->get( 'Template' ) ) ) {
-            $divi_theme = wp_get_theme( 'Divi' );
-        }
-
-        return (string) $divi_theme->get( 'Version' );
-    }
-    
-    private function is_field_enabled($field_key) {
-        $enabled_elements = get_option('cfefd_enabled_elements', array());
-        return in_array(sanitize_key($field_key), array_map('sanitize_key', $enabled_elements));
     }
 
     private function admin_menu_dashboard() {

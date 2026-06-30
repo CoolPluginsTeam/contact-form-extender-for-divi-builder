@@ -5,8 +5,8 @@
  * @link       https://coolplugins.net
  * @since      1.0.0
  *
- * @package    Cool_FormKit
- * @subpackage Cool_FormKit/admin
+ * @package    CFEFD
+ * @subpackage CFEFD/admin
  */
 
 if (!defined('ABSPATH')) {
@@ -21,8 +21,8 @@ require_once CFEFD_PLUGIN_DIR . 'admin/entries/cfefd-submissions-bulk-actions.ph
  * The admin-specific functionality of the plugin.
  *
  * @since      1.0.0
- * @package    Cool_FormKit
- * @subpackage Cool_FormKit/admin
+ * @package    CFEFD
+ * @subpackage CFEFD/admin
  */
 if(!class_exists('CFEFD_Admin')) { 
     class CFEFD_Admin {
@@ -255,16 +255,6 @@ if(!class_exists('CFEFD_Admin')) {
                 'sanitize_callback' => array($this, 'sanitize_form_elements'),
             ));
             register_setting( 'cfefd_form_elements_group', 'cfefd_toggle_all', array(
-                'sanitize_callback' => 'sanitize_text_field',
-            ) );
-
-            register_setting( 'cfefd_form_elements_group', 'cfefd_enable_elementor_pro_form', array(
-                'sanitize_callback' => 'sanitize_text_field',
-            ) );
-            register_setting( 'cfefd_form_elements_group', 'cfefd_enable_hello_plus', array(
-                'sanitize_callback' => 'sanitize_text_field',
-            ) );
-            register_setting( 'cfefd_form_elements_group', 'cfefd_enable_formkit_builder', array(
                 'sanitize_callback' => 'sanitize_text_field',
             ) );
 

@@ -96,5 +96,52 @@ if (!class_exists('CFEFD_Utils')) {
 
             return $dom;
         }
+
+        /**
+         * Check whether a form element is enabled in plugin settings.
+         *
+         * @since 1.1.4
+         * @param string $field_key Settings key for the form element.
+         * @return bool
+         */
+        public static function is_field_enabled( $field_key ) {
+            static $enabled_elements = null;
+
+            if ( null === $enabled_elements ) {
+                $enabled_elements = array_map(
+                    'sanitize_key',
+                    (array) get_option( 'cfefd_enabled_elements', array() )
+                );
+            }
+
+            return in_array( sanitize_key( $field_key ), $enabled_elements, true );
+        }
+
+        /**
+         * Get Divi theme version from active theme, parent, or direct lookup.
+         *
+         * @since 1.1.4
+         * @return string
+         */
+        public static function get_divi_version() {
+            $theme      = wp_get_theme();
+            $divi_theme = ( 'divi' === strtolower( (string) $theme->get( 'Template' ) ) ) ? $theme : $theme->parent();
+
+            if ( ! $divi_theme || 'divi' !== strtolower( (string) $divi_theme->get( 'Template' ) ) ) {
+                $divi_theme = wp_get_theme( 'Divi' );
+            }
+
+            return (string) $divi_theme->get( 'Version' );
+        }
+
+        /**
+         * Whether the active site is running Divi 5.0 or newer.
+         *
+         * @since 1.1.4
+         * @return bool
+         */
+        public static function is_divi_5() {
+            return version_compare( self::get_divi_version(), '5.0', '>=' );
+        }
     }
 }

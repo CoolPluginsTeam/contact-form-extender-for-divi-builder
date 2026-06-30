@@ -121,7 +121,6 @@ class CFEFD_CountryCode_Helper {
                 const visibleCountries = Array.from(countryItems).filter(item => item.style.display !== 'none');
                 const includedVisibleCountries = visibleCountries.filter(item => {
                     const countryCode = item.getAttribute('data-country-code');
-                    // return includeCountries.length === 0 || includeCountries.includes(countryCode);
                     return includeCountries.includes(countryCode);
                 });
 
