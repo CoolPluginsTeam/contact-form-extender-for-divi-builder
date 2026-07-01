@@ -39,11 +39,5 @@ if (!class_exists('CFEFD_File_Upload')) {
             return $directory[$base] ?? $directory;
         }
 
-        /**
-         * @deprecated Use CFEFD_Utils::file_upload_encrypt_decrypt() instead.
-         */
-        public static function encrypt_decrypt( $string = '', $encrypt_decrypt = 'e' ) {
-            return CFEFD_Utils::file_upload_encrypt_decrypt( $string, $encrypt_decrypt );
-        }
     }
 }

@@ -48,10 +48,8 @@ class CFEFD_Submissions_Post_Type {
 
     /**
      * Enqueue admin scripts
-     *
-     * @param string $hook_suffix Current admin page hook.
      */
-    public function enqueue_admin_scripts( $hook_suffix ) {
+    public function enqueue_admin_scripts( ) {
         $screen = get_current_screen();
 
         if ( ! $screen ) {

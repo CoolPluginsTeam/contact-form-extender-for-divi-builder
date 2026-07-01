@@ -57,14 +57,6 @@ if (!class_exists('CFEFD_Utils')) {
             );
         }
 
-        /**
-         * Load TinyMCE / editor scripts on the frontend.
-         */
-        public static function enqueue_wp_editor_for_frontend() {
-            add_filter('user_can_rich_edit', '__return_true', 99);
-            wp_enqueue_editor();
-            remove_filter('user_can_rich_edit', '__return_true', 99);
-        }
 
         /**
          * Create DOMDocument from HTML string.
