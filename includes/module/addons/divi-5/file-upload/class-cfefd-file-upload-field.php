@@ -666,12 +666,12 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
             $file_size_formatted = size_format($file_size_bytes);
 
             // Process MIME types
-            $processed_mimes = $this->process_multiple_mimes_checkboxes_value($allowed_types);
+            $processed_mimes = CFEFD_Utils::process_multiple_mimes_checkboxes_value( $allowed_types );
 
             // Fallback if no valid MIMEs found
             if ( empty( $processed_mimes['keys'] ) ) {
                 $allowed_types = '.jpg,.png';
-                $processed_mimes = $this->process_multiple_mimes_checkboxes_value($allowed_types);
+                $processed_mimes = CFEFD_Utils::process_multiple_mimes_checkboxes_value( $allowed_types );
             }
 
             $files_extensions = $processed_mimes['values'];
@@ -836,7 +836,7 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
                 'attributes' => [
                     'type' => 'hidden',
                     'name' => $input_id . '_file_token',
-                    'value' => CFEFD_File_Upload::encrypt_decrypt(wp_json_encode($token_data)),
+                    'value' => CFEFD_Utils::file_upload_encrypt_decrypt(wp_json_encode($token_data)),
                 ],
                 'selfClosing' => true,
             ]);
@@ -879,51 +879,6 @@ if(!class_exists('CFEFD_File_Upload_D5')) {
             // Return updated wrapper
             $module_wrapper = $dom->saveHTML();
             return et_core_esc_previously($module_wrapper);
-        }
-
-        public function process_multiple_mimes_checkboxes_value($data) {
-            $extensions = array_filter(array_map(function ($ext) {
-                return ltrim(trim($ext), '.'); // remove . and trim
-            }, explode(',', $data)));
-
-            if (empty($extensions)) {
-                return ['keys' => '', 'values' => ''];
-            }
-
-            $allowed_mimes = CFEFD_File_Upload_D5::get_wp_allowed_mime_types();
-
-            $matched_mime_types = [];
-            $matched_extensions = [];
-
-            foreach ($allowed_mimes as $ext_group => $mime_type) {
-                $group_exts = explode('|', $ext_group);
-
-                foreach ($group_exts as $group_ext) {
-                    if (in_array($group_ext, $extensions, true)) {
-                        $matched_mime_types[] = $mime_type;
-                        $matched_extensions = array_merge($matched_extensions, $group_exts);
-                        break; // Exit once matched
-                    }
-                }
-            }
-            
-            // Deduplicate
-            $matched_mime_types = array_unique($matched_mime_types);
-            $matched_extensions = array_unique($matched_extensions);
-
-            return [
-                'keys'   => implode(',', $matched_mime_types),
-                'values' => ' ' . implode(', ', $matched_extensions),
-            ];
-        }
-
-        public static function get_wp_allowed_mime_types(){
-            $allowed_mime_type = get_allowed_mime_types();
-
-            unset( $allowed_mime_type['htm|html'] );
-            unset( $allowed_mime_type['js'] );
-
-            return $allowed_mime_type;
         }
         
     }

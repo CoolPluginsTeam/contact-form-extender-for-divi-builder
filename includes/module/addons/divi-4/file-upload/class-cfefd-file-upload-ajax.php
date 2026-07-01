@@ -55,8 +55,8 @@ class CFEFD_File_Upload_Ajax {
             wp_send_json_error(__('The file token is missing. Please contact the system administrator.', 'contact-form-extender-for-divi-builder'));
             return;
         }
-        $wp_allowed_mime_types = CFEFD_File_Upload::get_wp_allowed_mime_types();
-        $decrypted = CFEFD_File_Upload::encrypt_decrypt($token, 'd');
+        $wp_allowed_mime_types = CFEFD_Utils::get_wp_allowed_mime_types();
+        $decrypted = CFEFD_Utils::file_upload_encrypt_decrypt($token, 'd');
         if ( false === $decrypted || ! is_string( $decrypted ) ) {
             wp_send_json_error(__('The file token is invalid or expired. Please refresh the page and try again.', 'contact-form-extender-for-divi-builder'));
             return;

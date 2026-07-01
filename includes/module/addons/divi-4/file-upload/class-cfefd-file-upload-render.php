@@ -146,12 +146,12 @@ class CFEFD_File_Upload_Render {
             $file_mimes = !empty($props['cfefd_fileupload_allowed_types']) ? $props['cfefd_fileupload_allowed_types'] : '.jpg,.png';
             
             // Process MIMEs
-            $processed_mimes = $this->process_multiple_mimes_checkboxes_value($file_mimes);
+            $processed_mimes = CFEFD_Utils::process_multiple_mimes_checkboxes_value( $file_mimes );
 
             // Fallback if no valid MIMEs found
             if ( empty( $processed_mimes['keys'] ) ) {
                 $file_mimes = '.jpg,.png';
-                $processed_mimes = $this->process_multiple_mimes_checkboxes_value($file_mimes);
+                $processed_mimes = CFEFD_Utils::process_multiple_mimes_checkboxes_value( $file_mimes );
             }
 
             $files_extentions = $processed_mimes['values'];
@@ -250,7 +250,7 @@ class CFEFD_File_Upload_Render {
                 'limit'    => $files_limit,
                 'issued'   => time(),
             ];
-            $file_token_input->setAttribute('value', CFEFD_File_Upload::encrypt_decrypt(wp_json_encode($token_data)));
+            $file_token_input->setAttribute('value', CFEFD_Utils::file_upload_encrypt_decrypt(wp_json_encode($token_data)));
             $p_item->appendChild($file_token_input);
             
             // 7. Description
@@ -331,29 +331,6 @@ class CFEFD_File_Upload_Render {
                 'selector' => $container_class,
                 'declaration' => "border-style: $bs !important;",
             ]);
-        }
-        
-        // Shadow
-        if ($shadow = $val('cfefd_files_container_shadow')) {
-            if ($shadow !== 'none') {
-                 $h = $this->process_range_value($val('cfefd_files_container_shadow_horizontal'));
-                 if ($h === '') $h = '0px';
-                 $v = $this->process_range_value($val('cfefd_files_container_shadow_vertical'));
-                 if ($v === '') $v = '2px';
-                 $b = $this->process_range_value($val('cfefd_files_container_shadow_blur'));
-                 if ($b === '') $b = '18px';
-                 $s = $this->process_range_value($val('cfefd_files_container_shadow_spread'));
-                 if ($s === '') $s = '0px';
-                 $c = $this->process_color($val('cfefd_files_container_shadow_color'));
-                 if ($c === '') $c = 'rgba(0,0,0,0.3)';
-                 $p = $val('cfefd_files_container_shadow_position');
-                 
-                 $declaration = "box-shadow: $h $v $b $s $c" . ($p === 'inset' ? ' inset' : '') . " !important;";
-                 ET_Builder_Element::set_style($order_class, [
-                    'selector' => $container_class,
-                    'declaration' => $declaration,
-                ]);
-            }
         }
         
         if ($lc = $val('cfefd_files_container_list_color')) {
@@ -500,34 +477,5 @@ class CFEFD_File_Upload_Render {
             }
         }
         return $color;
-    }
-
-    public function process_multiple_mimes_checkboxes_value($data) {
-
-        $extensions = array_unique(array_filter(array_map(function ($ext) {
-            return ltrim(trim($ext), '.');
-        }, explode(',', $data))));
-
-        if (empty($extensions)) {
-            return ['keys' => '', 'values' => ''];
-        }
-
-        $allowed_mimes = CFEFD_File_Upload::get_wp_allowed_mime_types();
-
-        $matched_mime_types = [];
-
-        foreach ($allowed_mimes as $ext_group => $mime_type) {
-            $group_exts = explode('|', $ext_group);
-
-            // If ANY extension matches the group
-            if (array_intersect($extensions, $group_exts)) {
-                $matched_mime_types[] = $mime_type;
-            }
-        }
-
-        return [
-            'keys'   => implode(',', array_unique($matched_mime_types)),
-            'values' => ' ' . implode(', ', $extensions),
-        ];
     }
 }
