@@ -38,90 +38,12 @@ class CFEFD_Submissions_Post_Type {
         add_action( 'add_meta_boxes', [ $this, 'add_submission_meta_boxes' ] );
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_scripts' ] );
         add_action( 'admin_head', [ $this, 'add_screen_option' ] );
-        add_action('admin_print_scripts', [$this, 'hide_unrelated_notices']);
 
         // Render custom plugin-style header within the admin content area.
         add_action( 'admin_notices', [ $this, 'render_submission_header' ] );
 
         $bulk_actions = new CFEFD_Submissions_Bulk_Actions();
         $bulk_actions->init();
-    }
-
-    public function hide_unrelated_notices()
-    { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded, Generic.Metrics.NestingLevel.MaxExceeded
-        // Only hide notices on this plugin's submissions-related screens.
-        if ( ! $this->is_cfefd_submissions_screen() ) {
-            return;
-        }
-
-        $cfkef_pages = true;
-
-        if ($cfkef_pages) {
-            global $wp_filter;
-
-            // Define rules to remove callbacks.
-            $rules = [
-                'user_admin_notices' => [], // remove all callbacks.
-                'admin_notices'      => [],
-                'all_admin_notices'  => [],
-                'admin_footer'       => [
-                    'render_delayed_admin_notices', // remove this particular callback.
-                ],
-            ];
-
-            $notice_types = array_keys($rules);
-
-            foreach ($notice_types as $notice_type) {
-                if (empty($wp_filter[$notice_type]->callbacks) || ! is_array($wp_filter[$notice_type]->callbacks)) {
-                    continue;
-                }
-
-                $remove_all_filters = empty($rules[$notice_type]);
-
-                foreach ($wp_filter[$notice_type]->callbacks as $priority => $hooks) {
-                    foreach ($hooks as $name => $arr) {
-                        if (is_object($arr['function']) && is_callable($arr['function'])) {
-                            if ($remove_all_filters) {
-                                unset($wp_filter[$notice_type]->callbacks[$priority][$name]);
-                            }
-                            continue;
-                        }
-
-                        $class = ! empty($arr['function'][0]) && is_object($arr['function'][0]) ? strtolower(get_class($arr['function'][0])) : '';
-
-                        // Remove all callbacks except WPForms notices and this plugin's submission header.
-                        if (
-                            $remove_all_filters
-                            && strpos($class, 'wpforms') === false
-                            && strpos($class, 'cfefd_submissions_post_type') === false
-                        ) {
-                            unset($wp_filter[$notice_type]->callbacks[$priority][$name]);
-                            continue;
-                        }
-
-                        $cb = is_array($arr['function']) ? $arr['function'][1] : $arr['function'];
-
-                        // Remove a specific callback.
-                        if (! $remove_all_filters) {
-                            if (in_array($cb, $rules[$notice_type], true)) {
-                                unset($wp_filter[$notice_type]->callbacks[$priority][$name]);
-                            }
-                            continue;
-                        }
-                    }
-                }
-            }
-        }
-
-        add_action( 'admin_notices', [ $this, 'display_admin_notices' ], PHP_INT_MAX );
-
-    }
-
-    /**
-     * Display admin notices.
-     */
-    public function display_admin_notices() {
-        do_action( 'cfefd_admin_notices' );
     }
 
     /**
@@ -329,34 +251,6 @@ class CFEFD_Submissions_Post_Type {
             add_screen_option( 'per_page', $args );
         }
     }
-
-    /**
-     * Check if current screen is one of this plugin's submissions screens.
-     *
-     * @return bool
-     */
-    private function is_cfefd_submissions_screen() {
-        $screen = get_current_screen();
-
-        if ( ! $screen ) {
-            return false;
-        }
-
-        // Single submission edit screen.
-        if ( $screen->post_type === self::$post_type ) {
-            return true;
-        }
-
-        // Submissions list inside the plugin settings page.
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check of current tab.
-        $tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : '';
-        if ( $screen->id === 'divi_page_contact-form-extender-for-divi-builder' && 'submissions' === $tab ) {
-            return true;
-        }
-
-        return false;
-    }
-    
 
     /**
      * Add submission meta boxes
