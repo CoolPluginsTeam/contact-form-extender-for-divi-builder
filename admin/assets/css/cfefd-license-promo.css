@@ -94,22 +94,6 @@
 	width: 26%;
 }
 
-.cfefd-license-support {
-	display: flex;
-	justify-content: space-between;
-	padding-top: 15px;
-	border-top: 1px solid #e5e5e5;
-	align-items: center;
-	flex-wrap: wrap;
-	gap: 10px;
-}
-
-.cfefd-support-buttons {
-	gap: 10px;
-	display: flex;
-	flex-wrap: wrap;
-}
-
 @media screen and (max-width: 960px) {
 	.cfefd-license-layout {
 		flex-direction: column;

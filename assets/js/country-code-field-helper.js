@@ -308,6 +308,7 @@ class CFEFD_CountryCode_Helper {
         let previousCountry = iti.getSelectedCountryData();
         let previousCode = `+${previousCountry.dialCode}`;
         let keyInteraction = false;
+        let keyInteractionTimer = null;
 
         const resetKeyInteraction = () => {
             keyInteraction = false;
@@ -320,8 +321,8 @@ class CFEFD_CountryCode_Helper {
 
             if (e.type === 'keydown' || e.type === 'input') {
                 keyInteraction = true;
-                clearTimeout(resetKeyInteraction);
-                setTimeout(resetKeyInteraction, 400);
+                clearTimeout(keyInteractionTimer);
+                keyInteractionTimer = setTimeout(resetKeyInteraction, 400);
 
                 if (previousCountry.dialCode !== currentCountry.dialCode) {
                     previousCountry = currentCountry;
