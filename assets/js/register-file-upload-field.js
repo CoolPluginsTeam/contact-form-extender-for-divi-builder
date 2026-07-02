@@ -1458,7 +1458,6 @@ class CFEFD_FileUpload_JS {
             decodedIcon = this.decodeIconUnicode(buttonIcon?.unicode);
         }
 
-        console.log(this.i18n)
 
         elements.push(createElement("span", {
             key: "upload-button",

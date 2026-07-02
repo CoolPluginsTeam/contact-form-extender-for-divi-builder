@@ -82,10 +82,6 @@ function buttonShakeEffectHandler() {
 
 		if (!headerButton || bodyInputs.length === 0) return;
 
-		const input1 = wrapper.querySelector('input[name="cfefd_enable_elementor_pro_form"]');
-		const input2 = wrapper.querySelector('input[name="cfefd_enable_hello_plus"]');
-		const input3 = wrapper.querySelector('input[name="cfefd_enable_formkit_builder"]');
-
 		function triggerShake() {
 			headerButton.classList.add('shake-effect');
 		}
@@ -96,15 +92,7 @@ function buttonShakeEffectHandler() {
 
 		bodyInputs.forEach(input => {
 			input.addEventListener('change', function () {
-				let shouldTrigger = false;
-
-				if (input1 && input2 && input3) {
-					shouldTrigger = input1.checked || input2.checked || input3.checked;
-				} else {
-					bodyInputs.forEach(i => {
-						if (i.checked) shouldTrigger = true;
-					});
-				}
+				const shouldTrigger = Array.from(bodyInputs).some(i => i.checked);
 
 				if (shouldTrigger) {
 					triggerShake();

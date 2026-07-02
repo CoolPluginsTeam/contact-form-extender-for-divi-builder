@@ -121,7 +121,6 @@ class CFEFD_CountryCode_Helper {
                 const visibleCountries = Array.from(countryItems).filter(item => item.style.display !== 'none');
                 const includedVisibleCountries = visibleCountries.filter(item => {
                     const countryCode = item.getAttribute('data-country-code');
-                    // return includeCountries.length === 0 || includeCountries.includes(countryCode);
                     return includeCountries.includes(countryCode);
                 });
 
@@ -309,6 +308,7 @@ class CFEFD_CountryCode_Helper {
         let previousCountry = iti.getSelectedCountryData();
         let previousCode = `+${previousCountry.dialCode}`;
         let keyInteraction = false;
+        let keyInteractionTimer = null;
 
         const resetKeyInteraction = () => {
             keyInteraction = false;
@@ -321,8 +321,8 @@ class CFEFD_CountryCode_Helper {
 
             if (e.type === 'keydown' || e.type === 'input') {
                 keyInteraction = true;
-                clearTimeout(resetKeyInteraction);
-                setTimeout(resetKeyInteraction, 400);
+                clearTimeout(keyInteractionTimer);
+                keyInteractionTimer = setTimeout(resetKeyInteraction, 400);
 
                 if (previousCountry.dialCode !== currentCountry.dialCode) {
                     previousCountry = currentCountry;

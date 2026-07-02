@@ -5,8 +5,8 @@
  * @link       https://coolplugins.net
  * @since      1.0.0
  *
- * @package    Cool_FormKit
- * @subpackage Cool_FormKit/admin
+ * @package    CFEFD
+ * @subpackage CFEFD/admin
  */
 
 if (!defined('ABSPATH')) {
@@ -21,8 +21,8 @@ require_once CFEFD_PLUGIN_DIR . 'admin/entries/cfefd-submissions-bulk-actions.ph
  * The admin-specific functionality of the plugin.
  *
  * @since      1.0.0
- * @package    Cool_FormKit
- * @subpackage Cool_FormKit/admin
+ * @package    CFEFD
+ * @subpackage CFEFD/admin
  */
 if(!class_exists('CFEFD_Admin')) { 
     class CFEFD_Admin {
@@ -258,16 +258,6 @@ if(!class_exists('CFEFD_Admin')) {
                 'sanitize_callback' => 'sanitize_text_field',
             ) );
 
-            register_setting( 'cfefd_form_elements_group', 'cfefd_enable_elementor_pro_form', array(
-                'sanitize_callback' => 'sanitize_text_field',
-            ) );
-            register_setting( 'cfefd_form_elements_group', 'cfefd_enable_hello_plus', array(
-                'sanitize_callback' => 'sanitize_text_field',
-            ) );
-            register_setting( 'cfefd_form_elements_group', 'cfefd_enable_formkit_builder', array(
-                'sanitize_callback' => 'sanitize_text_field',
-            ) );
-
             if (!get_option('cfefd_plugin_initialized')) {
                 // Get current enabled elements or empty array
                 $enabled_elements = get_option('cfefd_enabled_elements', array());
@@ -372,66 +362,99 @@ if(!class_exists('CFEFD_Admin')) {
             return $status;
         }
 
-        public function hide_unrelated_notices()
-        { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded, Generic.Metrics.NestingLevel.MaxExceeded
-            $cfefd_pages = false;
-            foreach (self::$allowed_pages as $page) {
-
-                if (self::current_screen($page)) {
-                    $cfefd_pages = true;
-                    break;
+        /**
+         * Whether the current admin screen belongs to this plugin.
+         *
+         * @return bool
+         */
+        private function is_cfefd_admin_context() {
+            foreach ( self::get_allowed_pages() as $page ) {
+                if ( self::current_screen( $page ) ) {
+                    return true;
                 }
             }
 
-            if ($cfefd_pages) {
-                global $wp_filter;
+            if ( ! function_exists( 'get_current_screen' ) ) {
+                return false;
+            }
 
-                // Define rules to remove callbacks.
-                $rules = [
-                    'user_admin_notices' => [], // remove all callbacks.
-                    'admin_notices'      => [],
-                    'ctl_display_admin_notices' => [],
-                    'all_admin_notices'  => [],
-                    'admin_footer'       => [
-                        'render_delayed_admin_notices', // remove this particular callback.
-                    ],
-                ];
+            $screen = get_current_screen();
 
-                $notice_types = array_keys($rules);
+            if ( ! $screen ) {
+                return false;
+            }
 
-                foreach ($notice_types as $notice_type) {
-                    if (empty($wp_filter[$notice_type]->callbacks) || ! is_array($wp_filter[$notice_type]->callbacks)) {
-                        continue;
-                    }
+            if ( CFEFD\Admin\Entries\CFEFD_Submissions_Post_Type::$post_type === $screen->post_type ) {
+                return true;
+            }
 
-                    $remove_all_filters = empty($rules[$notice_type]);
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check of current tab.
+            $tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : '';
+            if ( 'divi_page_contact-form-extender-for-divi-builder' === $screen->id && 'submissions' === $tab ) {
+                return true;
+            }
 
-                    foreach ($wp_filter[$notice_type]->callbacks as $priority => $hooks) {
-                        foreach ($hooks as $name => $arr) {
-                            if (is_object($arr['function']) && is_callable($arr['function'])) {
-                                if ($remove_all_filters) {
-                                    unset($wp_filter[$notice_type]->callbacks[$priority][$name]);
-                                }
-                                continue;
+            return false;
+        }
+
+        /**
+         * Whether an admin-notice callback belongs to this plugin and should be kept.
+         *
+         * @param string $class Lowercased class name from the callback.
+         * @return bool
+         */
+        private function should_preserve_admin_notice_callback( $class ) {
+            return '' !== $class && false !== strpos( $class, 'cfefd' );
+        }
+
+        public function hide_unrelated_notices()
+        { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded, Generic.Metrics.NestingLevel.MaxExceeded
+            if ( ! $this->is_cfefd_admin_context() ) {
+                return;
+            }
+
+            global $wp_filter;
+
+            // Define rules to remove callbacks.
+            $rules = [
+                'user_admin_notices'        => [], // remove all callbacks.
+                'admin_notices'             => [],
+                'ctl_display_admin_notices' => [],
+                'all_admin_notices'         => [],
+                'admin_footer'              => [
+                    'render_delayed_admin_notices', // remove this particular callback.
+                ],
+            ];
+
+            $notice_types = array_keys( $rules );
+
+            foreach ( $notice_types as $notice_type ) {
+                if ( empty( $wp_filter[ $notice_type ]->callbacks ) || ! is_array( $wp_filter[ $notice_type ]->callbacks ) ) {
+                    continue;
+                }
+
+                $remove_all_filters = empty( $rules[ $notice_type ] );
+
+                foreach ( $wp_filter[ $notice_type ]->callbacks as $priority => $hooks ) {
+                    foreach ( $hooks as $name => $arr ) {
+                        if ( is_object( $arr['function'] ) && is_callable( $arr['function'] ) ) {
+                            if ( $remove_all_filters ) {
+                                unset( $wp_filter[ $notice_type ]->callbacks[ $priority ][ $name ] );
                             }
+                            continue;
+                        }
 
-                            $class = ! empty($arr['function'][0]) && is_object($arr['function'][0]) ? strtolower(get_class($arr['function'][0])) : '';
+                        $class = ! empty( $arr['function'][0] ) && is_object( $arr['function'][0] ) ? strtolower( get_class( $arr['function'][0] ) ) : '';
 
-                            // Remove all callbacks except WPForms notices.
-                            if ($remove_all_filters && strpos($class, 'wpforms') === false) {
-                                unset($wp_filter[$notice_type]->callbacks[$priority][$name]);
-                                continue;
-                            }
+                        if ( $remove_all_filters && ! $this->should_preserve_admin_notice_callback( $class ) ) {
+                            unset( $wp_filter[ $notice_type ]->callbacks[ $priority ][ $name ] );
+                            continue;
+                        }
 
-                            $cb = is_array($arr['function']) ? $arr['function'][1] : $arr['function'];
+                        $cb = is_array( $arr['function'] ) ? $arr['function'][1] : $arr['function'];
 
-                            // Remove a specific callback.
-                            if (! $remove_all_filters) {
-                                if (in_array($cb, $rules[$notice_type], true)) {
-                                    unset($wp_filter[$notice_type]->callbacks[$priority][$name]);
-                                }
-                                continue;
-                            }
+                        if ( ! $remove_all_filters && in_array( $cb, $rules[ $notice_type ], true ) ) {
+                            unset( $wp_filter[ $notice_type ]->callbacks[ $priority ][ $name ] );
                         }
                     }
                 }

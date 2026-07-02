@@ -467,11 +467,10 @@ class CFEFD_CountryCode_JS {
             });
 
             const visibleCountries = Array.from(countryItems).filter(item => item.style.display !== 'none');
-            const includedVisibleCountries = visibleCountries.filter(item => {
-                const countryCode = item.getAttribute('data-country-code');
-                // return includeCountries.length === 0 || includeCountries.includes(countryCode);
-                return includeCountries.includes(countryCode);
-            });
+                const includedVisibleCountries = visibleCountries.filter(item => {
+                    const countryCode = item.getAttribute('data-country-code');
+                    return includeCountries.includes(countryCode);
+                });
 
             if (includedVisibleCountries.length > 0) {
                 const selectedItem = includedVisibleCountries.find(item => item.getAttribute('aria-selected') === 'true');
